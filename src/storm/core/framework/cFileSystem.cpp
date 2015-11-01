@@ -1,4 +1,5 @@
 #include "cFileSystem.h"
+#include <cstring>
 
 namespace StormFramework {
 

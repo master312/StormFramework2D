@@ -10,6 +10,7 @@
 #include "../cGraphicsBase.h"
 #ifdef STORM_BUILD_SDL2
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 namespace StormFramework {
 

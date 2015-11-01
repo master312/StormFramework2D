@@ -1,4 +1,6 @@
 #include "cLogger.h"
+#include <string>
+#include <algorithm>
 
 namespace StormFramework {
 
@@ -51,7 +53,7 @@ void cLogger::SetTerminalColor(char *col) {
 #ifdef OS_LINUX
     std::cout << col;
 #elif OS_WINDOWS
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (uint)termColor);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (uint)col);
 #else
     std::cout << "cLogger Platform not supported!" << std::endl;
 #endif
@@ -71,7 +73,7 @@ void cLogger::PrintArgsText(const std::string &text, int count, va_list ap) {
         return;
     }
     
-    for (int i = 0; i < text.size(); i++) {
+    for (uint32_t i = 0; i < text.size(); i++) {
         if (text[i] == '%') {
             switch (text[i + 1]) {
                 case 'd':   //Int

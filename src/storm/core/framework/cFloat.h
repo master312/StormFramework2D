@@ -7,6 +7,7 @@
 
 #ifndef _CFLOAT_H__
 #define _CFLOAT_H__
+#include <cmath>        
 #include "../../defines.h"
 #define STORM_FLOAT_PRECISION 0.001f
 
@@ -25,7 +26,7 @@ public:
         return IsZero3(f, f2, f3) && IsZero(f4);
     }
     static bool IsEqual(float f1, float f2) {
-        return abs(f1 - f2) < STORM_FLOAT_PRECISION;
+        return std::abs(f1 - f2) < STORM_FLOAT_PRECISION;
     }
 };
 

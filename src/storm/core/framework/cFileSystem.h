@@ -7,7 +7,6 @@
 #ifndef STORM_CFILESYSTEM_H__
 #define STORM_CFILESYSTEM_H__
 #include <iostream>
-#include <cstring>
 #include "../../defines.h"
 
 namespace StormFramework {

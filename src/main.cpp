@@ -7,6 +7,10 @@
 #include "storm/animation/cAnimationManager.h"
 #include "storm/animation/animationMain.h"
 
+#ifdef OS_WINDOWS
+#undef main
+#endif
+
 int main(int argc, char *argv[]) {
     S_SetGraphicsApi(STORM_API_SDL2);
     S_InitGraphics();
@@ -15,7 +19,7 @@ int main(int argc, char *argv[]) {
     StormFramework::cTime::Start();
 
 
-    uint32_t asdf = S_LoadTexture("MyGUI_BlueWhiteSkins.png");
+    uint32_t asdf = S_LoadTexture("asdf.png");
 
     sRect rct;
     rct.x = 70;

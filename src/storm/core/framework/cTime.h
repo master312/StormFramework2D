@@ -29,7 +29,7 @@ public:
     static uint32_t Get() {
         return (uint32_t)(GetTimeInMs() - cTime_StartTime);
     }
-    static void Sleep(uint32_t ms) { 
+    static void SleepMs(uint32_t ms) { 
     #ifdef OS_LINUX
         usleep(ms * 1000);
     #elif OS_WINDOWS
@@ -44,7 +44,9 @@ public:
         gettimeofday(&tp, NULL);
         return tp.tv_sec * 1000 + tp.tv_usec / 1000;
     #elif OS_WINDOWS
-        std::cout << "cTime platform not supported 2.1" << std::endl;
+        SYSTEMTIME time;
+        GetSystemTime(&time);
+        return (uint64_t)(time.wSecond * 1000) + time.wMilliseconds;
     #else
         std::cout << "cTime platform not supported 2.2" << std::endl;
     #endif

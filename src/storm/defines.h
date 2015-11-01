@@ -10,6 +10,7 @@
 
 #ifdef _WIN32
 #define OS_WINDOWS 1
+#include <cstdarg>
 typedef unsigned int uint;
 #elif __linux 
 #define OS_LINUX 1

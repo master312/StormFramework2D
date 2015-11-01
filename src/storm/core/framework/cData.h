@@ -9,7 +9,6 @@
 #ifndef STORM_CDATA_H__
 #define STORM_CDATA_H__
 #include "../../defines.h"
-#include <cstring>
 #include <iostream>
 
 namespace StormFramework {

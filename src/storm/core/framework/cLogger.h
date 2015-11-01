@@ -10,8 +10,6 @@
 #include "../../defines.h"
 #include <iostream>
 #include <cstdarg>
-#include <string>
-#include <algorithm>
 
 #ifdef OS_LINUX
  #define STORM_LOGCOLOR_DEFAULT "\033[0m"

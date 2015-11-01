@@ -12,7 +12,7 @@
 #include "cTime.h"
 
 #define STORM_TIME StormFramework::cTime::Get()
-#define STORM_SLEEP(time) StormFramework::cTime::Sleep(time);
+#define STORM_SLEEP(time) StormFramework::cTime::SleepMs(time)
 
 /* Logging methods */
 void S_LogInfo(const std::string &cName, const std::string &msg, ...);
