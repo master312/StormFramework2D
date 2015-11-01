@@ -1,0 +1,34 @@
+//TODO: in logger, pass 'va_list ap' as reference
+//TODO: Event manager, pass values to callbacks. Now its only passing one
+//TODO: Cleanup/rewrite cEventSDL2 class
+
+-Root
+| -Core
+| | -Framework
+| | | -Data managers
+| | | *Binary file                                          == DONE 
+| | | *Data conversion class (cData)                        == DONE
+| | | *Simple file parser                                   == CREATED
+| | | *File system managing class                           == BASE-DONE
+| | | -Float manager class                                  == BASE-DONE
+| | | -Logging class                                        == DONE
+| | | -Strings class                                        == NOT-NEEDED-YET
+| | | -Primitive data types                                 == BASE-DONE
+| | | -Time class                                           == DONE
+| | | -Timer class                                          == DONE
+| | | -Vector2 class                                        == CREATED
+| | -Graphics
+| | | -Rendering system                                     == BASE-DONE
+| | | -Textures manager                                     == BASE-DONE
+| | | -Font rendering                                       == Research this more
+| | -Events manager                                         == BASE-DONE
+| | -States manager                                         == CREATED
+| -Audio
+| | -Sound manager                                          == CREATED
+| | -Music manager                                          == CREATED
+| -Console manager                                          == RESEARCH
+| -Animation class                                          == BASE-DONE;  TODO: Delta based ticking
+| -Animation manager                                        == BASE-DONE
+| -Network manager                                          == LATER
+| -Callbacks manager                                        == CREATED
+| --Main class                                              == CREATED

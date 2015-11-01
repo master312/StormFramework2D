@@ -1,0 +1,39 @@
+/* 
+ * File:   graphicsMain.h
+ * Author: master312
+ *
+ * Created on October 18, 2015, 5:36 PM
+ */
+ 
+#ifndef GRAPHICSMAIN_H__
+#define GRAPHICSMAIN_H__
+#include <iostream>
+#include "../framework/frameworkMain.h"
+
+namespace StormFramework { 
+    class cGraphicsManager;
+}
+
+void S_SetGraphicsApi(int api);
+int S_GetGraphicsApi();
+
+void S_InitGraphics();
+void S_ClearScreen();
+bool S_TickGraphics();
+void S_DeleteGraphics();
+StormFramework::cGraphicsManager *GetGraphicsManager();
+
+/**** Texture related methods ****/
+uint32_t S_LoadTexture(const std::string &filename);
+void S_UnloadTexture(uint32_t id);
+void S_DrawTexture(uint32_t id, int x, int y);
+void S_RefDrawTexture(uint32_t &id, int &x, int &y);
+uint32_t S_GetTextureWidth(uint32_t id);
+uint32_t S_GetTextureHeight(uint32_t id);
+/**** Texture section related methods ****/
+uint32_t S_CreateSection(uint32_t textureId, sRect &section);
+void S_RemoveSection(uint32_t sectionId);
+void S_DrawSection(uint32_t sectionId, int x, int y);
+void S_RefDrawSection(uint32_t &sectionId, int &x, int &y);
+
+#endif
