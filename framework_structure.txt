@@ -45,5 +45,5 @@
 | -Animation class                                          == BASE-DONE;  TODO: Delta based ticking
 | -Animation manager                                        == BASE-DONE
 | -Network manager                                          == LATER
-| -Callbacks manager                                        == CREATED
+| -Callbacks manager                                        == NOT-TESTED!
 | --Main class                                              == CREATED
