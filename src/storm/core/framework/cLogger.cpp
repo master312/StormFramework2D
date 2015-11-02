@@ -14,6 +14,7 @@ void cLogger::LogInfo(const std::string &cName,
     size_t n = std::count(msg.begin(), msg.end(), '%');
     int count = static_cast<int>(n);
     PrintArgsText(msg, count, ap);
+    SetTerminalColor((char*)STORM_LOGCOLOR_DEFAULT);
 }
 void cLogger::LogWarn(const std::string &cName, 
                       const std::string &msg, va_list ap) {
@@ -25,6 +26,7 @@ void cLogger::LogWarn(const std::string &cName,
     size_t n = std::count(msg.begin(), msg.end(), '%');
     int count = static_cast<int>(n);
     PrintArgsText(msg, count, ap);
+    SetTerminalColor((char*)STORM_LOGCOLOR_DEFAULT);
 }
 void cLogger::LogErr(const std::string &cName, 
                      const std::string &msg, va_list ap) {
@@ -36,6 +38,7 @@ void cLogger::LogErr(const std::string &cName,
     size_t n = std::count(msg.begin(), msg.end(), '%');
     int count = static_cast<int>(n);
     PrintArgsText(msg, count, ap);
+    SetTerminalColor((char*)STORM_LOGCOLOR_DEFAULT);
 }
 void cLogger::LogDebug(const std::string &cName, 
                        const std::string &msg, va_list ap) {
@@ -47,6 +50,7 @@ void cLogger::LogDebug(const std::string &cName,
     size_t n = std::count(msg.begin(), msg.end(), '%');
     int count = static_cast<int>(n);
     PrintArgsText(msg, count, ap);
+    SetTerminalColor((char*)STORM_LOGCOLOR_DEFAULT);
 }
 //Private
 void cLogger::SetTerminalColor(char *col) {
