@@ -3,9 +3,13 @@
 #include "storm/core/events/cEventManager.h"
 #include "storm/core/events/eventsMain.h"
 #include "storm/core/framework/cFileSystem.h"
+#include "storm/core/states/statesMain.h"
 #include "storm/animation/cAnimation.h"
 #include "storm/animation/cAnimationManager.h"
 #include "storm/animation/animationMain.h"
+
+#include "cTestState.h"
+
 
 #ifdef OS_WINDOWS
 #undef main
@@ -15,6 +19,9 @@ int main(int argc, char *argv[]) {
     S_SetGraphicsApi(STORM_API_SDL2);
     S_InitGraphics();
     S_InitEventManager();
+    S_InitStateManager();
+
+    S_PushState(new cTestState());
 
     StormFramework::cTime::Start();
 
