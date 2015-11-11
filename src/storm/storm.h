@@ -20,8 +20,8 @@ int S_InitAll();
 /* Everything should be initialized before using this method */
 void S_StartMain();
 
-void S_LogicTickLimit(uint32_t limit);
-void S_GraphicsTickLimit(uint32_t limit);
+void S_SetLogicTickLimit(uint32_t limit);
+void S_SetGraphicsTickLimit(uint32_t limit);
 
 uint32_t &GetDelta();
 

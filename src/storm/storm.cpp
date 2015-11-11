@@ -16,10 +16,10 @@ void S_StartMain() {
 	stormMain.Start();
 }
 
-void S_LogicTickLimit(uint32_t limit) {
+void S_SetLogicTickLimit(uint32_t limit) {
 	stormMain.SetLogicTickLimit(limit);
 }
-void S_GraphicsTickLimit(uint32_t limit) {
+void S_SetGraphicsTickLimit(uint32_t limit) {
 	stormMain.SetGraphicsTickLimit(limit);
 }
 
