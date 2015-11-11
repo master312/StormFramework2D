@@ -15,17 +15,16 @@ cTextureManager::~cTextureManager() {
 }
 
 uint32_t cTextureManager::Load(const std::string &filename) {
-    std::string fillPath = (char*)STORM_DIR_GRAPHICS + filename;
-    cFileSystem::ConvertPath(fillPath);
-
-    auto itt = m_TextureFilenames.find(fillPath);
+    std::string fullPath = (char*)STORM_DIR_GRAPHICS + filename;
+    cFileSystem::ConvertPath(fullPath);
+    auto itt = m_TextureFilenames.find(fullPath);
     if (itt != m_TextureFilenames.end()) {
         // Texture with this filename is already loaded
         m_Textures[itt->second]->IncUsage();
         return itt->second;
     }
     
-    cTextureBase *texture = CreateAndLoad(fillPath);
+    cTextureBase *texture = CreateAndLoad(fullPath);
     if (texture == nullptr) {
         return 0;
     }
@@ -39,7 +38,7 @@ uint32_t cTextureManager::Load(const std::string &filename) {
     
     texture->SetUsage(1);
     m_Textures[newId] = texture;
-    m_TextureFilenames[fillPath] = newId;
+    m_TextureFilenames[fullPath] = newId;
     m_MemoryUsage += (texture->GetMemoryUsage() / 1024);
     
     return newId;

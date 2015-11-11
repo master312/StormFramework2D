@@ -10,6 +10,7 @@
 #include "../../defines.h"
 #include "cGraphicsBase.h"
 #include "graphicsMain.h"
+#include "cBitmapFontManager.h"
 
 namespace StormFramework {
 

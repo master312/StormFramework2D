@@ -37,6 +37,8 @@ public:
     virtual uint32_t GetWidthPx() = 0;
     virtual uint32_t GetHeightPx() = 0;
     
+    virtual void ModColor(uint8_t &r, uint8_t &g, uint8_t &b) { }
+
     void SetFilename(const std::string &filename) { m_Filename = filename; }
     std::string &GetFilename() { return m_Filename; }
     

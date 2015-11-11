@@ -8,13 +8,15 @@ cTestState::~cTestState() {
 	
 }
 void cTestState::OnInit() {
+    m_TestTexture = S_LoadTexture("asdf.png");
 	std::cout << "Inited " << std::endl;
 }
 void cTestState::OnGraphicsTick() {
-	std::cout << "Grephics " << std::endl;
+    S_DrawTexture(m_TestTexture, 100, 100);
+	S_DrawText("Ovo je sve matrix!", 200, 250);
 }
 void cTestState::OnLogicTick(uint32_t &delta) {
-	std::cout << "Logic delta: " << delta << std::endl;
+	//std::cout << "Logic delta: " << delta << std::endl;
 }
 void cTestState::OnEvent(uint32_t &event) {
 	std::cout << "Event " << std::endl;

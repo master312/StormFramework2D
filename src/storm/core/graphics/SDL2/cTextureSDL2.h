@@ -31,6 +31,8 @@ public:
     
     uint32_t GetWidthPx() { return m_Width; }
     uint32_t GetHeightPx() { return m_Height; }
+
+    void ModColor(uint8_t &r, uint8_t &g, uint8_t &b);
 private:
     SDL_Texture *m_Texture;
     //True if texture was split into multiple chunks

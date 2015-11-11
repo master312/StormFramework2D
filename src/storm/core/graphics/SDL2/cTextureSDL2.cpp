@@ -8,7 +8,7 @@ namespace StormFramework {
     
 cTextureSDL2::cTextureSDL2() : m_Texture(nullptr), m_IsSplit(false), 
                                m_Width(0), m_Height(0) {
-    cGraphicsManager *gm = GetGraphicsManager();
+    cGraphicsManager *gm = &GetGraphicsManager();
     p_Graphics = (cGraphicsSDL2*)gm->GetGraphics();
     if (p_Graphics == nullptr) {
         S_LogError("cTextureSDL2", "Graphics not initialized!");
@@ -77,6 +77,9 @@ void cTextureSDL2::Draw(const int &srcX, const int &srcY,
     } else {
         SDL_RenderCopy(gRenderer, tmpTx, &srcRect, &destRect);    
     }
+}
+void cTextureSDL2::ModColor(uint8_t &r, uint8_t &g, uint8_t &b) {
+    SDL_SetTextureColorMod(m_Texture, r, g, b);
 }
 //Private methods
 SDL_Texture *cTextureSDL2::MakeTexture(SDL_Surface *sur, uint32_t &size) {

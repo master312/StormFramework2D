@@ -32,5 +32,6 @@ typedef unsigned int uint;
 
 #define STORM_DIR_DATA "data/"
 #define STORM_DIR_GRAPHICS "data/graphics/"
+#define STORM_DIR_FONTS "data/fonts/"
 
 #endif /* STORM_DEFINES_H__ */

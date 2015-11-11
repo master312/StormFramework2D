@@ -5,11 +5,7 @@ namespace StormFramework {
 cStateManager::cStateManager() : m_ActiveState (0) {
 }
 cStateManager::~cStateManager() {
-	for (uint32_t i = 0; i < m_States.size(); i++) {
-		m_States[i]->OnShutdown();
-		delete m_States[i];
-	}
-	m_States.clear();
+	Clear();
 }
 void cStateManager::PushState(cStateBase *state) {
 	state->OnInit();
@@ -19,6 +15,13 @@ void cStateManager::PushState(cStateBase *state) {
 	}
 	m_States.push_back(state);
 	UpdateActiveState();
+}
+void cStateManager::Clear() {
+	for (uint32_t i = 0; i < m_States.size(); i++) {
+		m_States[i]->OnShutdown();
+		delete m_States[i];
+	}
+	m_States.clear();
 }
 void cStateManager::LogicTick(uint32_t &delta) {
 	if (m_States.empty()) {

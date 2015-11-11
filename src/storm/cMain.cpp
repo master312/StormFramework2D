@@ -36,6 +36,7 @@ void cMain::Start() {
 
 		STORM_SLEEP(1);
 	}
+	S_GetStateManager().Clear();
 	S_LogInfo("cMain", "Main loop ended successfully");
 }
 
@@ -47,6 +48,7 @@ void cMain::LogicTick() {
 void cMain::GraphicsTick() {
 	cStateManager &sm = S_GetStateManager();
 	sm.GraphicsTick();
+	S_TickGraphics();
 }
 
 };

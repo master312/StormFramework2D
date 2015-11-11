@@ -1,5 +1,6 @@
 #include "cGraphicsManager.h"
 #include "SDL2/cGraphicsSDL2.h"
+#include "graphicsMain.h"
 
 namespace StormFramework {
 
@@ -32,9 +33,12 @@ int cGraphicsManager::Initialize() {
     m_Graphics->Initialize();
     m_Graphics->ClearScreen();
 
+    S_LoadFont("default.xml");
+
     return 1;
 }
 bool cGraphicsManager::Tick() {
+    S_DrawText("Storm Framework 2D alpha", 5, 5);
     m_Graphics->SwapBuffers();
 
     return true;

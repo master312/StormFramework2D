@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "storm/core/states/statesMain.h"
+#include "storm/storm.h"
 
 
 class cTestState : public StormState {
@@ -22,4 +22,6 @@ public:
 	void OnResume();
 	/* Called when state is ended, just before state object deletion */
 	void OnShutdown();
+private:
+	uint32_t m_TestTexture;
 };
