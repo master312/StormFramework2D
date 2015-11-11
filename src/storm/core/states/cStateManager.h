@@ -19,6 +19,7 @@ public:
 	cStateManager();
 	~cStateManager();
 
+	void Init();
 	/* Adds state to state manager */
 	/* Last added cStateBase with state be CREATED will be active */
 	/* cStateBase object will be automatically deleted when it's */
@@ -30,6 +31,8 @@ public:
 
 	void LogicTick(uint32_t &delta);
 	void GraphicsTick();
+
+	void EventHandler();
 
 	void UpdateActiveState();
 private:

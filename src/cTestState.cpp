@@ -18,7 +18,7 @@ void cTestState::OnGraphicsTick() {
 void cTestState::OnLogicTick(uint32_t &delta) {
 	//std::cout << "Logic delta: " << delta << std::endl;
 }
-void cTestState::OnEvent(uint32_t &event) {
+void cTestState::OnEvent() {
 	std::cout << "Event " << std::endl;
 }
 void cTestState::OnPause() {

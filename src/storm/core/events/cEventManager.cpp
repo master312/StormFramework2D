@@ -66,7 +66,7 @@ void cEventManager::ClearAll(bool clearHigh /* = false */) {
 void cEventManager::Tick() {
     while (m_Input->Update()) {
         for (auto &it : m_CallbacksHigh) {
-            it.second(1, 1);
+            it.second();
             if (m_IsEated) {
                 //Event was eaten by current handler
                 m_IsEated = false;
@@ -74,7 +74,7 @@ void cEventManager::Tick() {
             }
         }
         for (auto &it : m_CallbacksLow) {
-            it.second(1, 1);
+            it.second();
             if (m_IsEated) {
                 //Event was eaten by current handler
                 m_IsEated = false;

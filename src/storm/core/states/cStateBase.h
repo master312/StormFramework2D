@@ -31,7 +31,7 @@ public:
 	/* Called on logic tick */
 	virtual void OnLogicTick(uint32_t &delta) { }
 	/* Called on new event */
-	virtual void OnEvent(uint32_t &event) { }
+	virtual void OnEvent() { }
 	/* Called when state is paused */
 	virtual void OnPause() { }
 	/* Called when state was resumed */

@@ -3,7 +3,7 @@
 StormFramework::cStateManager stateManager;
 
 void S_InitStateManager() {
-	// Nothing here yet...
+	stateManager.Init();
 }
 
 void S_PushState(StormState *state) {

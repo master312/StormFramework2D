@@ -35,7 +35,7 @@
 | | -Graphics
 | | | -Rendering system                                     == BASE-DONE
 | | | -Textures manager                                     == BASE-DONE
-| | | -Font rendering                                       == Research this more
+| | | -Font rendering                                       == BASE-DONE
 | | -Events manager                                         == BASE-DONE
 | | -States manager                                         == DONE ?
 | -Audio

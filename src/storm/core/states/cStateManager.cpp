@@ -1,4 +1,7 @@
 #include "cStateManager.h"
+#include "../events/eventsMain.h"
+#include "../events/cEventManager.h"
+#include <functional>
 
 namespace StormFramework {
 
@@ -6,6 +9,16 @@ cStateManager::cStateManager() : m_ActiveState (0) {
 }
 cStateManager::~cStateManager() {
 	Clear();
+}
+void cStateManager::Init() {
+	if (S_GetEventManager() == nullptr) {
+		S_LogError("cStateManager",
+			       "Must initialize event manager before state manager");
+		return;
+	}
+
+	tEventCallback tmpCb = std::bind(&cStateManager::EventHandler, this);
+	S_GetEventManager()->AddHandler(tmpCb, "StateManager", 0);
 }
 void cStateManager::PushState(cStateBase *state) {
 	state->OnInit();
@@ -48,6 +61,15 @@ void cStateManager::GraphicsTick() {
 		}
 	}
 	m_States[m_ActiveState]->OnGraphicsTick();
+}
+void cStateManager::EventHandler() {
+	if (!m_States[m_ActiveState]->IsStarted()) {
+		UpdateActiveState();
+		if (m_ActiveState == 0) {
+			return;
+		}
+	}
+	m_States[m_ActiveState]->OnEvent();
 }
 
 void cStateManager::UpdateActiveState() {

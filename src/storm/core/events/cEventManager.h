@@ -13,9 +13,9 @@
 #include "../../defines.h"
 #include "../framework/frameworkMain.h"
 
-namespace StormFramework {
+typedef std::function<void()> tEventCallback;
 
-typedef std::function<void(int event, int key)> tEventCallback;
+namespace StormFramework {
     
 class cEventManager {
 public:

@@ -15,7 +15,7 @@ public:
 	/* Called on logic tick */
 	void OnLogicTick(uint32_t &delta);
 	/* Called on new event */
-	void OnEvent(uint32_t &event);
+	void OnEvent();
 	/* Called when state is paused */
 	void OnPause();
 	/* Called when state was resumed */
