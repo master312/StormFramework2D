@@ -25,7 +25,7 @@ public:
 	/* state is set to STOPED */
 	void PushState(cStateBase *state);
 	
-	void LogicTick();
+	void LogicTick(uint32_t &delta);
 	void GraphicsTick();
 
 	void UpdateActiveState();

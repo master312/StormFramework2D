@@ -14,7 +14,7 @@ void cTestState::OnGraphicsTick() {
 	std::cout << "Grephics " << std::endl;
 }
 void cTestState::OnLogicTick(uint32_t &delta) {
-	std::cout << "Logic " << std::endl;
+	std::cout << "Logic delta: " << delta << std::endl;
 }
 void cTestState::OnEvent(uint32_t &event) {
 	std::cout << "Event " << std::endl;

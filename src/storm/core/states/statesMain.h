@@ -14,6 +14,6 @@ typedef StormFramework::cStateBase StormState;
 
 void S_InitStateManager();
 void S_PushState(StormState *state);
-StormFramework::cStateManager &GetStateManager();
+StormFramework::cStateManager &S_GetStateManager();
 
 #endif /* STATESMAIN_H__ */

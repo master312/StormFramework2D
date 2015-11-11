@@ -10,6 +10,6 @@ void S_PushState(StormState *state) {
 	stateManager.PushState(state);
 }
 
-StormFramework::cStateManager &GetStateManager() {
+StormFramework::cStateManager &S_GetStateManager() {
 	return stateManager;
 }

@@ -46,4 +46,4 @@
 | -Animation manager                                        == BASE-DONE
 | -Network manager                                          == LATER
 | -Callbacks manager                                        == NOT-TESTED!
-| --Main class                                              == CREATED
+| --Main class                                              == BASE-DONE

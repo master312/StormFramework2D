@@ -6,16 +6,21 @@ cStateManager::cStateManager() : m_ActiveState (0) {
 }
 cStateManager::~cStateManager() {
 	for (uint32_t i = 0; i < m_States.size(); i++) {
+		m_States[i]->OnShutdown();
 		delete m_States[i];
 	}
 	m_States.clear();
 }
 void cStateManager::PushState(cStateBase *state) {
 	state->OnInit();
+	state->SetState(STARTED);
+	if (m_States.size() > 0) {
+		m_States[m_ActiveState]->Pause();
+	}
 	m_States.push_back(state);
 	UpdateActiveState();
 }
-void cStateManager::LogicTick() {
+void cStateManager::LogicTick(uint32_t &delta) {
 	if (m_States.empty()) {
 		S_LogError("cStateManager", "No states found");
 		return;
@@ -26,8 +31,7 @@ void cStateManager::LogicTick() {
 			return;
 		}
 	}
-	uint32_t a = 1;
-	m_States[m_ActiveState]->OnLogicTick(a);
+	m_States[m_ActiveState]->OnLogicTick(delta);
 }
 void cStateManager::GraphicsTick() {
 	if (m_States.empty()) {
