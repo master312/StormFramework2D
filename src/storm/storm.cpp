@@ -3,26 +3,26 @@
 StormFramework::cMain stormMain;
 
 int S_InitAll() {
-	StormFramework::cTime::Start();
-	S_InitGraphics();
-	S_InitEventManager();
-	S_InitStateManager();
-	S_LogInfo("storm", "Framework initialized!");
-	return 1;
+    StormFramework::cTime::Start();
+    S_InitGraphics();
+    S_InitEventManager();
+    S_InitStateManager();
+    S_LogInfo("storm", "Framework initialized!");
+    return 1;
 }
 
 void S_StartMain() {
-	STORM_SLEEP(10);
-	stormMain.Start();
+    STORM_SLEEP(10);
+    stormMain.Start();
 }
 
 void S_SetLogicTickLimit(uint32_t limit) {
-	stormMain.SetLogicTickLimit(limit);
+    stormMain.SetLogicTickLimit(limit);
 }
 void S_SetGraphicsTickLimit(uint32_t limit) {
-	stormMain.SetGraphicsTickLimit(limit);
+    stormMain.SetGraphicsTickLimit(limit);
 }
 
 uint32_t &GetDelta() {
-	return stormMain.GetDelta();
+    return stormMain.GetDelta();
 }

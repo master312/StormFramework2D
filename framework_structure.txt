@@ -1,3 +1,4 @@
+//TODO: Create texture spliting system, if texture is bigger then hardware supports
 //TODO: in logger, pass 'va_list ap' as reference
 //TODO: Event manager, pass values to callbacks. Now its only passing one
 //TODO: Cleanup/rewrite cEventSDL2 class

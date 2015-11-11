@@ -16,28 +16,28 @@ namespace StormFramework {
 
 class cStateManager {
 public:
-	cStateManager();
-	~cStateManager();
+    cStateManager();
+    ~cStateManager();
 
-	void Init();
-	/* Adds state to state manager */
-	/* Last added cStateBase with state be CREATED will be active */
-	/* cStateBase object will be automatically deleted when it's */
-	/* state is set to STOPED */
-	void PushState(cStateBase *state);
-	
-	/* Deletes all states */
-	void Clear();
+    void Init();
+    /* Adds state to state manager */
+    /* Last added cStateBase with state be CREATED will be active */
+    /* cStateBase object will be automatically deleted when it's */
+    /* state is set to STOPED */
+    void PushState(cStateBase *state);
+    
+    /* Deletes all states */
+    void Clear();
 
-	void LogicTick(uint32_t &delta);
-	void GraphicsTick();
+    void LogicTick(uint32_t &delta);
+    void GraphicsTick();
 
-	void EventHandler();
+    void EventHandler();
 
-	void UpdateActiveState();
+    void UpdateActiveState();
 private:
-	std::vector<cStateBase*> m_States;
-	uint32_t m_ActiveState;
+    std::vector<cStateBase*> m_States;
+    uint32_t m_ActiveState;
 
 };
 
