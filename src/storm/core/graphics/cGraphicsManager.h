@@ -30,14 +30,10 @@ private:
     int m_Api;
     cGraphicsBase *m_Graphics;
 
-    /* Time when last frame was drawn */
-    uint32_t m_LastFrameTime;
     /* Current FPS */
     uint32_t m_CurrentFps;
     /* FPS counter refresh interval */
     uint32_t m_FpsCountRefresh;
-    /* Target FPS */
-    uint32_t m_TargetFps;
 };
 
 } /* namespace StormFramework */

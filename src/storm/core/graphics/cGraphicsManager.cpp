@@ -7,10 +7,8 @@ namespace StormFramework {
 cGraphicsManager::cGraphicsManager() :
     m_Api(0),
     m_Graphics(nullptr),
-    m_LastFrameTime(0),
     m_CurrentFps(0),
-    m_FpsCountRefresh(0),
-    m_TargetFps(0) {
+    m_FpsCountRefresh(0) {
 
 }
 cGraphicsManager::~cGraphicsManager() {
