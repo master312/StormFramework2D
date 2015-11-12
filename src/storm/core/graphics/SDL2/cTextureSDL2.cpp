@@ -58,24 +58,27 @@ void cTextureSDL2::Unload() {
 }
 void cTextureSDL2::Draw(const int &srcX, const int &srcY, 
     const int &srcW, const int &srcH, const int &destX, const int &destY, 
-    const int &destW, const int &destH, const int &angle, const int &opacity) {
+    const int &destW, const int &destH, const double &angle, const int &opacity) {
     
     //TODO: OPtimizeShitHere!
     SDL_Rect srcRect = {srcX, srcY, srcW, srcH};
     SDL_Rect destRect = {destX, destY, destW, destH};
-    
-    if(angle != 0)
-        std::cout << "cTextureManagerSDL2 TODO: ROTATION!" << std::endl;
 
     SDL_Texture *tmpTx = m_Texture;
     SDL_Renderer *gRenderer = p_Graphics->GetRenderer();
     
-    if(opacity != 100){
+    if (opacity != 255) {
         SDL_SetTextureAlphaMod(tmpTx, opacity);
-        SDL_RenderCopy(gRenderer, tmpTx, &srcRect, &destRect);
-        SDL_SetTextureAlphaMod(tmpTx, 100);
+    }
+    if (angle != 0) {
+        SDL_RenderCopyEx(gRenderer, tmpTx, &srcRect, 
+                         &destRect, angle, (SDL_Point*)&m_Center, 
+                         SDL_FLIP_NONE);
     } else {
-        SDL_RenderCopy(gRenderer, tmpTx, &srcRect, &destRect);    
+        SDL_RenderCopy(gRenderer, tmpTx, &srcRect, &destRect);
+    }
+    if (opacity != 255) {
+        SDL_SetTextureAlphaMod(tmpTx, 255);
     }
 }
 void cTextureSDL2::ModColor(uint8_t &r, uint8_t &g, uint8_t &b) {
@@ -85,7 +88,7 @@ void cTextureSDL2::ModColor(uint8_t &r, uint8_t &g, uint8_t &b) {
 SDL_Texture *cTextureSDL2::MakeTexture(SDL_Surface *sur, uint32_t &size) {
     SDL_Renderer *renderer = p_Graphics->GetRenderer();
     SDL_Texture *tmp = SDL_CreateTextureFromSurface(renderer, sur);
-    if(tmp == nullptr){
+    if (tmp == nullptr) {
         S_LogError("cTextureManagerSDL2", "Could not create SDL_Texture!");
         return nullptr;
     }

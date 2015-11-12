@@ -9,10 +9,11 @@
 #define CTEXTUREMANAGER_H__
 #include <iostream>
 #include <map>
-#include "cTextureBase.h"
 #include "../framework/frameworkMain.h"
 #include "../framework/cFileSystem.h"
 #include "graphicsMain.h"
+#include "cTextureBase.h"
+#include "sTextureParametars.h"
 
 namespace StormFramework {
 
@@ -44,13 +45,19 @@ public:
     void DrawSection(uint32_t &id, sRect &dest) { }
     void RemoveSection(uint32_t sectionId);
 
+    void ModAngle(uint32_t &id, double &angle);
+    void ModOpacity(uint32_t &id, uint8_t &opacity);
 
-    cTextureBase *GetTexture(uint32_t textureId);
+    cTextureBase *GetTexture(uint32_t &textureId);
+    sTextureParametars *GetTextureParametars(uint32_t &textureId);
+
     // Returns memory usage of all loaded textures (in KB)
     uint32_t GetMemoryUsage() { return m_MemoryUsage; }
 private:
     // Map of all loaded textures
     std::map<uint32_t, cTextureBase*> m_Textures;
+    // Map of all texture parametars
+    std::map<uint32_t, sTextureParametars> m_TextureParametars;
     // Map of texture ID's and their filenames. <FNAME, ID>
     std::map<std::string, uint32_t> m_TextureFilenames;
     // Map of all texture sections

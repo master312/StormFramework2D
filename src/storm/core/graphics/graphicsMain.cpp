@@ -67,6 +67,12 @@ uint32_t S_GetTextureHeight(uint32_t id) {
 void S_TextureModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b) {
     textureManager.GetTexture(id)->ModColor(r, g, b);
 }
+void S_TextureModAngle(uint32_t id, double angle) {
+    textureManager.ModAngle(id, angle);
+}
+void S_TextureModOpacity(uint32_t id, uint8_t opacity) {
+    textureManager.ModOpacity(id, opacity);
+}
 
 uint32_t S_CreateSection(uint32_t textureId, sRect &section) {
     return textureManager.CreateSection(textureId, section);
