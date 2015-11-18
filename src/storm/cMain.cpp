@@ -17,13 +17,14 @@ void cMain::Start() {
     m_IsRunning = true;
 
     while (m_IsRunning) {
-        S_TickEvents();
+        TickInternal();
         if (S_GetEventManager()->ToQuit()) {
             m_IsRunning = false;
         }
         // TODO: Make this batter...
         // Check if logic ore graphics are late, and if so,
         // do not call STORM_SLEEP at the end
+        // else calculate precise sleep time
         if (STORM_TIME - m_LastLogic >= (float)1000 / m_TargetLogicTicks) {
             m_Delta = STORM_TIME - m_LastLogic;
             LogicTick();
@@ -41,6 +42,10 @@ void cMain::Start() {
 }
 
 // Private methods
+void cMain::TickInternal() {
+    S_TickEvents();
+    S_TickCallbakcs();
+}
 void cMain::LogicTick() {
     cStateManager &sm = S_GetStateManager();
     sm.LogicTick(m_Delta);

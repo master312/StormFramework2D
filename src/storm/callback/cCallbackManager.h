@@ -3,21 +3,14 @@
  * Author: master312
  *
  * Created on November 02, 2015, 9:01 PM
- * TODO: Features:
+ * Features:
  *  -Methods are indexed by name (std::string)
  *  -Call method after specified time only once
  *  -Call method on interval
- *  -Call method on event
- *  -Store callback by name, and call it manually
- *  -Functions must be of type void name(void *data)
- *   or int name(void *data) if 'on interval' callback.
- *   If 'on interval' callback return < 0, than its removed
+ *  -TODO: Call method on event ??? or this is in EVENT MANAGER ???
+ *  -Functions must be of type 'int name()''
+ *   If 'on interval' callback method return < 0, it will be removed
  *   from timed callback system.
- *  -On manually calling callback by name, caller
- *   should be able to specify data that is passed to method
- *
- * TODO::::::::::::::TODO::::::::::::TODO:::::::::::TODO:::::::
- *    !!TEST THIS CLASS!!
  */
 #ifndef CCALLBACKMANAGER_H__
 #define CCALLBACKMANAGER_H__
@@ -29,31 +22,27 @@
 
 namespace StormFramework {
 
-struct sIntervalCallback;
-struct sManualCallback;
+struct sCallback;
 
 class cCallbackManager {
 public:
-	cCallbackManager() { }
-	~cCallbackManager();
+    ~cCallbackManager();
+    void Clear();
 
-	void Tick();
+    void Tick();
 
-	void AddIntervalCallback(const std::string &name,
-							 sIntervalCallback *callback);
-	void AddManulaCallback(const std::string &name,
-							sManualCallback *callback);
-	void AddDelayedCallback(sManualCallback *callback);
-	
-	void RemoveCallback(const std::string &name);
+    void AddIntervalCallback(const std::string &name,
+                             sCallback *callback);
+    void AddDelayedCallback(sCallback *callback);
+
+    void Remove(const std::string &name);
 private:
-	std::map<std::string, sIntervalCallback*> m_IntervalCallbacks;
-	std::map<std::string, sManualCallback*> m_ManualCallbacks;
-	std::vector<sManualCallback*> m_DelayedCallbacks;
+    std::map<std::string, sCallback*> m_IntervalCallbacks;
+    std::vector<sCallback*> m_DelayedCallbacks;
 
-	/* This method returns true, if @name already exists */
-	/* in any of callback std::map-s */ 
-	bool IfExists(const std::string &name);
+    /* This method returns true, if @name already exists */
+    /* in any of callback std::map-s */ 
+    bool IfExists(const std::string &name);
 };
 
 

@@ -9,6 +9,7 @@
 #define SSTORM_H__
 #include "cMain.h"
 #include "core/events/eventsMain.h"
+#include "callback/callbackMain.h"
 
 /* Initialize all elements of storm framework */
 /* Graphics api must be set using 'S_SetGraphicsApi(...)'  */

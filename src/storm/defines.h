@@ -23,7 +23,7 @@ typedef unsigned int uint;
 #define STORM_BUILD_GLES 0
 
 #define STORM_VERSION_MAJOR 0
-#define STORM_VERSION_MINOR 20
+#define STORM_VERSION_MINOR 29
 #define STORM_VERSION_FIX 1
 
 #define STORM_API_SDL 1

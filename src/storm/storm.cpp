@@ -6,6 +6,7 @@ int S_InitAll() {
     StormFramework::cTime::Start();
     S_InitGraphics();
     S_InitEventManager();
+    S_InitCallbacks();
     S_InitStateManager();
     S_LogInfo("storm", "Framework initialized!");
     return 1;

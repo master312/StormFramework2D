@@ -8,36 +8,38 @@
 #define SCALLBACK_H__
 #include <functional>
 #include <iostream>
+#include "../core/framework/frameworkMain.h"
+
+typedef std::function<int()> STypeCallback;
 
 namespace StormFramework {
 
-typedef std::function<int(void *data)> TypeTimeCallback;
-typedef std::function<void(void *data)> TypeCallback;
+struct sCallback {
+    /* Interval on what this callback is called (ms) */
+    uint32_t m_Interval;
+    /* Last time when this interval was called */
+    uint32_t m_LastTime;
+    /* Callback method */
+    STypeCallback m_Callback;
 
-struct sIntervalCallback {
-	/* Interval on what this callback is called (ms) */
-	uint32_t m_Interval;
-	/* Last time when this interval was called */
-	uint32_t m_LastTime;
-	/* Callback method */
-	TypeTimeCallback m_Callback;
+    sCallback(uint32_t time, STypeCallback callback) : 
+                m_Interval(time),
+                m_LastTime(STORM_TIME), 
+                m_Callback(callback) { }
+    sCallback(STypeCallback callback) : 
+                m_Interval(1),
+                m_LastTime(STORM_TIME),
+                m_Callback(callback) { }
 
-	sIntervalCallback(uint32_t interval, TypeTimeCallback callback) : 
-				m_Interval(interval),
-				m_LastTime(0), 
-				m_Callback(callback) { }
-};
+    /* Returns true if callback is ready to be called */
+    bool IsReady() {
+        return STORM_TIME - m_LastTime >= m_Interval;
+    }
 
-struct sManualCallback {
-	/* This variable is used only for delayed callbacks */
-	/* If this is manual callback, this variable will be zero */
-	uint32_t m_Delay;
-	TypeCallback m_Callback;
-
-	sManualCallback(TypeCallback callback) : 
-			   m_Delay(0), m_Callback(callback) { }
-	sManualCallback(uint32_t delay, TypeCallback callback) : 
-			   m_Delay(delay), m_Callback(callback) { }
+    void Call() { 
+        m_LastTime = STORM_TIME;
+        m_Callback(); 
+    }
 };
 
 } /* namespace StormFramework  */

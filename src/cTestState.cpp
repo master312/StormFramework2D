@@ -28,7 +28,7 @@ void cTestState::OnLogicTick(uint32_t &delta) {
 	//std::cout << "Logic delta: " << delta << std::endl;
 }
 void cTestState::OnEvent() {
-	std::cout << "Event " << std::endl;
+	//std::cout << "Event " << std::endl;
 }
 void cTestState::OnPause() {
 	std::cout << "Pause " << std::endl;
@@ -38,4 +38,9 @@ void cTestState::OnResume() {
 }
 void cTestState::OnShutdown() {
 	std::cout << "Shutdown " << std::endl;
+}
+
+int cTestState::TestCBMethod() {
+    std::cout << "Dragan called at " << STORM_TIME << std::endl;
+    return 777;
 }

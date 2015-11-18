@@ -13,6 +13,7 @@
 #include "core/events/cEventManager.h"
 #include "core/states/statesMain.h"
 #include "animation/animationMain.h"
+#include "callback/callbackMain.h"
 #include "defines.h"
 
 namespace StormFramework {
@@ -39,8 +40,12 @@ private:
     uint32_t m_TargetLogicTicks;
     uint32_t m_TargetGraphicsTicks;
 
+    /* Is engine running */
     bool m_IsRunning;
 
+    /* Handled ticking of internal systems */
+    /* Like: events handler, callback manager, networking, etc... */
+    void TickInternal();
     void LogicTick();
     void GraphicsTick();
 };

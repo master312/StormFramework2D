@@ -22,6 +22,8 @@ public:
 	void OnResume();
 	/* Called when state is ended, just before state object deletion */
 	void OnShutdown();
+
+	int TestCBMethod();
 private:
 	uint32_t m_TestTexture;
 };
