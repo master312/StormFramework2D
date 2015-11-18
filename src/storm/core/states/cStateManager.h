@@ -32,7 +32,7 @@ public:
     void LogicTick(uint32_t &delta);
     void GraphicsTick();
 
-    void EventHandler();
+    int EventHandler();
 
     void UpdateActiveState();
 private:

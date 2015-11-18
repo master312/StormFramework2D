@@ -18,7 +18,7 @@ void cMain::Start() {
 
     while (m_IsRunning) {
         TickInternal();
-        if (S_GetEventManager()->ToQuit()) {
+        if (S_GetEventManager().ToQuit()) {
             m_IsRunning = false;
         }
         // TODO: Make this batter...

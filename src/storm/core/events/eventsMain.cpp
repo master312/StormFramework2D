@@ -1,20 +1,20 @@
 #include "eventsMain.h"
 #include "cEventManager.h"
 
-StormFramework::cEventManager *eventManager = nullptr;
+StormFramework::cEventManager eventManager;
 
 int S_InitEventManager() {
     if (S_GetGraphicsApi() == -1) {
         return -1;
     }
-    eventManager = new StormFramework::cEventManager(S_GetGraphicsApi());
+    eventManager.SetApi(S_GetGraphicsApi());
     return 1;
 }
 
-StormFramework::cEventManager *S_GetEventManager() {
+StormFramework::cEventManager &S_GetEventManager() {
     return eventManager;
 }
 
 void S_TickEvents() {
-    eventManager->Tick();
+    eventManager.Tick();
 }

@@ -12,18 +12,20 @@
 #include "cEventBase.h"
 #include "../../defines.h"
 #include "../framework/frameworkMain.h"
-
-typedef std::function<void()> tEventCallback;
+#include "../../callback/sCallback.h"
 
 namespace StormFramework {
     
 class cEventManager {
 public:
+    cEventManager();
     cEventManager(int api);
     ~cEventManager();
     
+    void SetApi(int api);
+
     //callback function for handling events; 1 = low pririty, 0 - High p.
-    void AddHandler(tEventCallback callback, 
+    void AddHandler(STypeCallback callback, 
                     const std::string &name, int priority = 1);
     void RemoveHandler(const std::string &name);
     
@@ -41,13 +43,14 @@ public:
     bool ToQuit() { return m_Input->IsQuit(); }
     //Returns pointer to input manager
     cEventBase *GetInput() { return m_Input; }
+    bool IsInited() { return m_Input != nullptr; }
 private:
     cEventBase *m_Input;
     bool m_IsEated;
     // Map stores high priority callbacks
-    std::map<std::string, tEventCallback> m_CallbacksHigh;
+    std::map<std::string, STypeCallback> m_CallbacksHigh;
     // Map stores low priority callbacks
-    std::map<std::string, tEventCallback> m_CallbacksLow;
+    std::map<std::string, STypeCallback> m_CallbacksLow;
 };
 
 

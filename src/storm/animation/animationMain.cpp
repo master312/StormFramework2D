@@ -31,8 +31,7 @@ uint32_t S_CreateAnimator(uint32_t animationId) {
 void S_RemoveAnimator(uint32_t animationId, uint32_t animatorId) {
     animationManager.RemoveAnimatior(animatorId, animationId);
 }
-StormFramework::sAnimator*
-S_GetAnimator(uint32_t animationId, uint32_t animatorId) {
+StormAnimator *S_GetAnimator(uint32_t animationId, uint32_t animatorId) {
     return animationManager.GetAnimator(animationId, animatorId);
 }
 
@@ -46,6 +45,6 @@ void S_DrawAnimation(uint32_t animationId, uint32_t animatorId,
     animationManager.Draw(animationId, animatorId, x, y);
 }
 
-StormFramework::cAnimationManager *S_GetAnimationManager() {
-    return &animationManager;
+StormFramework::cAnimationManager &S_GetAnimationManager() {
+    return animationManager;
 }

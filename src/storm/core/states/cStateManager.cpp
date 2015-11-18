@@ -11,14 +11,14 @@ cStateManager::~cStateManager() {
     Clear();
 }
 void cStateManager::Init() {
-    if (S_GetEventManager() == nullptr) {
+    if (!S_GetEventManager().IsInited()) {
         S_LogError("cStateManager",
                    "Must initialize event manager before state manager");
         return;
     }
 
-    tEventCallback tmpCb = std::bind(&cStateManager::EventHandler, this);
-    S_GetEventManager()->AddHandler(tmpCb, "StateManager", 0);
+    STypeCallback tmpCb = std::bind(&cStateManager::EventHandler, this);
+    S_GetEventManager().AddHandler(tmpCb, "StateManager", 0);
 }
 void cStateManager::PushState(cStateBase *state) {
     state->OnInit();
@@ -62,14 +62,15 @@ void cStateManager::GraphicsTick() {
     }
     m_States[m_ActiveState]->OnGraphicsTick();
 }
-void cStateManager::EventHandler() {
+int cStateManager::EventHandler() {
     if (!m_States[m_ActiveState]->IsStarted()) {
         UpdateActiveState();
         if (m_ActiveState == 0) {
-            return;
+            return 0;
         }
     }
     m_States[m_ActiveState]->OnEvent();
+    return 0;
 }
 
 void cStateManager::UpdateActiveState() {

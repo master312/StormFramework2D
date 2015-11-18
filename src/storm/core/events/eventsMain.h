@@ -12,7 +12,7 @@
 namespace StormFramework { class cEventManager; }
 
 int S_InitEventManager();
-StormFramework::cEventManager *S_GetEventManager();
+StormFramework::cEventManager &S_GetEventManager();
 void S_TickEvents();
 
 #endif /* EVENTSMAIN_H__ */

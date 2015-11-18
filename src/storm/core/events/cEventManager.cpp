@@ -3,10 +3,18 @@
 
 namespace StormFramework {
 
-
+cEventManager::cEventManager() : m_IsEated(false) {
+    m_Input = nullptr;
+}
 cEventManager::cEventManager(int api) : m_IsEated(false) {
     m_Input = nullptr;
-    
+    SetApi(api);
+}
+cEventManager::~cEventManager() {
+    if (m_Input != nullptr)
+        delete m_Input;
+}
+void cEventManager::SetApi(int api) {
     switch (api) {
         case STORM_API_SDL:
             S_LogError("cEventManager", "Api 'SDL' not supported");
@@ -19,11 +27,8 @@ cEventManager::cEventManager(int api) : m_IsEated(false) {
             break;
     }
 }
-cEventManager::~cEventManager() {
-    if (m_Input != nullptr)
-        delete m_Input;
-}
-void cEventManager::AddHandler(tEventCallback callback, 
+
+void cEventManager::AddHandler(STypeCallback callback, 
                                 const std::string &name, 
                                 int priority /* = 1 */) {
     if (priority == 1) {
