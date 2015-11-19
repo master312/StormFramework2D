@@ -4,6 +4,8 @@
         When user is accessing texture, he will be going through 
         "txtParametar" object, witch will contain pointer to texture object.
         Texture usage is calculated same way it is now.
+//TODO: Background box behind the text
+//TODO: Text size modulation
 //TODO: Create texture spliting system, if texture is bigger then hardware supports
 //TODO: in logger, pass 'va_list ap' as reference
 //TODO: Cleanup/rewrite cEventSDL2 class

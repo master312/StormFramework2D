@@ -9,6 +9,13 @@ cGraphicsManager::cGraphicsManager() :
     m_Graphics(nullptr),
     m_CurrentFps(0),
     m_FpsCountRefresh(0) {
+                                           
+    std::stringstream ss;
+    ss << "Storm Framework 2D ";
+    ss << STORM_VERSION_MAJOR << ".";
+    ss << STORM_VERSION_MINOR << ".";
+    ss << STORM_VERSION_FIX;
+    m_DebugVersion = ss.str();
 
 }
 cGraphicsManager::~cGraphicsManager() {
@@ -36,7 +43,7 @@ int cGraphicsManager::Initialize() {
     return 1;
 }
 bool cGraphicsManager::Tick() {
-    S_DrawText("Storm Framework 2D alpha", 5, 5);
+    S_DrawText(m_DebugVersion, 5, 5);
     m_Graphics->SwapBuffers();
 
     return true;

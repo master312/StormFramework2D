@@ -7,6 +7,7 @@
 
 #ifndef CGRAPHICSMANAGER_H__
 #define CGRAPHICSMANAGER_H__
+#include <sstream>
 #include "../../defines.h"
 #include "cGraphicsBase.h"
 #include "graphicsMain.h"
@@ -34,6 +35,8 @@ private:
     uint32_t m_CurrentFps;
     /* FPS counter refresh interval */
     uint32_t m_FpsCountRefresh;
+
+    std::string m_DebugVersion;
 };
 
 } /* namespace StormFramework */
