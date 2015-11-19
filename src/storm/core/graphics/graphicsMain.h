@@ -12,6 +12,8 @@
 
 namespace StormFramework { 
     class cGraphicsManager;
+    class cTextureManager;
+    class cBitmapFontManager;
 }
 
 void S_SetGraphicsApi(int api);
@@ -21,7 +23,9 @@ void S_InitGraphics();
 void S_ClearScreen();
 bool S_TickGraphics();
 void S_DeleteGraphics();
-StormFramework::cGraphicsManager &GetGraphicsManager();
+StormFramework::cGraphicsManager &S_GetGraphicsManager();
+StormFramework::cTextureManager &S_GetTextureManager();
+StormFramework::cBitmapFontManager &S_GetFontManager();
 
 /**** Texture related methods ****/
 uint32_t S_LoadTexture(const std::string &filename);

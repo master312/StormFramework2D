@@ -26,4 +26,6 @@ public:
 	int TestCBMethod();
 private:
 	uint32_t m_TestTexture;
+	uint32_t m_TestTextureDva;
+	uint32_t m_TestTextureTri;
 };

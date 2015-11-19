@@ -15,13 +15,15 @@ cTextureManager::~cTextureManager() {
 }
 
 uint32_t cTextureManager::Load(const std::string &filename) {
+    // TODO: This function can be written batter way
     std::string fullPath = (char*)STORM_DIR_GRAPHICS + filename;
     cFileSystem::ConvertPath(fullPath);
     auto itt = m_TextureFilenames.find(fullPath);
-    if (itt != m_TextureFilenames.end()) {
-        // Texture with this filename is already loaded
+    if (itt != m_TextureFilenames.end()) { // This texture is already loaded
         m_Textures[itt->second]->IncUsage();
-        return itt->second;
+        uint32_t id = CreateParameters(m_Textures[itt->second]);
+        UpdateDebugString();
+        return id;
     }
     
     cTextureBase *texture = CreateAndLoad(fullPath);
@@ -38,76 +40,94 @@ uint32_t cTextureManager::Load(const std::string &filename) {
     
     texture->SetUsage(1);
     m_Textures[newId] = texture;
-    m_TextureParametars[newId] = sTextureParametars();
     m_TextureFilenames[fullPath] = newId;
     m_MemoryUsage += (texture->GetMemoryUsage() / 1024);
     
-    return newId;
+    uint32_t id = CreateParameters(m_Textures[newId]);
+    UpdateDebugString();
+    return id;
 }
 int cTextureManager::Unload(uint32_t id) {
-    auto iter = m_Textures.find(id);
-    if (iter == m_Textures.end()) {
+    auto iter = m_TextureParameters.find(id);
+    if (iter == m_TextureParameters.end()) {
         return 0;
     }
-    cTextureBase *tmp = iter->second;
-    if (tmp->GetUsage() > 1) {
+    
+    cTextureBase *tmp = iter->second.m_Texture;
+    
+    m_TextureParameters.erase(iter);
+    
+    int toReturn;
+    if (tmp->GetUsage() <= 1) {
+        // This texture is not in use anymore
+        auto txtIter = m_TextureFilenames.find(tmp->GetFilename());
+        if (txtIter == m_TextureFilenames.end()) {
+            S_LogError("cTextureManager", "Fatal on texture unload");
+            return -1;
+        }
+
+        m_Textures.erase(txtIter->second);
+        m_TextureFilenames.erase(txtIter);
+        m_MemoryUsage -= (tmp->GetMemoryUsage() / 1024);
         delete tmp;
-        m_Textures.erase(iter);
-        m_MemoryUsage += (tmp->GetMemoryUsage() / 1024);
-        return 1;
+        toReturn = 0;
     } else {
+        // Other objects are still using this texture
         tmp->DecUsage();
-        return -1;
+        toReturn = -1;
     }
+    UpdateDebugString();
+
+    return toReturn;
 }
 void cTextureManager::Draw(uint32_t &id, int &x, int &y) {
-    cTextureBase *tmp = m_Textures[id];
-    sTextureParametars *tmpP = GetTextureParametars(id);
-    if (tmp == nullptr || tmpP == nullptr) {
+    sTextureParameters *tmpP = GetTextureParametars(id);
+    if (tmpP == nullptr) {
         return;
     }
+    cTextureBase *tmp = tmpP->m_Texture;
     
     tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), x, y, 
               tmp->GetWidthPx(), tmp->GetHeightPx(), 
               tmpP->m_Angle, tmpP->m_Opacity);
 }
 void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
-    cTextureBase *tmp = m_Textures[id];
-    sTextureParametars *tmpP = GetTextureParametars(id);
-    if (tmp == nullptr || tmpP == nullptr) {
+    sTextureParameters *tmpP = GetTextureParametars(id);
+    if (tmpP == nullptr) {
         return;
     }
+    cTextureBase *tmp = tmpP->m_Texture;
 
     tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), x, y, 
               w, h, tmpP->m_Angle, tmpP->m_Opacity);
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, int &x, int &y) {
-    cTextureBase *tmp = m_Textures[id];
-    sTextureParametars *tmpP = GetTextureParametars(id);
-    if (tmp == nullptr || tmpP == nullptr) {
+    sTextureParameters *tmpP = GetTextureParametars(id);
+    if (tmpP == nullptr) {
         return;
     }
+    cTextureBase *tmp = tmpP->m_Texture;
 
     tmp->Draw(src.x, src.y, src.w, src.h, x, y, src.w, src.h, 
               tmpP->m_Angle, tmpP->m_Opacity);    
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, 
                            int &x, int &y, int &w, int &h) {
-    cTextureBase *tmp = m_Textures[id];
-    sTextureParametars *tmpP = GetTextureParametars(id);
-    if (tmp == nullptr || tmpP == nullptr) {
+    sTextureParameters *tmpP = GetTextureParametars(id);
+    if (tmpP == nullptr) {
         return;
     }
+    cTextureBase *tmp = tmpP->m_Texture;
 
     tmp->Draw(src.x, src.y, src.w, src.h, x, y, w, h, 
               tmpP->m_Angle, tmpP->m_Opacity);
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, sRect &dest) {
-    cTextureBase *tmp = m_Textures[id];
-    sTextureParametars *tmpP = GetTextureParametars(id);
-    if (tmp == nullptr || tmpP == nullptr) {
+    sTextureParameters *tmpP = GetTextureParametars(id);
+    if (tmpP == nullptr) {
         return;
     }
+    cTextureBase *tmp = tmpP->m_Texture;
 
     tmp->Draw(src.x, src.y, src.w, src.h, dest.x, dest.y, 
               dest.w, dest.h, tmpP->m_Angle, tmpP->m_Opacity);
@@ -150,14 +170,14 @@ void cTextureManager::RemoveSection(uint32_t sectionId) {
     }
 }
 void cTextureManager::ModAngle(uint32_t &id, double &angle) {
-    sTextureParametars *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTextureParametars(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Angle = angle;
 }
 void cTextureManager::ModOpacity(uint32_t &id, uint8_t &opacity) {
-    sTextureParametars *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTextureParametars(id);
     if (tmp == nullptr) {
         return;
     }
@@ -169,13 +189,14 @@ cTextureBase *cTextureManager::GetTexture(uint32_t &textureId) {
     }
     return m_Textures[textureId];
 }
-sTextureParametars *cTextureManager::GetTextureParametars(uint32_t &textureId) {
-    auto iter = m_TextureParametars.find(textureId);
-    if (iter == m_TextureParametars.end()) {
+sTextureParameters *cTextureManager::GetTextureParametars(uint32_t &textureId) {
+    auto iter = m_TextureParameters.find(textureId);
+    if (iter == m_TextureParameters.end()) {
         return nullptr;
     }
-    return &m_TextureParametars[textureId];
+    return &m_TextureParameters[textureId];
 }
+// Private methods
 cTextureBase *cTextureManager::CreateTextureObject() {
     switch (S_GetGraphicsApi()) {
         case STORM_API_SDL: break;
@@ -199,6 +220,26 @@ cTextureBase *cTextureManager::CreateAndLoad(const std::string &filename) {
     }
 
     return texture;
+}
+
+uint32_t cTextureManager::CreateParameters(cTextureBase *texture) {
+    uint32_t newId = 1;
+    if (m_TextureParameters.size() > 0) {
+        auto iter = m_TextureParameters.end();
+        --iter;
+        newId = iter->first + 1;
+    }
+    sTextureParameters tmp;
+    tmp.m_Texture = texture;
+    m_TextureParameters[newId] = tmp;
+    return newId;
+}
+
+void cTextureManager::UpdateDebugString() {
+    std::stringstream ss;
+    ss << "Textures: " << m_Textures.size();
+    ss << " Instances: " << m_TextureParameters.size();
+    m_DebugString = ss.str();
 }
 
 } /* namespace StormFramework */

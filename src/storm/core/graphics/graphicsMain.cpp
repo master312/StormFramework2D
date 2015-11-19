@@ -29,8 +29,14 @@ bool S_TickGraphics() {
 void S_ClearScreen() {
     graphicsManager.GetGraphics()->ClearScreen();
 }
-StormFramework::cGraphicsManager &GetGraphicsManager() {
+StormFramework::cGraphicsManager &S_GetGraphicsManager() {
     return graphicsManager;
+}
+StormFramework::cTextureManager &S_GetTextureManager() {
+    return textureManager;
+}
+StormFramework::cBitmapFontManager &S_GetFontManager() {
+    return fontManager;
 }
 
 uint32_t S_LoadTexture(const std::string &filename) {

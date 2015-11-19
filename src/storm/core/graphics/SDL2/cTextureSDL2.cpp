@@ -8,7 +8,7 @@ namespace StormFramework {
     
 cTextureSDL2::cTextureSDL2() : m_Texture(nullptr), m_IsSplit(false), 
                                m_Width(0), m_Height(0) {
-    cGraphicsManager *gm = &GetGraphicsManager();
+    cGraphicsManager *gm = &S_GetGraphicsManager();
     p_Graphics = (cGraphicsSDL2*)gm->GetGraphics();
     if (p_Graphics == nullptr) {
         S_LogError("cTextureSDL2", "Graphics not initialized!");

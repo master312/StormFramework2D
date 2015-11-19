@@ -1,6 +1,7 @@
 #include "cGraphicsManager.h"
 #include "SDL2/cGraphicsSDL2.h"
 #include "graphicsMain.h"
+#include "cTextureManager.h"
 
 namespace StormFramework {
 
@@ -44,6 +45,7 @@ int cGraphicsManager::Initialize() {
 }
 bool cGraphicsManager::Tick() {
     S_DrawText(m_DebugVersion, 5, 5);
+    S_DrawText(S_GetTextureManager().GetDebugString(), 5, 25);
     m_Graphics->SwapBuffers();
 
     return true;

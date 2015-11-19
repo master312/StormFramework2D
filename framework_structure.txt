@@ -1,11 +1,9 @@
-//TOOD: NOW! Organize texture by texture parametar object...
-        On "Load()" create new texture if its not loaded.
-        Then create new "txtParametar" object and return it's ID
-        When user is accessing texture, he will be going through 
-        "txtParametar" object, witch will contain pointer to texture object.
-        Texture usage is calculated same way it is now.
+//TODO: Texture timeout before deletion
+//MABY: Research more... Do not keep Draw methods in texture manager class
+        --And maybe create separated class for managing texture sections
 //TODO: Background box behind the text
 //TODO: Text size modulation
+//TODO: Check if ifdef #BUILD_SDL2 is put in every SDL2 related class
 //TODO: Create texture spliting system, if texture is bigger then hardware supports
 //TODO: in logger, pass 'va_list ap' as reference
 //TODO: Cleanup/rewrite cEventSDL2 class
