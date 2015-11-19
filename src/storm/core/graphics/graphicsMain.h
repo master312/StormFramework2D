@@ -36,8 +36,8 @@ void S_TextureModAngle(uint32_t id, double angle);
 void S_TextureModOpacity(uint32_t id, uint8_t opacity);
 /**** Texture section related methods ****/
 uint32_t S_CreateSection(uint32_t textureId, sRect &section);
-void S_RemoveSection(uint32_t sectionId);
-void S_DrawSection(uint32_t sectionId, int x, int y);
+void S_RemoveSection(uint32_t &sectionId);
+void S_DrawSection(uint32_t &sectionId, int x, int y);
 void S_RefDrawSection(uint32_t &sectionId, int &x, int &y);
 /**** Font manager ****/
 bool S_LoadFont(const std::string &filename);

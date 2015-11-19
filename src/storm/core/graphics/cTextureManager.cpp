@@ -71,6 +71,16 @@ void cTextureManager::Draw(uint32_t &id, int &x, int &y) {
               tmp->GetWidthPx(), tmp->GetHeightPx(), 
               tmpP->m_Angle, tmpP->m_Opacity);
 }
+void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
+    cTextureBase *tmp = m_Textures[id];
+    sTextureParametars *tmpP = GetTextureParametars(id);
+    if (tmp == nullptr || tmpP == nullptr) {
+        return;
+    }
+
+    tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), x, y, 
+              w, h, tmpP->m_Angle, tmpP->m_Opacity);
+}
 void cTextureManager::Draw(uint32_t &id, sRect &src, int &x, int &y) {
     cTextureBase *tmp = m_Textures[id];
     sTextureParametars *tmpP = GetTextureParametars(id);
@@ -80,6 +90,17 @@ void cTextureManager::Draw(uint32_t &id, sRect &src, int &x, int &y) {
 
     tmp->Draw(src.x, src.y, src.w, src.h, x, y, src.w, src.h, 
               tmpP->m_Angle, tmpP->m_Opacity);    
+}
+void cTextureManager::Draw(uint32_t &id, sRect &src, 
+                           int &x, int &y, int &w, int &h) {
+    cTextureBase *tmp = m_Textures[id];
+    sTextureParametars *tmpP = GetTextureParametars(id);
+    if (tmp == nullptr || tmpP == nullptr) {
+        return;
+    }
+
+    tmp->Draw(src.x, src.y, src.w, src.h, x, y, w, h, 
+              tmpP->m_Angle, tmpP->m_Opacity);
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, sRect &dest) {
     cTextureBase *tmp = m_Textures[id];
@@ -91,7 +112,7 @@ void cTextureManager::Draw(uint32_t &id, sRect &src, sRect &dest) {
     tmp->Draw(src.x, src.y, src.w, src.h, dest.x, dest.y, 
               dest.w, dest.h, tmpP->m_Angle, tmpP->m_Opacity);
 }
-uint32_t cTextureManager::CreateSection(uint32_t textureId, sRect &section) {
+uint32_t cTextureManager::CreateSection(uint32_t &textureId, sRect &section) {
     uint32_t newId = 1;
     if (m_Sections.size() > 0) {
          auto iter = m_Sections.end();
@@ -106,10 +127,21 @@ uint32_t cTextureManager::CreateSection(uint32_t textureId, sRect &section) {
 }
 void cTextureManager::DrawSection(uint32_t &id, int &x, int &y) {
     auto iter = m_Sections.find(id);
-    if (iter == m_Sections.end())
+    if (iter == m_Sections.end()) {
         return;
+    }
 
     Draw(iter->second.m_TextureId, iter->second.m_Section, x, y);
+}
+void cTextureManager::DrawSection(uint32_t &id, int &x, int &y, 
+                                  int &w, int &h) {
+    auto iter = m_Sections.find(id);
+    if (iter == m_Sections.end()) {
+        return;
+    }
+
+    Draw(iter->second.m_TextureId, iter->second.m_Section, 
+         x, y, w, h);
 }
 void cTextureManager::RemoveSection(uint32_t sectionId) {
     auto iter = m_Sections.find(sectionId);

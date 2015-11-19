@@ -35,13 +35,14 @@ public:
     
     // Draw texture on screen
     void Draw(uint32_t &id, int &x, int &y);
-    void Draw(uint32_t &id, int &x, int &y, int &w, int &h) { }
+    void Draw(uint32_t &id, int &x, int &y, int &w, int &h);
     void Draw(uint32_t &id, sRect &src, int &x, int &y);
+    void Draw(uint32_t &id, sRect &src, int &x, int &y, int &w, int &h);
     void Draw(uint32_t &id, sRect &src, sRect &dest);
     
-    uint32_t CreateSection(uint32_t textureId, sRect &section);
+    uint32_t CreateSection(uint32_t &textureId, sRect &section);
     void DrawSection(uint32_t &id, int &x, int &y);
-    void DrawSection(uint32_t &id, int &x, int &y, int &w, int &h) { }
+    void DrawSection(uint32_t &id, int &x, int &y, int &w, int &h);
     void DrawSection(uint32_t &id, sRect &dest) { }
     void RemoveSection(uint32_t sectionId);
 

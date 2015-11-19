@@ -77,10 +77,10 @@ void S_TextureModOpacity(uint32_t id, uint8_t opacity) {
 uint32_t S_CreateSection(uint32_t textureId, sRect &section) {
     return textureManager.CreateSection(textureId, section);
 }
-void S_RemoveSection(uint32_t sectionId) {
+void S_RemoveSection(uint32_t &sectionId) {
     textureManager.RemoveSection(sectionId);
 }
-void S_DrawSection(uint32_t sectionId, int x, int y) {
+void S_DrawSection(uint32_t &sectionId, int x, int y) {
     textureManager.DrawSection(sectionId, x, y);
 }
 void S_RefDrawSection(uint32_t &sectionId, int &x, int &y) {
