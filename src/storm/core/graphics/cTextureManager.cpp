@@ -1,6 +1,7 @@
 #include "cTextureManager.h"
 #include "SDL2/cTextureSDL2.h"
 
+
 namespace StormFramework {
 
 
@@ -22,7 +23,7 @@ uint32_t cTextureManager::Load(const std::string &filename) {
     if (itt != m_TextureFilenames.end()) { // This texture is already loaded
         m_Textures[itt->second]->IncUsage();
         uint32_t id = CreateParameters(m_Textures[itt->second]);
-        m_OnScreen.push_back(id);
+        m_OnScreen.push_back(&m_TextureParameters[id]);
         UpdateDebugString();
         return id;
     }
@@ -45,7 +46,7 @@ uint32_t cTextureManager::Load(const std::string &filename) {
     m_MemoryUsage += (texture->GetMemoryUsage() / 1024);
     
     uint32_t id = CreateParameters(m_Textures[newId]);
-    m_OnScreen.push_back(id);
+    m_OnScreen.push_back(&m_TextureParameters[id]);
     UpdateDebugString();
     return id;
 }
@@ -54,9 +55,20 @@ int cTextureManager::Unload(uint32_t id) {
     if (iter == m_TextureParameters.end()) {
         return 0;
     }
-    
-    cTextureBase *tmp = iter->second.m_Texture;
-    
+    sTextureParameters *tmpPar = &iter->second;
+    cTextureBase *tmp = tmpPar->m_Texture;
+
+    if (tmpPar->m_IsVisible) {
+        // If texture is visible, remove if form 'OnScreen' vector
+        for (uint32_t i = 0; i < m_OnScreen.size(); i++) {
+            if (m_OnScreen[i] == tmpPar) {
+                m_OnScreen.erase(m_OnScreen.begin() + i);
+                break;
+            }
+        }
+    }
+    tmpPar = nullptr;   // This is not required, but just live it here :) 
+
     m_TextureParameters.erase(iter);
     
     int toReturn;
@@ -83,7 +95,7 @@ int cTextureManager::Unload(uint32_t id) {
     return toReturn;
 }
 void cTextureManager::DrawAll() {
-    for (auto &i : m_OnScreen) {
+    for (auto i : m_OnScreen) {
         Draw(i);
     }
 }
@@ -185,14 +197,14 @@ void cTextureManager::ModVisible(uint32_t &id, bool &isVisible) {
     if (tmp->m_IsVisible && !isVisible) {
         // Changed from visible to non-visible
         for (uint32_t i = 0; i < m_OnScreen.size(); i++) {
-            if (m_OnScreen[i] == id) {
+            if (m_OnScreen[i] == tmp) {
                 m_OnScreen.erase(m_OnScreen.begin() + i);
                 break;
             }
         }
     } else if (!tmp->m_IsVisible && isVisible) {
         // Changed from non-visible to visible
-        m_OnScreen.push_back(id);
+        m_OnScreen.push_back(tmp);
     }
     tmp->m_IsVisible = isVisible;    
 }
@@ -211,6 +223,16 @@ void cTextureManager::ModPos(uint32_t &id, int &x, int &y) {
     }
     tmp->m_DestRect.x = x;
     tmp->m_DestRect.y = y;
+}
+
+
+void cTextureManager::ModZ(uint32_t &id, int &z) {
+    sTextureParameters *tmp = GetTextureParametars(id);
+    if (tmp == nullptr) {
+        return;
+    }
+    tmp->m_Z = z;
+    std::sort(m_OnScreen.begin(), m_OnScreen.end(), sTextureParameters::Cmp);
 }
 void cTextureManager::ModAngle(uint32_t &id, double &angle) {
     sTextureParameters *tmp = GetTextureParametars(id);
@@ -291,16 +313,15 @@ uint32_t cTextureManager::CreateParameters(cTextureBase *texture) {
     m_TextureParameters[newId] = tmp;
     return newId;
 }
-void cTextureManager::Draw(uint32_t &id) {
-    sTextureParameters *tmpP = GetTextureParametars(id);
-    if (tmpP == nullptr || !tmpP->m_IsVisible) {
+void cTextureManager::Draw(sTextureParameters *par) {
+    if (par == nullptr || !par->m_IsVisible) {
         return;
     }
-    cTextureBase *tmp = tmpP->m_Texture;
+    cTextureBase *tmp = par->m_Texture;
     tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), 
-              tmpP->m_DestRect.x, tmpP->m_DestRect.y, 
+              par->m_DestRect.x, par->m_DestRect.y, 
               tmp->GetWidthPx(), tmp->GetHeightPx(), 
-              tmpP->m_Angle, tmpP->m_Opacity, tmpP->m_Center);
+              par->m_Angle, par->m_Opacity, par->m_Center);
 }
 void cTextureManager::UpdateDebugString() {
     std::stringstream ss;

@@ -19,12 +19,13 @@ struct sTextureParameters {
     cTextureBase *m_Texture;
     sPoint m_Center;    // Center of texture
     sRect m_DestRect;   // Destination on screen
+    int32_t m_Z;        // Z coordinate
     bool m_IsVisible;
     sTextureParameters() : m_Angle(0), m_Opacity(255), 
-                           m_Texture(nullptr), m_IsVisible(true) { }
+                           m_Texture(nullptr), m_Z(0), m_IsVisible(true) { }
     sTextureParameters(double angle, uint8_t opacity, cTextureBase *texture) : 
                        m_Angle(angle), m_Opacity(opacity), 
-                       m_Texture(texture), m_IsVisible(true) { 
+                       m_Texture(texture), m_Z(0), m_IsVisible(true) { 
         CalcMiddle();
     }
 
@@ -34,6 +35,12 @@ struct sTextureParameters {
             return;
         m_Center.x = m_Texture->GetWidthPx() / 2;
         m_Center.y = m_Texture->GetHeightPx() / 2;
+    }
+
+    // Compare method. Used for sorting (std::sort)
+    static bool Cmp(const StormFramework::sTextureParameters *a,
+                    const StormFramework::sTextureParameters *b) {
+        return a->m_Z < b->m_Z;
     }
 };
 

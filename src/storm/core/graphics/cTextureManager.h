@@ -9,6 +9,7 @@
 #define CTEXTUREMANAGER_H__
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 #include <vector>
 #include <map>
 #include "../framework/frameworkMain.h"
@@ -56,6 +57,7 @@ public:
     void ModVisible(uint32_t &id, bool &isVisible);
     void ModPos(uint32_t &id, sPoint &point);
     void ModPos(uint32_t &id, int &x, int &y);
+    void ModZ(uint32_t &id, int &z);
     void ModAngle(uint32_t &id, double &angle);
     void ModOpacity(uint32_t &id, uint8_t &opacity);
     void ModCenter(uint32_t &id, sPoint &center);
@@ -82,7 +84,7 @@ private:
     // Map of texture ID's and their filenames. <FNAME, ID>
     std::map<std::string, uint32_t> m_TextureFilenames;
     // Vector of all textures that are currently on screen
-    std::vector<uint32_t> m_OnScreen;   // TODO: Change this to map when "depth"(z) support come...
+    std::vector<sTextureParameters*> m_OnScreen;
     // Map of all texture sections
     std::map<uint32_t, sTextureSection> m_Sections;
     // Memory usage of all loaded textures (in KB))
@@ -99,7 +101,7 @@ private:
     // Creates new texture parameter and return it's id
     uint32_t CreateParameters(cTextureBase *texture);
     // Draws texture, using preset parameters
-    void Draw(uint32_t &id);
+    void Draw(sTextureParameters *par);
     // Updates m_DebugString text
     void UpdateDebugString();
 

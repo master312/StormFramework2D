@@ -9,7 +9,7 @@
 //TODO-LOW: Cleanup/rewrite cEventSDL2 class
 
 
-//TODO: Texture "z"(depth) coordinate
+//TODO: Create getter methods for locations, z, end other parameters
 //TODO: Do not draw texture if its out of screen
 
 //TODO-LATER-RESEARCH: Maby create color mod variables in sTextureParameters

@@ -79,6 +79,9 @@ void S_TextureModPos(uint32_t id, sPoint &point) {
 void S_TextureModPos(uint32_t id, int x, int y) {
     textureManager.ModPos(id, x, y);
 }
+void S_TextureModZ(uint32_t id, int z) {
+    textureManager.ModZ(id, z);
+}
 void S_TextureModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b) {
     textureManager.GetTexture(id)->ModColor(r, g, b);
 }
