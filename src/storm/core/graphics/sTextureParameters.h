@@ -38,8 +38,8 @@ struct sTextureParameters {
     }
 
     // Compare method. Used for sorting (std::sort)
-    static bool Cmp(const StormFramework::sTextureParameters *a,
-                    const StormFramework::sTextureParameters *b) {
+    static bool Cmp(const sTextureParameters *a,
+                    const sTextureParameters *b) {
         return a->m_Z < b->m_Z;
     }
 };
