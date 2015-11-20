@@ -52,10 +52,8 @@ bool cEventSDL2::Update() {
                     m_Keys.erase(m_Keys.find(m_Event.key.keysym.sym));
                 break;
             case SDL_MOUSEMOTION:
-                /*
-                mouseX = EVENT.motion.x;
-                mouseY = EVENT.motion.y;
-                 */
+                m_MouseLoc.x = m_Event.motion.x;
+                m_MouseLoc.y = m_Event.motion.y;
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (m_Event.button.button == SDL_BUTTON_LEFT) {

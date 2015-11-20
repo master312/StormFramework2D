@@ -45,7 +45,8 @@ bool cBitmapFontManager::LoadFont(const std::string &filename) {
         S_LogError("cBitmapFontManager", "Texture loading error!");
         return false;
     }
-
+    S_TextureModCenter(textureId, 0, 0);
+    S_TextureModVisible(textureId, false);
     element = element->FirstChildElement("chars");
     XMLElement *child = element->FirstChildElement("char");
 

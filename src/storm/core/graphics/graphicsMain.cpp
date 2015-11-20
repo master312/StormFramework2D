@@ -70,6 +70,15 @@ uint32_t S_GetTextureHeight(uint32_t id) {
     S_LogError("graphicsMain.cpp", "Could not found texture id: '%d'", id);
     return 0;
 }
+void S_TextureModVisible(uint32_t id, bool isVisible) {
+    textureManager.ModVisible(id, isVisible);
+}
+void S_TextureModPos(uint32_t id, sPoint &point) {
+    textureManager.ModPos(id, point);
+}
+void S_TextureModPos(uint32_t id, int x, int y) {
+    textureManager.ModPos(id, x, y);
+}
 void S_TextureModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b) {
     textureManager.GetTexture(id)->ModColor(r, g, b);
 }
@@ -78,6 +87,12 @@ void S_TextureModAngle(uint32_t id, double angle) {
 }
 void S_TextureModOpacity(uint32_t id, uint8_t opacity) {
     textureManager.ModOpacity(id, opacity);
+}
+void S_TextureModCenter(uint32_t id, sPoint &center) {
+    textureManager.ModCenter(id, center);
+}
+void S_TextureModCenter(uint32_t id, int x, int y) {
+    textureManager.ModCenter(id, x, y);
 }
 
 uint32_t S_CreateSection(uint32_t textureId, sRect &section) {

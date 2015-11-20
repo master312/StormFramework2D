@@ -58,11 +58,12 @@ void cTextureSDL2::Unload() {
 }
 void cTextureSDL2::Draw(const int &srcX, const int &srcY, 
     const int &srcW, const int &srcH, const int &destX, const int &destY, 
-    const int &destW, const int &destH, const double &angle, const int &opacity) {
+    const int &destW, const int &destH, const double &angle, const int &opacity,
+    sPoint &center) {
     
     //TODO: OPtimizeShitHere!
     SDL_Rect srcRect = {srcX, srcY, srcW, srcH};
-    SDL_Rect destRect = {destX, destY, destW, destH};
+    SDL_Rect destRect = {destX - center.x, destY - center.y, destW, destH};
 
     SDL_Texture *tmpTx = m_Texture;
     SDL_Renderer *gRenderer = p_Graphics->GetRenderer();
@@ -72,7 +73,7 @@ void cTextureSDL2::Draw(const int &srcX, const int &srcY,
     }
     if (angle != 0) {
         SDL_RenderCopyEx(gRenderer, tmpTx, &srcRect, 
-                         &destRect, angle, (SDL_Point*)&m_Center, 
+                         &destRect, angle, (SDL_Point*)&center, 
                          SDL_FLIP_NONE);
     } else {
         SDL_RenderCopy(gRenderer, tmpTx, &srcRect, &destRect);

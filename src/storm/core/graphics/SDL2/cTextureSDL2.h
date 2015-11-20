@@ -27,7 +27,7 @@ public:
               const int &srcW, const int &srcH,
               const int &destX, const int &destY, 
               const int &destW, const int &destH,
-              const double &angle, const int &opacity);
+              const double &angle, const int &opacity, sPoint &center);
     
     uint32_t GetWidthPx() { return m_Width; }
     uint32_t GetHeightPx() { return m_Height; }

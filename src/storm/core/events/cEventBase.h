@@ -45,9 +45,11 @@ public:
     bool IsQuit() { return m_ToQuit; }
     //Returns weather input handler is in text input mode
     bool IsTextInput() { return m_IsTextMode; }
+    void StartTextInput() { m_IsTextMode = true; }
+    void StopTextInput() { m_IsTextMode = false; }
     //Get text recorded from input
     std::string &GetText() { return m_InputText; }
-    void SetText(std::string &text) { m_InputText = text; }
+    void SetText(const std::string &text) { m_InputText = text; }
 protected:
     //Map of all keys <Key, isDown>
     std::map<int, bool> m_Keys;

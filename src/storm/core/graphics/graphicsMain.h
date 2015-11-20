@@ -35,9 +35,15 @@ void S_RefDrawTexture(uint32_t &id, sRect &src, int &x, int &y);
 void S_RefDrawTexture(uint32_t &id, int &x, int &y);
 uint32_t S_GetTextureWidth(uint32_t id);
 uint32_t S_GetTextureHeight(uint32_t id);
+/* Texture parameter modifying methods */
+void S_TextureModVisible(uint32_t id, bool isVisible);
+void S_TextureModPos(uint32_t id, sPoint &point);
+void S_TextureModPos(uint32_t id, int x, int y);
 void S_TextureModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b);
 void S_TextureModAngle(uint32_t id, double angle);
 void S_TextureModOpacity(uint32_t id, uint8_t opacity);
+void S_TextureModCenter(uint32_t id, sPoint &center);
+void S_TextureModCenter(uint32_t id, int x, int y);
 /**** Texture section related methods ****/
 uint32_t S_CreateSection(uint32_t textureId, sRect &section);
 void S_RemoveSection(uint32_t &sectionId);

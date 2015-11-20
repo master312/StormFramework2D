@@ -32,17 +32,14 @@ public:
                       const int &srcW, const int &srcH,
                       const int &destX, const int &destY, 
                       const int &destW, const int &destH,
-                      const double &angle, const int &opacity) { }
+                      const double &angle, const int &opacity,
+                      sPoint &center) { }
     
     virtual uint32_t GetWidthPx() = 0;
     virtual uint32_t GetHeightPx() = 0;    
 
     virtual void ModColor(uint8_t &r, uint8_t &g, uint8_t &b) { }
 
-
-    void SetCenter(sPoint &center) { m_Center = center; }
-    void SetCenter(int &x, int &y) { m_Center.x = x; m_Center.y = y; }
-    sPoint &GetCenter() { return m_Center; }
     void SetFilename(const std::string &filename) { m_Filename = filename; }
     std::string &GetFilename() { return m_Filename; }
     
@@ -59,8 +56,6 @@ protected:
     uint32_t m_Usage;
     // Size of this texture in memory, in bytes
     uint32_t m_MemoryUsage;
-    // Center of texture
-    sPoint m_Center;
 };
 
 } /* namespace StormFramework */

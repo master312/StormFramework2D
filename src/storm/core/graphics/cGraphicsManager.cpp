@@ -46,6 +46,7 @@ int cGraphicsManager::Initialize() {
 bool cGraphicsManager::Tick() {
     S_DrawText(m_DebugVersion, 5, 5);
     S_DrawText(S_GetTextureManager().GetDebugString(), 5, 25);
+    S_GetTextureManager().DrawAll();
     m_Graphics->SwapBuffers();
 
     return true;

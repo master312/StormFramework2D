@@ -22,6 +22,7 @@ uint32_t cTextureManager::Load(const std::string &filename) {
     if (itt != m_TextureFilenames.end()) { // This texture is already loaded
         m_Textures[itt->second]->IncUsage();
         uint32_t id = CreateParameters(m_Textures[itt->second]);
+        m_OnScreen.push_back(id);
         UpdateDebugString();
         return id;
     }
@@ -44,6 +45,7 @@ uint32_t cTextureManager::Load(const std::string &filename) {
     m_MemoryUsage += (texture->GetMemoryUsage() / 1024);
     
     uint32_t id = CreateParameters(m_Textures[newId]);
+    m_OnScreen.push_back(id);
     UpdateDebugString();
     return id;
 }
@@ -80,6 +82,11 @@ int cTextureManager::Unload(uint32_t id) {
 
     return toReturn;
 }
+void cTextureManager::DrawAll() {
+    for (auto &i : m_OnScreen) {
+        Draw(i);
+    }
+}
 void cTextureManager::Draw(uint32_t &id, int &x, int &y) {
     sTextureParameters *tmpP = GetTextureParametars(id);
     if (tmpP == nullptr) {
@@ -89,7 +96,7 @@ void cTextureManager::Draw(uint32_t &id, int &x, int &y) {
     
     tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), x, y, 
               tmp->GetWidthPx(), tmp->GetHeightPx(), 
-              tmpP->m_Angle, tmpP->m_Opacity);
+              tmpP->m_Angle, tmpP->m_Opacity, tmpP->m_Center);
 }
 void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
     sTextureParameters *tmpP = GetTextureParametars(id);
@@ -99,7 +106,7 @@ void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
     cTextureBase *tmp = tmpP->m_Texture;
 
     tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), x, y, 
-              w, h, tmpP->m_Angle, tmpP->m_Opacity);
+              w, h, tmpP->m_Angle, tmpP->m_Opacity, tmpP->m_Center);
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, int &x, int &y) {
     sTextureParameters *tmpP = GetTextureParametars(id);
@@ -109,7 +116,7 @@ void cTextureManager::Draw(uint32_t &id, sRect &src, int &x, int &y) {
     cTextureBase *tmp = tmpP->m_Texture;
 
     tmp->Draw(src.x, src.y, src.w, src.h, x, y, src.w, src.h, 
-              tmpP->m_Angle, tmpP->m_Opacity);    
+              tmpP->m_Angle, tmpP->m_Opacity, tmpP->m_Center);    
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, 
                            int &x, int &y, int &w, int &h) {
@@ -120,7 +127,7 @@ void cTextureManager::Draw(uint32_t &id, sRect &src,
     cTextureBase *tmp = tmpP->m_Texture;
 
     tmp->Draw(src.x, src.y, src.w, src.h, x, y, w, h, 
-              tmpP->m_Angle, tmpP->m_Opacity);
+              tmpP->m_Angle, tmpP->m_Opacity, tmpP->m_Center);
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, sRect &dest) {
     sTextureParameters *tmpP = GetTextureParametars(id);
@@ -130,7 +137,8 @@ void cTextureManager::Draw(uint32_t &id, sRect &src, sRect &dest) {
     cTextureBase *tmp = tmpP->m_Texture;
 
     tmp->Draw(src.x, src.y, src.w, src.h, dest.x, dest.y, 
-              dest.w, dest.h, tmpP->m_Angle, tmpP->m_Opacity);
+              dest.w, dest.h, tmpP->m_Angle, 
+              tmpP->m_Opacity, tmpP->m_Center);
 }
 uint32_t cTextureManager::CreateSection(uint32_t &textureId, sRect &section) {
     uint32_t newId = 1;
@@ -169,6 +177,41 @@ void cTextureManager::RemoveSection(uint32_t sectionId) {
         m_Sections.erase(iter);
     }
 }
+void cTextureManager::ModVisible(uint32_t &id, bool &isVisible) {
+    sTextureParameters *tmp = GetTextureParametars(id);
+    if (tmp == nullptr) {
+        return;
+    }
+    if (tmp->m_IsVisible && !isVisible) {
+        // Changed from visible to non-visible
+        for (uint32_t i = 0; i < m_OnScreen.size(); i++) {
+            if (m_OnScreen[i] == id) {
+                m_OnScreen.erase(m_OnScreen.begin() + i);
+                break;
+            }
+        }
+    } else if (!tmp->m_IsVisible && isVisible) {
+        // Changed from non-visible to visible
+        m_OnScreen.push_back(id);
+    }
+    tmp->m_IsVisible = isVisible;    
+}
+void cTextureManager::ModPos(uint32_t &id, sPoint &point) {
+    sTextureParameters *tmp = GetTextureParametars(id);
+    if (tmp == nullptr) {
+        return;
+    }
+    tmp->m_DestRect.x = point.x;
+    tmp->m_DestRect.y = point.y;
+}
+void cTextureManager::ModPos(uint32_t &id, int &x, int &y) {
+    sTextureParameters *tmp = GetTextureParametars(id);
+    if (tmp == nullptr) {
+        return;
+    }
+    tmp->m_DestRect.x = x;
+    tmp->m_DestRect.y = y;
+}
 void cTextureManager::ModAngle(uint32_t &id, double &angle) {
     sTextureParameters *tmp = GetTextureParametars(id);
     if (tmp == nullptr) {
@@ -182,6 +225,21 @@ void cTextureManager::ModOpacity(uint32_t &id, uint8_t &opacity) {
         return;
     }
     tmp->m_Opacity = opacity;
+}
+void cTextureManager::ModCenter(uint32_t &id, sPoint &center) {
+    sTextureParameters *tmp = GetTextureParametars(id);
+    if (tmp == nullptr) {
+        return;
+    }
+    tmp->m_Center = center;
+}
+void cTextureManager::ModCenter(uint32_t &id, int &x, int &y) {
+    sTextureParameters *tmp = GetTextureParametars(id);
+    if (tmp == nullptr) {
+        return;
+    }
+    tmp->m_Center.x = x;
+    tmp->m_Center.y = y;
 }
 cTextureBase *cTextureManager::GetTexture(uint32_t &textureId) {
     if (m_Textures.find(textureId) == m_Textures.end()) {
@@ -206,7 +264,6 @@ cTextureBase *cTextureManager::CreateTextureObject() {
     
     return nullptr;
 }
-
 cTextureBase *cTextureManager::CreateAndLoad(const std::string &filename) {
     cTextureBase *texture = CreateTextureObject();
     if (texture == nullptr) {
@@ -221,7 +278,6 @@ cTextureBase *cTextureManager::CreateAndLoad(const std::string &filename) {
 
     return texture;
 }
-
 uint32_t cTextureManager::CreateParameters(cTextureBase *texture) {
     uint32_t newId = 1;
     if (m_TextureParameters.size() > 0) {
@@ -231,10 +287,21 @@ uint32_t cTextureManager::CreateParameters(cTextureBase *texture) {
     }
     sTextureParameters tmp;
     tmp.m_Texture = texture;
+    tmp.CalcMiddle();
     m_TextureParameters[newId] = tmp;
     return newId;
 }
-
+void cTextureManager::Draw(uint32_t &id) {
+    sTextureParameters *tmpP = GetTextureParametars(id);
+    if (tmpP == nullptr || !tmpP->m_IsVisible) {
+        return;
+    }
+    cTextureBase *tmp = tmpP->m_Texture;
+    tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), 
+              tmpP->m_DestRect.x, tmpP->m_DestRect.y, 
+              tmp->GetWidthPx(), tmp->GetHeightPx(), 
+              tmpP->m_Angle, tmpP->m_Opacity, tmpP->m_Center);
+}
 void cTextureManager::UpdateDebugString() {
     std::stringstream ss;
     ss << "Textures: " << m_Textures.size();

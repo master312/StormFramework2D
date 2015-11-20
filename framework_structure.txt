@@ -1,27 +1,19 @@
-//TODO: Texture timeout before deletion
-//MABY: Research more... Do not keep Draw methods in texture manager class
-        --And maybe create separated class for managing texture sections
-//TODO: Background box behind the text
-//TODO: Text size modulation
-//TODO: Check if ifdef #BUILD_SDL2 is put in every SDL2 related class
-//TODO: Create texture spliting system, if texture is bigger then hardware supports
-//TODO: in logger, pass 'va_list ap' as reference
-//TODO: Cleanup/rewrite cEventSDL2 class
-//TODO: Draw manager... example {
-    1. Create new structure that hold graphics
-    sGraphics {
-        bool isAnimation;
-        bool isOnScreen;
-        uint32_t id;
-        uint32_t locX;
-        uint32_t locY;
-        uint32_t locZ;
-    }
-    uint32_t S_CreateGraphics(sGraphics graph); //or something
-    void S_SetVisibility(uint32_t id, bool isVisiblie);
-    void S_SetLoc(uint32_t id, int x, int y, int z);
-    ===RESEARCH THIS MORE===
-}
+//TODO-LOW: Texture timeout before deletion
+//MABY-LOW: Research more... Do not keep Draw methods in texture manager class
+//TODO-MEDIUM: Create separated class for managing texture sections
+//TODO-MEDIUM: Background box behind the text
+//TODO-MEDIUM: Text size modulation
+//TODO-LOW: Check if ifdef #BUILD_SDL2 is put in every SDL2 related class
+//TODO-PAUSED: Create texture spliting system, if texture is bigger then hardware supports
+//TODO-LOW: in logger, pass 'va_list ap' as reference
+//TODO-LOW: Cleanup/rewrite cEventSDL2 class
+
+
+//TODO: Texture "z"(depth) coordinate
+//TODO: Do not draw texture if its out of screen
+
+//TODO-LATER-RESEARCH: Maby create color mod variables in sTextureParameters
+
 
 -Root
 | -Core
@@ -40,7 +32,8 @@
 | | | -Vector2 class                                        == CREATED
 | | -Graphics
 | | | -Rendering system                                     == BASE-DONE
-| | | -Textures manager                                     == BASE-DONE
+| | | -Textures manager                                     == DONE
+| | | -Texture section manager                              == TODO
 | | | -Font rendering                                       == BASE-DONE
 | | -Events manager                                         == BASE-DONE
 | | -States manager                                         == DONE ?
