@@ -45,7 +45,7 @@ void S_TextureModAngle(uint32_t id, double angle);
 void S_TextureModOpacity(uint32_t id, uint8_t opacity);
 void S_TextureModCenter(uint32_t id, sPoint &center);
 void S_TextureModCenter(uint32_t id, int x, int y);
-sRect &S_TextureGetPos(uint32_t id);
+sRect &S_TextureGetPos(uint32_t id);    //TODO: Maby nullptr check ?
 int &S_TextureGetZ(uint32_t id);
 bool S_TextureIsVisible(uint32_t id);
 double &S_TextureGetAngle(uint32_t id);
