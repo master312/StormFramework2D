@@ -100,7 +100,7 @@ void cTextureManager::DrawAll() {
     }
 }
 void cTextureManager::Draw(uint32_t &id, int &x, int &y) {
-    sTextureParameters *tmpP = GetTextureParametars(id);
+    sTextureParameters *tmpP = GetTexturePar(id);
     if (tmpP == nullptr) {
         return;
     }
@@ -111,7 +111,7 @@ void cTextureManager::Draw(uint32_t &id, int &x, int &y) {
               tmpP->m_Angle, tmpP->m_Opacity, tmpP->m_Center);
 }
 void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
-    sTextureParameters *tmpP = GetTextureParametars(id);
+    sTextureParameters *tmpP = GetTexturePar(id);
     if (tmpP == nullptr) {
         return;
     }
@@ -121,7 +121,7 @@ void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
               w, h, tmpP->m_Angle, tmpP->m_Opacity, tmpP->m_Center);
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, int &x, int &y) {
-    sTextureParameters *tmpP = GetTextureParametars(id);
+    sTextureParameters *tmpP = GetTexturePar(id);
     if (tmpP == nullptr) {
         return;
     }
@@ -132,7 +132,7 @@ void cTextureManager::Draw(uint32_t &id, sRect &src, int &x, int &y) {
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, 
                            int &x, int &y, int &w, int &h) {
-    sTextureParameters *tmpP = GetTextureParametars(id);
+    sTextureParameters *tmpP = GetTexturePar(id);
     if (tmpP == nullptr) {
         return;
     }
@@ -142,7 +142,7 @@ void cTextureManager::Draw(uint32_t &id, sRect &src,
               tmpP->m_Angle, tmpP->m_Opacity, tmpP->m_Center);
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, sRect &dest) {
-    sTextureParameters *tmpP = GetTextureParametars(id);
+    sTextureParameters *tmpP = GetTexturePar(id);
     if (tmpP == nullptr) {
         return;
     }
@@ -190,7 +190,7 @@ void cTextureManager::RemoveSection(uint32_t sectionId) {
     }
 }
 void cTextureManager::ModVisible(uint32_t &id, bool &isVisible) {
-    sTextureParameters *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTexturePar(id);
     if (tmp == nullptr) {
         return;
     }
@@ -209,7 +209,7 @@ void cTextureManager::ModVisible(uint32_t &id, bool &isVisible) {
     tmp->m_IsVisible = isVisible;    
 }
 void cTextureManager::ModPos(uint32_t &id, sPoint &point) {
-    sTextureParameters *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTexturePar(id);
     if (tmp == nullptr) {
         return;
     }
@@ -217,7 +217,7 @@ void cTextureManager::ModPos(uint32_t &id, sPoint &point) {
     tmp->m_DestRect.y = point.y;
 }
 void cTextureManager::ModPos(uint32_t &id, int &x, int &y) {
-    sTextureParameters *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTexturePar(id);
     if (tmp == nullptr) {
         return;
     }
@@ -227,7 +227,7 @@ void cTextureManager::ModPos(uint32_t &id, int &x, int &y) {
 
 
 void cTextureManager::ModZ(uint32_t &id, int &z) {
-    sTextureParameters *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTexturePar(id);
     if (tmp == nullptr) {
         return;
     }
@@ -235,28 +235,28 @@ void cTextureManager::ModZ(uint32_t &id, int &z) {
     std::sort(m_OnScreen.begin(), m_OnScreen.end(), sTextureParameters::Cmp);
 }
 void cTextureManager::ModAngle(uint32_t &id, double &angle) {
-    sTextureParameters *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTexturePar(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Angle = angle;
 }
 void cTextureManager::ModOpacity(uint32_t &id, uint8_t &opacity) {
-    sTextureParameters *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTexturePar(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Opacity = opacity;
 }
 void cTextureManager::ModCenter(uint32_t &id, sPoint &center) {
-    sTextureParameters *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTexturePar(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Center = center;
 }
 void cTextureManager::ModCenter(uint32_t &id, int &x, int &y) {
-    sTextureParameters *tmp = GetTextureParametars(id);
+    sTextureParameters *tmp = GetTexturePar(id);
     if (tmp == nullptr) {
         return;
     }
@@ -269,7 +269,7 @@ cTextureBase *cTextureManager::GetTexture(uint32_t &textureId) {
     }
     return m_Textures[textureId];
 }
-sTextureParameters *cTextureManager::GetTextureParametars(uint32_t &textureId) {
+sTextureParameters *cTextureManager::GetTexturePar(uint32_t &textureId) {
     auto iter = m_TextureParameters.find(textureId);
     if (iter == m_TextureParameters.end()) {
         return nullptr;

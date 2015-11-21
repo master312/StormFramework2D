@@ -97,6 +97,24 @@ void S_TextureModCenter(uint32_t id, sPoint &center) {
 void S_TextureModCenter(uint32_t id, int x, int y) {
     textureManager.ModCenter(id, x, y);
 }
+sRect &S_TextureGetPos(uint32_t id) {
+    return textureManager.GetTexturePar(id)->m_DestRect;
+}
+int &S_TextureGetZ(uint32_t id) {
+    return textureManager.GetTexturePar(id)->m_Z;
+}
+bool S_TextureIsVisible(uint32_t id) {
+    return textureManager.GetTexturePar(id)->m_IsVisible;
+}
+double &S_TextureGetAngle(uint32_t id) {
+    return textureManager.GetTexturePar(id)->m_Angle;
+}
+uint8_t &S_TextureGetOpacity(uint32_t id) {
+    return textureManager.GetTexturePar(id)->m_Opacity;
+}
+sPoint &S_TextureGetCenter(uint32_t id) {
+    return textureManager.GetTexturePar(id)->m_Center;
+}
 
 uint32_t S_CreateSection(uint32_t textureId, sRect &section) {
     return textureManager.CreateSection(textureId, section);

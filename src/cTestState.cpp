@@ -31,7 +31,7 @@ void cTestState::OnEvent() {
         S_TextureModPos(m_TestTexture, S_GetMouseLoc());
     }
     if (S_IsMouseRight()) {
-        S_TextureModZ(m_TestTexture, 10);
+        S_TextureModZ(m_TestTexture, 250);
     }
     if (S_IsKeyDown(StormKey::KEY_c)) {
         S_ClearScreen();

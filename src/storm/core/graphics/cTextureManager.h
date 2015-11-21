@@ -64,7 +64,7 @@ public:
     void ModCenter(uint32_t &id, int &x, int &y);
 
     cTextureBase *GetTexture(uint32_t &textureId);
-    sTextureParameters *GetTextureParametars(uint32_t &textureId);
+    sTextureParameters *GetTexturePar(uint32_t &textureId);
 
     // Returns memory usage of all loaded textures (in KB)
     uint32_t GetMemoryUsage() { return m_MemoryUsage; }
