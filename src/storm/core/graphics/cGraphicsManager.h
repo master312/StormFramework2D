@@ -31,11 +31,6 @@ private:
     int m_Api;
     cGraphicsBase *m_Graphics;
 
-    /* Current FPS */
-    uint32_t m_CurrentFps;
-    /* FPS counter refresh interval */
-    uint32_t m_FpsCountRefresh;
-
     std::string m_DebugVersion;
 };
 

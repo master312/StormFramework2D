@@ -7,7 +7,13 @@ cMain::cMain() : m_LastGraphics(0),
                  m_Delta(0),
                  m_TargetLogicTicks(30),
                  m_TargetGraphicsTicks(60),
+                 m_CurFps(0),
+                 m_TmpFps(0),
+                 m_TmpFpsCount(0),
+                 m_FpsAvgInterval(500),
+                 m_LastFpsTime(0),
                  m_IsRunning(false) {
+
 }
 cMain::~cMain() {
     S_LogInfo("cMain", "Framework finished");
@@ -16,6 +22,7 @@ cMain::~cMain() {
 void cMain::Start() {
     m_IsRunning = true;
 
+    m_LastFpsTime = STORM_TIME;
     while (m_IsRunning) {
         TickInternal();
         if (S_GetEventManager().ToQuit()) {
@@ -25,16 +32,23 @@ void cMain::Start() {
         // Check if logic ore graphics are late, and if so,
         // do not call STORM_SLEEP at the end
         // else calculate precise sleep time
-        if (STORM_TIME - m_LastLogic >= (float)1000 / m_TargetLogicTicks) {
+        if (STORM_TIME - m_LastLogic >= 1000 / m_TargetLogicTicks) {
             m_Delta = STORM_TIME - m_LastLogic;
             LogicTick();
             m_LastLogic = STORM_TIME;
         }
-        if (STORM_TIME - m_LastGraphics >= (float)1000 / m_TargetGraphicsTicks) {
+        if (STORM_TIME - m_LastGraphics >= 1000 / m_TargetGraphicsTicks) {
             GraphicsTick();
+            m_TmpFps += (float)1000 / (STORM_TIME - m_LastGraphics);
+            m_TmpFpsCount++;
             m_LastGraphics = STORM_TIME;
         }
-
+        // Handles FPS averaging stuff 
+        if (STORM_TIME - m_LastFpsTime >= m_FpsAvgInterval) {
+            CalcAvgFps();
+            std::cout << "FPS: " << m_CurFps << std::endl;
+            m_LastFpsTime = STORM_TIME;
+        }
         STORM_SLEEP(1);
     }
     S_GetStateManager().Clear();
@@ -54,6 +68,11 @@ void cMain::GraphicsTick() {
     cStateManager &sm = S_GetStateManager();
     sm.GraphicsTick();
     S_TickGraphics();
+}
+void cMain::CalcAvgFps() {
+    m_CurFps = (m_TmpFps / m_TmpFpsCount);
+    m_TmpFpsCount = 0;
+    m_TmpFps = 0;
 }
 
 };

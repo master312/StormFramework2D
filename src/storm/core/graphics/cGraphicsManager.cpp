@@ -7,9 +7,7 @@ namespace StormFramework {
 
 cGraphicsManager::cGraphicsManager() :
     m_Api(0),
-    m_Graphics(nullptr),
-    m_CurrentFps(0),
-    m_FpsCountRefresh(0) {
+    m_Graphics(nullptr) {
                                            
     std::stringstream ss;
     ss << "Storm Framework 2D ";
@@ -44,11 +42,12 @@ int cGraphicsManager::Initialize() {
     return 1;
 }
 bool cGraphicsManager::Tick() {
+    S_GetTextureManager().DrawAll();
+    
     S_DrawText(m_DebugVersion, 5, 5);
     S_DrawText(S_GetTextureManager().GetDebugString(), 5, 25);
-    S_GetTextureManager().DrawAll();
-    m_Graphics->SwapBuffers();
 
+    m_Graphics->SwapBuffers();
     return true;
 }
 

@@ -40,6 +40,17 @@ private:
     uint32_t m_TargetLogicTicks;
     uint32_t m_TargetGraphicsTicks;
 
+    /* Current FPS */
+    float m_CurFps;
+    /* Temp FPS variable, store FPS before averaging */
+    float m_TmpFps;
+    /* Frames count used for average FPS calculation */
+    uint32_t m_TmpFpsCount;
+    /* FPS averaging interval */
+    uint32_t m_FpsAvgInterval;
+    /* FPS last averaging time */
+    uint32_t m_LastFpsTime;
+
     /* Is engine running */
     bool m_IsRunning;
 
@@ -48,6 +59,8 @@ private:
     void TickInternal();
     void LogicTick();
     void GraphicsTick();
+
+    void CalcAvgFps();
 };
 
 
