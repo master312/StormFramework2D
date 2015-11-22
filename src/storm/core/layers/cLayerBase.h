@@ -1,17 +1,17 @@
 /* 
- * File:   cStateBase.h
+ * File:   cLayerBase.h
  * Author: master312
  *
  * Created on November 2, 2015, 6:40 PM
  */
-#ifndef CSTATEBASE_H__
-#define CSTATEBASE_H__
+#ifndef CLAYERBASE_H__
+#define CLAYERBASE_H__
 #include <iostream>
 #include "../../defines.h"
 
 namespace StormFramework {
 
-enum eStateBaseState {
+enum eLayerState {
     CREATED = 1,
     INITED = 2,
     STARTED = 3,
@@ -19,10 +19,10 @@ enum eStateBaseState {
     STOPED = 5
 };
 
-class cStateBase {
+class cLayerBase {
 public:
-    cStateBase() : m_State(CREATED) { }
-    virtual ~cStateBase() { }
+    cLayerBase() : m_State(CREATED) { }
+    virtual ~cLayerBase() { }
 
     /* Called on state initialization */
     virtual void OnInit() { }
@@ -47,8 +47,8 @@ public:
     /* Resumes state */
     void Resume();
 
-    eStateBaseState &GetState() { return m_State; }
-    void SetState(const eStateBaseState &state) { m_State = state; }
+    eLayerState &GetState() { return m_State; }
+    void SetState(const eLayerState &state) { m_State = state; }
 
     bool IsCreated() { return m_State == CREATED; }
     bool IsInited() { return m_State == INITED; }
@@ -56,8 +56,8 @@ public:
     bool IsPaused() { return m_State == PAUSED; }
     bool IsStoped() { return m_State == STOPED; }
 protected:
-    eStateBaseState m_State;
+    eLayerState m_State;
 };
 
 } /* namespace StormFramework  */
-#endif /* CSTATEBASE_H__ */
+#endif /* CLAYERBASE_H__ */

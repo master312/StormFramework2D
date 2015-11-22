@@ -1,30 +1,30 @@
 /* 
- * File:   cStateManager.h
+ * File:   cLayerManager.h
  * Author: master312
  *
  * Created on November 2, 2015, 7:04 PM
  */
-#ifndef CSTATEMANAGER_H__
-#define CSTATEMANAGER_H__
+#ifndef CLAYERMANAGER_H__
+#define CLAYERMANAGER_H__
 #include <iostream>
 #include <vector>
 #include "../../defines.h"
-#include "cStateBase.h"
+#include "cLayerBase.h"
 #include "../framework/frameworkMain.h"
 
 namespace StormFramework {
 
-class cStateManager {
+class cLayerManager {
 public:
-    cStateManager();
-    ~cStateManager();
+    cLayerManager();
+    ~cLayerManager();
 
     void Init();
     /* Adds state to state manager */
-    /* Last added cStateBase with state be CREATED will be active */
-    /* cStateBase object will be automatically deleted when it's */
+    /* Last added cLayerBase with state be CREATED will be active */
+    /* cLayerBase object will be automatically deleted when it's */
     /* state is set to STOPED */
-    void PushState(cStateBase *state);
+    void PushLayer(cLayerBase *state);
     
     /* Deletes all states */
     void Clear();
@@ -34,12 +34,12 @@ public:
 
     int EventHandler();
 
-    void UpdateActiveState();
+    void UpdateActiveLayer();
 private:
-    std::vector<cStateBase*> m_States;
-    uint32_t m_ActiveState;
+    std::vector<cLayerBase*> m_Layers;
+    uint32_t m_ActiveLayer;
 
 };
 
 } /* namespace StormFramework */
-#endif /* CSTATEMANAGER_H__ */
+#endif /* CLAYERMANAGER_H__ */

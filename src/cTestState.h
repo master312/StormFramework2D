@@ -3,7 +3,7 @@
 #include "storm/storm.h"
 
 
-class cTestState : public StormState {
+class cTestState : public StormLayer {
 public:
 	cTestState();
 	~cTestState();

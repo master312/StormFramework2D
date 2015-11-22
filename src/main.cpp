@@ -13,7 +13,7 @@ using namespace tinyxml2;
 int main(int argc, char *argv[]) {
     S_SetGraphicsApi(STORM_API_SDL2);
     S_InitAll();
-    S_PushState(new cTestState());
+    S_PushLayer(new cTestState());
 
     S_StartMain();
 

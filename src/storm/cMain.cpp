@@ -6,7 +6,7 @@ cMain::cMain() : m_LastGraphics(0),
                  m_LastLogic(0), 
                  m_Delta(0),
                  m_TargetLogicTicks(30),
-                 m_TargetGraphicsTicks(60),
+                 m_TargetGraphicsTicks(1000),
                  m_CurFps(0),
                  m_TmpFps(0),
                  m_TmpFpsCount(0),
@@ -51,7 +51,7 @@ void cMain::Start() {
         }
         STORM_SLEEP(1);
     }
-    S_GetStateManager().Clear();
+    S_GetLayerManager().Clear();
     S_LogInfo("cMain", "Main loop ended successfully");
 }
 
@@ -61,11 +61,11 @@ void cMain::TickInternal() {
     S_TickCallbakcs();
 }
 void cMain::LogicTick() {
-    cStateManager &sm = S_GetStateManager();
+    cLayerManager &sm = S_GetLayerManager();
     sm.LogicTick(m_Delta);
 }
 void cMain::GraphicsTick() {
-    cStateManager &sm = S_GetStateManager();
+    cLayerManager &sm = S_GetLayerManager();
     sm.GraphicsTick();
     S_TickGraphics();
 }

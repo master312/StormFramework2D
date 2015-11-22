@@ -10,7 +10,8 @@
 
 
 //TODO: Do not draw texture if its out of screen
-
+//TODO: Create effect_move(newPos, time), effect_rotate(angle, time) methods
+        -effect_fadeout(time), effect_fadein(time)
 //TODO-LATER-RESEARCH: Maby create color mod variables in sTextureParameters
 
 

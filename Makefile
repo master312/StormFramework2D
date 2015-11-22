@@ -40,12 +40,6 @@ $(OBJDIR)cBitmapFontManager.o: src/storm/core/graphics/cBitmapFontManager.cpp sr
 	$(CC) $(CFLAGS) -c src/storm/core/graphics/cBitmapFontManager.cpp $(LIBS) -o $(OBJDIR)cBitmapFontManager.o 
 $(OBJDIR)cTextureBase.o: src/storm/core/graphics/cTextureBase.cpp src/storm/core/graphics/cTextureBase.h
 	$(CC) $(CFLAGS) -c src/storm/core/graphics/cTextureBase.cpp $(LIBS) -o $(OBJDIR)cTextureBase.o 
-$(OBJDIR)statesMain.o: src/storm/core/states/statesMain.cpp src/storm/core/states/statesMain.h
-	$(CC) $(CFLAGS) -c src/storm/core/states/statesMain.cpp $(LIBS) -o $(OBJDIR)statesMain.o 
-$(OBJDIR)cStateManager.o: src/storm/core/states/cStateManager.cpp src/storm/core/states/cStateManager.h
-	$(CC) $(CFLAGS) -c src/storm/core/states/cStateManager.cpp $(LIBS) -o $(OBJDIR)cStateManager.o 
-$(OBJDIR)cStateBase.o: src/storm/core/states/cStateBase.cpp src/storm/core/states/cStateBase.h
-	$(CC) $(CFLAGS) -c src/storm/core/states/cStateBase.cpp $(LIBS) -o $(OBJDIR)cStateBase.o 
 $(OBJDIR)cFileSystem.o: src/storm/core/framework/cFileSystem.cpp src/storm/core/framework/cFileSystem.h
 	$(CC) $(CFLAGS) -c src/storm/core/framework/cFileSystem.cpp $(LIBS) -o $(OBJDIR)cFileSystem.o 
 $(OBJDIR)cFileParser.o: src/storm/core/framework/cFileParser.cpp src/storm/core/framework/cFileParser.h
@@ -68,6 +62,12 @@ $(OBJDIR)cEventManager.o: src/storm/core/events/cEventManager.cpp src/storm/core
 	$(CC) $(CFLAGS) -c src/storm/core/events/cEventManager.cpp $(LIBS) -o $(OBJDIR)cEventManager.o 
 $(OBJDIR)eventsMain.o: src/storm/core/events/eventsMain.cpp src/storm/core/events/eventsMain.h
 	$(CC) $(CFLAGS) -c src/storm/core/events/eventsMain.cpp $(LIBS) -o $(OBJDIR)eventsMain.o 
+$(OBJDIR)layersMain.o: src/storm/core/layers/layersMain.cpp src/storm/core/layers/layersMain.h
+	$(CC) $(CFLAGS) -c src/storm/core/layers/layersMain.cpp $(LIBS) -o $(OBJDIR)layersMain.o 
+$(OBJDIR)cLayerManager.o: src/storm/core/layers/cLayerManager.cpp src/storm/core/layers/cLayerManager.h
+	$(CC) $(CFLAGS) -c src/storm/core/layers/cLayerManager.cpp $(LIBS) -o $(OBJDIR)cLayerManager.o 
+$(OBJDIR)cLayerBase.o: src/storm/core/layers/cLayerBase.cpp src/storm/core/layers/cLayerBase.h
+	$(CC) $(CFLAGS) -c src/storm/core/layers/cLayerBase.cpp $(LIBS) -o $(OBJDIR)cLayerBase.o 
 $(OBJDIR)storm.o: src/storm/storm.cpp src/storm/storm.h
 	$(CC) $(CFLAGS) -c src/storm/storm.cpp $(LIBS) -o $(OBJDIR)storm.o 
 $(OBJDIR)cSoundBase.o: src/storm/audio/cSoundBase.cpp src/storm/audio/cSoundBase.h
@@ -79,5 +79,5 @@ $(OBJDIR)cAudioBase.o: src/storm/audio/cAudioBase.cpp src/storm/audio/cAudioBase
 $(OBJDIR)cAudioManager.o: src/storm/audio/cAudioManager.cpp src/storm/audio/cAudioManager.h
 	$(CC) $(CFLAGS) -c src/storm/audio/cAudioManager.cpp $(LIBS) -o $(OBJDIR)cAudioManager.o 
 
-debug: $(OBJDIR)cTestState.o $(OBJDIR)main.o $(OBJDIR)tinyxml2.o $(OBJDIR)cAnimation.o $(OBJDIR)cAnimationManager.o $(OBJDIR)animationMain.o $(OBJDIR)cMain.o $(OBJDIR)callbackMain.o $(OBJDIR)cCallbackManager.o $(OBJDIR)cTextureManager.o $(OBJDIR)cGraphicsSDL2.o $(OBJDIR)cTextureSDL2.o $(OBJDIR)cGraphicsManager.o $(OBJDIR)graphicsMain.o $(OBJDIR)cGraphicsBase.o $(OBJDIR)cBitmapFontManager.o $(OBJDIR)cTextureBase.o $(OBJDIR)statesMain.o $(OBJDIR)cStateManager.o $(OBJDIR)cStateBase.o $(OBJDIR)cFileSystem.o $(OBJDIR)cFileParser.o $(OBJDIR)cString.o $(OBJDIR)cData.o $(OBJDIR)cLogger.o $(OBJDIR)frameworkMain.o $(OBJDIR)cVector2.o $(OBJDIR)cBinaryFile.o $(OBJDIR)cEventSDL2.o $(OBJDIR)cEventManager.o $(OBJDIR)eventsMain.o $(OBJDIR)storm.o $(OBJDIR)cSoundBase.o $(OBJDIR)cMusicBase.o $(OBJDIR)cAudioBase.o $(OBJDIR)cAudioManager.o 
-	$(CC) $(CFLAGS) $(OBJDIR)cTestState.o $(OBJDIR)main.o $(OBJDIR)tinyxml2.o $(OBJDIR)cAnimation.o $(OBJDIR)cAnimationManager.o $(OBJDIR)animationMain.o $(OBJDIR)cMain.o $(OBJDIR)callbackMain.o $(OBJDIR)cCallbackManager.o $(OBJDIR)cTextureManager.o $(OBJDIR)cGraphicsSDL2.o $(OBJDIR)cTextureSDL2.o $(OBJDIR)cGraphicsManager.o $(OBJDIR)graphicsMain.o $(OBJDIR)cGraphicsBase.o $(OBJDIR)cBitmapFontManager.o $(OBJDIR)cTextureBase.o $(OBJDIR)statesMain.o $(OBJDIR)cStateManager.o $(OBJDIR)cStateBase.o $(OBJDIR)cFileSystem.o $(OBJDIR)cFileParser.o $(OBJDIR)cString.o $(OBJDIR)cData.o $(OBJDIR)cLogger.o $(OBJDIR)frameworkMain.o $(OBJDIR)cVector2.o $(OBJDIR)cBinaryFile.o $(OBJDIR)cEventSDL2.o $(OBJDIR)cEventManager.o $(OBJDIR)eventsMain.o $(OBJDIR)storm.o $(OBJDIR)cSoundBase.o $(OBJDIR)cMusicBase.o $(OBJDIR)cAudioBase.o $(OBJDIR)cAudioManager.o  -o "$(EXNAME)" $(LIBS)
+debug: $(OBJDIR)cTestState.o $(OBJDIR)main.o $(OBJDIR)tinyxml2.o $(OBJDIR)cAnimation.o $(OBJDIR)cAnimationManager.o $(OBJDIR)animationMain.o $(OBJDIR)cMain.o $(OBJDIR)callbackMain.o $(OBJDIR)cCallbackManager.o $(OBJDIR)cTextureManager.o $(OBJDIR)cGraphicsSDL2.o $(OBJDIR)cTextureSDL2.o $(OBJDIR)cGraphicsManager.o $(OBJDIR)graphicsMain.o $(OBJDIR)cGraphicsBase.o $(OBJDIR)cBitmapFontManager.o $(OBJDIR)cTextureBase.o $(OBJDIR)cFileSystem.o $(OBJDIR)cFileParser.o $(OBJDIR)cString.o $(OBJDIR)cData.o $(OBJDIR)cLogger.o $(OBJDIR)frameworkMain.o $(OBJDIR)cVector2.o $(OBJDIR)cBinaryFile.o $(OBJDIR)cEventSDL2.o $(OBJDIR)cEventManager.o $(OBJDIR)eventsMain.o $(OBJDIR)layersMain.o $(OBJDIR)cLayerManager.o $(OBJDIR)cLayerBase.o $(OBJDIR)storm.o $(OBJDIR)cSoundBase.o $(OBJDIR)cMusicBase.o $(OBJDIR)cAudioBase.o $(OBJDIR)cAudioManager.o 
+	$(CC) $(CFLAGS) $(OBJDIR)cTestState.o $(OBJDIR)main.o $(OBJDIR)tinyxml2.o $(OBJDIR)cAnimation.o $(OBJDIR)cAnimationManager.o $(OBJDIR)animationMain.o $(OBJDIR)cMain.o $(OBJDIR)callbackMain.o $(OBJDIR)cCallbackManager.o $(OBJDIR)cTextureManager.o $(OBJDIR)cGraphicsSDL2.o $(OBJDIR)cTextureSDL2.o $(OBJDIR)cGraphicsManager.o $(OBJDIR)graphicsMain.o $(OBJDIR)cGraphicsBase.o $(OBJDIR)cBitmapFontManager.o $(OBJDIR)cTextureBase.o $(OBJDIR)cFileSystem.o $(OBJDIR)cFileParser.o $(OBJDIR)cString.o $(OBJDIR)cData.o $(OBJDIR)cLogger.o $(OBJDIR)frameworkMain.o $(OBJDIR)cVector2.o $(OBJDIR)cBinaryFile.o $(OBJDIR)cEventSDL2.o $(OBJDIR)cEventManager.o $(OBJDIR)eventsMain.o $(OBJDIR)layersMain.o $(OBJDIR)cLayerManager.o $(OBJDIR)cLayerBase.o $(OBJDIR)storm.o $(OBJDIR)cSoundBase.o $(OBJDIR)cMusicBase.o $(OBJDIR)cAudioBase.o $(OBJDIR)cAudioManager.o  -o "$(EXNAME)" $(LIBS)
