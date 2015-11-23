@@ -10,7 +10,7 @@
 #include <iostream>
 #include "../core/framework/frameworkMain.h"
 
-typedef std::function<int()> STypeCallback;
+typedef std::function<int()> S_Callback;
 
 namespace StormFramework {
 
@@ -20,13 +20,13 @@ struct sCallback {
     /* Last time when this interval was called */
     uint32_t m_LastTime;
     /* Callback method */
-    STypeCallback m_Callback;
+    S_Callback m_Callback;
 
-    sCallback(uint32_t time, STypeCallback callback) : 
+    sCallback(uint32_t time, S_Callback callback) : 
                 m_Interval(time),
                 m_LastTime(STORM_TIME), 
                 m_Callback(callback) { }
-    sCallback(STypeCallback callback) : 
+    sCallback(S_Callback callback) : 
                 m_Interval(1),
                 m_LastTime(STORM_TIME),
                 m_Callback(callback) { }

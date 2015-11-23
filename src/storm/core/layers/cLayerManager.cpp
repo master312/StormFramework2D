@@ -17,7 +17,7 @@ void cLayerManager::Init() {
         return;
     }
 
-    STypeCallback tmpCb = std::bind(&cLayerManager::EventHandler, this);
+    S_Callback tmpCb = std::bind(&cLayerManager::EventHandler, this);
     S_GetEventManager().AddHandler(tmpCb, "LayerManager", 0);
 }
 void cLayerManager::PushLayer(cLayerBase *state) {

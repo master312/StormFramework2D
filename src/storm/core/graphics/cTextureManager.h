@@ -74,6 +74,8 @@ public:
     uint32_t GetInstanceCount() { return m_TextureParameters.size(); }
     // Return number of sections
     uint32_t GetSectionCount() { return m_Sections.size(); }
+    // Return number objects objects on screen
+    uint32_t GetOnScreenCount() { return m_OnScreen.size(); }
     // Return debug string (count of objects)
     std::string &GetDebugString() { return m_DebugString; }
 private:

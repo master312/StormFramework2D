@@ -28,7 +28,7 @@ void cEventManager::SetApi(int api) {
     }
 }
 
-void cEventManager::AddHandler(STypeCallback callback, 
+void cEventManager::AddHandler(S_Callback callback, 
                                 const std::string &name, 
                                 int priority /* = 1 */) {
     if (priority == 1) {

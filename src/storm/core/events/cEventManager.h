@@ -25,7 +25,7 @@ public:
     void SetApi(int api);
 
     //callback function for handling events; 1 = low pririty, 0 - High p.
-    void AddHandler(STypeCallback callback, 
+    void AddHandler(S_Callback callback, 
                     const std::string &name, int priority = 1);
     void RemoveHandler(const std::string &name);
     
@@ -48,9 +48,9 @@ private:
     cEventBase *m_Input;
     bool m_IsEated;
     // Map stores high priority callbacks
-    std::map<std::string, STypeCallback> m_CallbacksHigh;
+    std::map<std::string, S_Callback> m_CallbacksHigh;
     // Map stores low priority callbacks
-    std::map<std::string, STypeCallback> m_CallbacksLow;
+    std::map<std::string, S_Callback> m_CallbacksLow;
 };
 
 

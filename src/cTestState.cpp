@@ -27,10 +27,12 @@ void cTestState::OnGraphicsTick() {
 }
 double tmpAngle = 0.0;
 void cTestState::OnLogicTick(uint32_t &delta) {
+    uint32_t start = STORM_TIME;
     for (uint32_t i = 0; i < sprites.size(); i++) {
         S_TextureModAngle(sprites[i], tmpAngle);
     }
     tmpAngle += 1;
+    std::cout << "TIME: " << (STORM_TIME - start) << std::endl;
 }
 void cTestState::OnEvent() {
     if (S_IsMouseLeft()) {
@@ -43,7 +45,7 @@ void cTestState::OnEvent() {
         S_ClearScreen();
     }
     if (S_IsKeyDown(StormKey::KEY_s)) {
-        std::cout << "Spawning .." << sprites.size() << " +100" << std::endl;
+        std::cout << "Spawning 100 more..." << std::endl;
         for (int i = 0; i < 100; i++) {
             uint32_t tmp = S_LoadTexture("sprite.png");
             S_TextureModPos(tmp, (rand() % 1000) + 24, 
@@ -52,7 +54,7 @@ void cTestState::OnEvent() {
         }
     }
     if (S_IsKeyDown(StormKey::KEY_d)) {
-        std::cout << "DeSpawning " << std::endl;
+        std::cout << "DeSpawning..." << std::endl;
         for (int i = 0; i < 100; i++) {
             S_UnloadTexture(sprites[i]);
             sprites.erase(sprites.begin() + i);
