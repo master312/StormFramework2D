@@ -69,7 +69,7 @@ void cEventManager::ClearAll(bool clearHigh /* = false */) {
     S_LogDebug("cEventManager", "All event handlers deleted");
 }
 void cEventManager::Tick() {
-    while (m_Input->Update()) {
+    if (m_Input->Update()) {
         for (auto &it : m_CallbacksHigh) {
             it.second();
             if (m_IsEated) {

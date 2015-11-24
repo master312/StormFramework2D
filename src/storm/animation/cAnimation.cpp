@@ -63,7 +63,7 @@ void cAnimation::Init(int framesX /* = 0 */, int framesY /* = 0 */) {
             tmpSection.y = j * m_FrameHeight;
             tmpSection.w = m_FrameWidth;
             tmpSection.h = m_FrameHeight;
-            m_Frames.push_back(S_CreateSection(m_TextureId, tmpSection));
+           // m_Frames.push_back(S_CreateSection(m_TextureId, tmpSection));
         }
     }
 }
@@ -74,9 +74,9 @@ bool cAnimation::Load(const std::string &filename) {
     return false;    
 }
 void cAnimation::Unload() {
-    for (auto &iter : m_Frames) {
-        S_RemoveSection(iter);
-    }
+    // for (auto &iter : m_Frames) {
+    //     S_RemoveSection(iter);
+    // }
 }
 
 uint32_t cAnimation::CreateAnimator() {
@@ -113,7 +113,7 @@ void cAnimation::Draw(uint32_t &animatorId, int &x, int &y) {
                    "Non existing animator trying to draw. id: %d", animatorId);
         return;
     }
-    S_DrawSection(m_Frames[animator->m_CurFrame], x, y);
+// /    S_DrawSection(m_Frames[animator->m_CurFrame], x, y);
 }
 
 void cAnimation::Tick() {

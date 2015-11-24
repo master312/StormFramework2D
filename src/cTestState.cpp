@@ -32,7 +32,7 @@ void cTestState::OnLogicTick(uint32_t &delta) {
         S_TextureModAngle(sprites[i], tmpAngle);
     }
     tmpAngle += 1;
-    std::cout << "TIME: " << (STORM_TIME - start) << std::endl;
+    //std::cout << "TIME: " << (STORM_TIME - start) << std::endl;
 }
 void cTestState::OnEvent() {
     if (S_IsMouseLeft()) {

@@ -12,13 +12,32 @@
 //TODO: Do not draw texture if its out of screen
 //TODO: Create effect_move(newPos, time), effect_rotate(angle, time) methods
         -effect_fadeout(time), effect_fadein(time)
-//TODO-LATER-RESEARCH: Maby create color mod variables in sTextureParameters
-//TODO: Split texture manager to 'texture manager' and 'object manager'
-        -Texture manager should only do: "Load/Unload,Instance,UsageTrack,DrawMethod"
-        -Object manager should do: "DrawAllOnScreen,SortObjects(by z), hold texture parameters map"
-        -Rename texture parameters to like "GraphObjectProperties"
-        -Create texture sections manager. GraphicsObject manager should not see diffirence
-         -between texture and texture part.
+//TODO-LATER-RESEARCH: Maybe create color mod variables in sTextureParameters
+
+//TODO-LOW: Split graphicsMain.h into multiple files 
+
+1. >> //TODO-HIGH!!!!!!!!: New event system
+    In cLayer create new event callbacks.
+    OnKeyDown(),
+    OnKeyUp(),
+    OnMouseMotion(),
+    OnMouseDown(),
+    OnMouseUp(),
+    OnWindowResize()
+    And call them from 'cEventBase'
+    !!Also Event callbacks are totally unneeded!!
+2. >> //TODO-HIGH: Better names for texture methods
+        LoadTexture is not acurrate anymore. We now manipulate
+        with texture objects, not raw textures!
+3. >> //TODO: Fix animation! Broken because of new objects system
+
+>>//TODO-MEDIUM: Rename 'callback' to 'interupt'
+>>//TODO-MEDIUM: Move callback folder to core
+>>//TODO-MEDIUM: Better callback creating method S_AddIntervalCB (2 complicated to create sCalback object every time)
+>>//TODO-AFTER ^^: Test everything.. like a lot
+
+
+//TODO-RESEARCH-MEDIUM: Mod color system
 
 -Root
 | -Core

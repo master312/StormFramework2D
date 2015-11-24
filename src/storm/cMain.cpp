@@ -1,5 +1,5 @@
 #include "cMain.h"
-#include "core/graphics/cTextureManager.h"
+#include "core/graphics/cGraphicsManager.h"
 
 namespace StormFramework {
 
@@ -47,7 +47,7 @@ void cMain::Start() {
         // Handles FPS averaging stuff 
         if (STORM_TIME - m_LastFpsTime >= m_FpsAvgInterval) {
             CalcAvgFps();
-            std::cout << "OBJ Count: " << S_GetTextureManager().GetOnScreenCount() << " FPS: " << m_CurFps << std::endl;
+            std::cout << "OBJ Count: " << S_GetGraphicsManager().GetOnScreenCount() << " FPS: " << m_CurFps << std::endl;
             m_LastFpsTime = STORM_TIME;
         }
         STORM_SLEEP(1);

@@ -40,7 +40,8 @@ bool cBitmapFontManager::LoadFont(const std::string &filename) {
         return false;
     }
 
-    uint32_t textureId = S_LoadTexture(textureName);
+    uint32_t textureId = 0;
+    S_LoadTexture(textureName, &textureId);
     if (textureId == 0) {
         S_LogError("cBitmapFontManager", "Texture loading error!");
         return false;

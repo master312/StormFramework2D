@@ -24,8 +24,8 @@ typedef unsigned int uint;
 
 // Define storm framework version
 #define STORM_VERSION_MAJOR 0
-#define STORM_VERSION_MINOR 30
-#define STORM_VERSION_FIX 5
+#define STORM_VERSION_MINOR 31
+#define STORM_VERSION_FIX 1
 
 #define STORM_API_SDL 1
 #define STORM_API_SDL2 2
@@ -34,5 +34,7 @@ typedef unsigned int uint;
 #define STORM_DIR_DATA "data/"
 #define STORM_DIR_GRAPHICS "data/graphics/"
 #define STORM_DIR_FONTS "data/fonts/"
+
+#define STORM_TEXTURES_CLEAR_INTERVAL 10000     //(ms)
 
 #endif /* STORM_DEFINES_H__ */

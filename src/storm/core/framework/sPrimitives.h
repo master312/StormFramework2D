@@ -13,8 +13,8 @@ struct sRect {
     int x, y;
     int w, h;
     
-    sRect() : x(0.0f), y(0.0f), w(0.0f), h(0.0f) { }
-    sRect(int _x, int _y) : x(_x), y(_y), w(0.0f), h(0.0f) { }
+    sRect() : x(0), y(0), w(0), h(0) { }
+    sRect(int _x, int _y) : x(_x), y(_y), w(0), h(0) { }
     sRect(int _x, int _y, int _width, int _height) :
            x(_x), y(_y), w(_width), h(_height) { }
 
@@ -48,10 +48,12 @@ struct sRect {
                   << " W: " << w << " H: " << h << std::endl;
     }
     bool operator==(const sRect &rect) {
-        return StormFramework::cFloat::IsEqual(rect.x, this->x) &&
-               StormFramework::cFloat::IsEqual(rect.y, this->y) &&
-               StormFramework::cFloat::IsEqual(rect.w, this->w) &&
-               StormFramework::cFloat::IsEqual(rect.h, this->h);
+        return rect.x == this->x && rect.y == this->y &&
+               rect.w == this->w && rect.h == this->h;
+        // return StormFramework::cFloat::IsEqual(rect.x, this->x) &&
+        //        StormFramework::cFloat::IsEqual(rect.y, this->y) &&
+        //        StormFramework::cFloat::IsEqual(rect.w, this->w) &&
+        //        StormFramework::cFloat::IsEqual(rect.h, this->h);
     }
 };
 

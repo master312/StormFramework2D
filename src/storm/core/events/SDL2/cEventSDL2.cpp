@@ -3,7 +3,8 @@
 namespace StormFramework {
 
 bool cEventSDL2::Update() {
-    if (SDL_PollEvent(&m_Event)) {
+    bool toReturn = true;
+    while (SDL_PollEvent(&m_Event)) {
         switch (m_Event.type) {
             case SDL_WINDOWEVENT:
                 /*
@@ -23,6 +24,8 @@ bool cEventSDL2::Update() {
             case SDL_TEXTINPUT:
                 if (m_IsTextMode) {
                     m_InputText += m_Event.text.text;
+                } else {
+                    toReturn = false;
                 }
                 break;
             case SDL_KEYDOWN: {
@@ -44,12 +47,22 @@ bool cEventSDL2::Update() {
                         }
                     }
                     break;
+                } else {
+                    if (m_Event.key.repeat != 0) {
+                        toReturn = false;
+                    } else {
+                        if (m_Keys[tmpKey] == 'd') {
+                            toReturn = false;
+                        } else {
+                            m_Keys[tmpKey] = 'd';
+                        }
+                    }
                 }
-                m_Keys[tmpKey] = 'd';
                 break; }
             case SDL_KEYUP:
-                if (m_Keys.count(m_Event.key.keysym.sym) != 0)
+                if (m_Keys.count(m_Event.key.keysym.sym) != 0) {
                     m_Keys.erase(m_Keys.find(m_Event.key.keysym.sym));
+                }
                 break;
             case SDL_MOUSEMOTION:
                 m_MouseLoc.x = m_Event.motion.x;
@@ -77,9 +90,10 @@ bool cEventSDL2::Update() {
                 m_MouseScroll = m_Event.wheel.y;
                 break;
             default:
+                toReturn = false;
                 break;
         }
-        return true;
+        return toReturn;
     }
     return false;
 }
