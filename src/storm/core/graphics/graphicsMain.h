@@ -25,29 +25,31 @@ StormFramework::cGraphicsManager &S_GetGraphicsManager();
 StormFramework::cTextureManager &S_GetTextureManager();
 StormFramework::cBitmapFontManager &S_GetFontManager();
 
-/**** Texture object related methods ****/
+/**** Graphics object related methods ****/
+// Creates new graphics object, and attach texture @filename to it
+// It is safe to load same texture multiple times. It will be reused...
 // @*id is raw texture ID, and should only be used for testing/debugging
-uint32_t S_LoadTexture(const std::string &filename, uint32_t *id = nullptr);
-void S_UnloadTexture(uint32_t id);
-/* Texture object parameter modifying methods */
-void S_TextureModVisible(uint32_t id, bool isVisible);
-void S_TextureModPos(uint32_t id, sPoint &point);
-void S_TextureModPos(uint32_t id, int x, int y);
-void S_TextureModZ(uint32_t id, int z);
-void S_TextureModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b);
-void S_TextureModAngle(uint32_t id, double angle);
-void S_TextureModOpacity(uint32_t id, uint8_t opacity);
-void S_TextureModCenter(uint32_t id, sPoint &center);
-void S_TextureModCenter(uint32_t id, int x, int y);
-sRect &S_TextureGetPos(uint32_t id);    //TODO: Maby nullptr check ?
-int &S_TextureGetZ(uint32_t id);
-bool S_TextureIsVisible(uint32_t id);
-double &S_TextureGetAngle(uint32_t id);
-uint8_t &S_TextureGetOpacity(uint32_t id);
-sPoint &S_TextureGetCenter(uint32_t id);
+uint32_t S_CreateGraphics(const std::string &filename, uint32_t *id = nullptr);
+void S_DestroyGraphics(uint32_t id);
+/* Graphics object parameter modifying methods */
+void S_GraphModVisible(uint32_t id, bool isVisible);
+void S_GraphModPos(uint32_t id, sPoint &point);
+void S_GraphModPos(uint32_t id, int x, int y);
+void S_GraphModZ(uint32_t id, int z);
+void S_GraphModAngle(uint32_t id, double angle);
+void S_GraphModOpacity(uint32_t id, uint8_t opacity);
+void S_GraphModCenter(uint32_t id, sPoint &center);
+void S_GraphModCenter(uint32_t id, int x, int y);
+sRect &S_GraphGetPos(uint32_t id);    //TODO: Maby nullptr check ?
+int &S_GraphGetZ(uint32_t id);
+bool S_GraphIsVisible(uint32_t id);
+double &S_GraphGetAngle(uint32_t id);
+uint8_t &S_GraphGetOpacity(uint32_t id);
+sPoint &S_GraphGetCenter(uint32_t id);
 /* Raw texture related methods 
  * These texture drawing methods should not be used
  * These are only planned for internal use/testing */
+void S_RawModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b);
 void S_RefDrawTexture(uint32_t &id, sRect &src, int &x, int &y);
 void S_RefDrawTexture(uint32_t &id, int &x, int &y);
 uint32_t S_GetTextureWidth(uint32_t id);

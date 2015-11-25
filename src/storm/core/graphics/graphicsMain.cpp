@@ -37,57 +37,58 @@ StormFramework::cBitmapFontManager &S_GetFontManager() {
     return fontManager;
 }
 
-uint32_t S_LoadTexture(const std::string &filename, 
+uint32_t S_CreateGraphics(const std::string &filename, 
                        uint32_t *id /* = nullptr */) {
     return graphicsManager.LoadTexture(filename, id);
 }
-void S_UnloadTexture(uint32_t id) {
+void S_DestroyGraphics(uint32_t id) {
     graphicsManager.UnloadTexture(id);
 }
-void S_TextureModVisible(uint32_t id, bool isVisible) {
+void S_GraphModVisible(uint32_t id, bool isVisible) {
     graphicsManager.TxtModVisible(id, isVisible);
 }
-void S_TextureModPos(uint32_t id, sPoint &point) {
+void S_GraphModPos(uint32_t id, sPoint &point) {
     graphicsManager.TxtModPos(id, point);
 }
-void S_TextureModPos(uint32_t id, int x, int y) {
+void S_GraphModPos(uint32_t id, int x, int y) {
     graphicsManager.TxtModPos(id, x, y);
 }
-void S_TextureModZ(uint32_t id, int z) {
+void S_GraphModZ(uint32_t id, int z) {
     graphicsManager.TxtModZ(id, z);
 }
-void S_TextureModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b) {
-    textureManager.GetTexture(id)->ModColor(r, g, b);
-}
-void S_TextureModAngle(uint32_t id, double angle) {
+void S_GraphModAngle(uint32_t id, double angle) {
     graphicsManager.TxtModAngle(id, angle);
 }
-void S_TextureModOpacity(uint32_t id, uint8_t opacity) {
+void S_GraphModOpacity(uint32_t id, uint8_t opacity) {
     graphicsManager.TxtModOpacity(id, opacity);
 }
-void S_TextureModCenter(uint32_t id, sPoint &center) {
+void S_GraphModCenter(uint32_t id, sPoint &center) {
     graphicsManager.TxtModCenter(id, center);
 }
-void S_TextureModCenter(uint32_t id, int x, int y) {
+void S_GraphModCenter(uint32_t id, int x, int y) {
     graphicsManager.TxtModCenter(id, x, y);
 }
-sRect &S_TextureGetPos(uint32_t id) {
+sRect &S_GraphGetPos(uint32_t id) {
     return graphicsManager.GetObject(id)->m_DestRect;
 }
-int &S_TextureGetZ(uint32_t id) {
+int &S_GraphGetZ(uint32_t id) {
    return graphicsManager.GetObject(id)->m_Z;
 }
-bool S_TextureIsVisible(uint32_t id) {
+bool S_GraphIsVisible(uint32_t id) {
     return graphicsManager.GetObject(id)->m_IsVisible;
 }
-double &S_TextureGetAngle(uint32_t id) {
+double &S_GraphGetAngle(uint32_t id) {
     return graphicsManager.GetObject(id)->m_Angle;
 }
-uint8_t &S_TextureGetOpacity(uint32_t id) {
+uint8_t &S_GraphGetOpacity(uint32_t id) {
     return graphicsManager.GetObject(id)->m_Opacity;
 }
-sPoint &S_TextureGetCenter(uint32_t id) {
+sPoint &S_GraphGetCenter(uint32_t id) {
     return graphicsManager.GetObject(id)->m_Center;
+}
+/* *********** raw texture methods ******** */
+void S_RawModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b) {
+    textureManager.GetTexture(id)->ModColor(r, g, b);
 }
 void S_RefDrawTexture(uint32_t &id, sRect &src, int &x, int &y) {
     textureManager.Draw(id, src, x, y);
@@ -95,7 +96,6 @@ void S_RefDrawTexture(uint32_t &id, sRect &src, int &x, int &y) {
 void S_RefDrawTexture(uint32_t &id, int &x, int &y) {
     textureManager.Draw(id, x, y);
 }
-
 uint32_t S_GetTextureWidth(uint32_t id) {
     StormFramework::cTextureBase *tmp = textureManager.GetTexture(id);
     if (tmp != nullptr) {
@@ -112,7 +112,7 @@ uint32_t S_GetTextureHeight(uint32_t id) {
     S_LogError("graphicsMain.cpp", "Could not found texture id: '%d'", id);
     return 0;
 }
-
+/* **************************************** */
 uint32_t S_CreateSection(const std::string &filename , sRect &section) {
     return graphicsManager.CreateSection(filename, section);
 }

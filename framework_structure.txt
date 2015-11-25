@@ -17,19 +17,7 @@
 //TODO-LOW: Split graphicsMain.h into multiple files 
 //TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
 
-1. >> //DONE-HIGH!!!!!!!!: New event system
-    In cLayer create new event callbacks.
-    OnKeyDown(),
-    OnKeyUp(),
-    OnMouseDown(),
-    OnMouseUp(),
-    OnMouseMotion(),
-    OnWindowResize()
-    And call them from 'cEventBase'
-    !!Also Event callbacks are totally unneeded!!
-2. >> //TODO-HIGH: Better names for texture methods
-        LoadTexture is not acurrate anymore. We now manipulate
-        with texture objects, not raw textures!
+
 3. >> //TODO: Fix animation! Broken because of new objects system
 
 >>//TODO-MEDIUM: Rename 'callback' to 'interupt'

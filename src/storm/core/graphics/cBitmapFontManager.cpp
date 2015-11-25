@@ -7,7 +7,7 @@ using namespace tinyxml2;
 
 cBitmapFontManager::~cBitmapFontManager() {
     for (auto &iter : m_Fonts) {
-        S_UnloadTexture(iter.second.m_TextureId);
+        S_DestroyGraphics(iter.second.m_GraphicsId);
     }
     m_Fonts.clear();
 }
@@ -41,17 +41,17 @@ bool cBitmapFontManager::LoadFont(const std::string &filename) {
     }
 
     uint32_t textureId = 0;
-    S_LoadTexture(textureName, &textureId);
+    uint32_t graphId = S_CreateGraphics(textureName, &textureId);
     if (textureId == 0) {
         S_LogError("cBitmapFontManager", "Texture loading error!");
         return false;
     }
-    S_TextureModCenter(textureId, 0, 0);
-    S_TextureModVisible(textureId, false);
+    S_GraphModCenter(graphId, 0, 0);
+    S_GraphModVisible(graphId, false);
     element = element->FirstChildElement("chars");
     XMLElement *child = element->FirstChildElement("char");
 
-    sBitmapFont tmpFont(textureId);
+    sBitmapFont tmpFont(textureId, graphId);
     for (; child; child = child->NextSiblingElement()) {
         char charId = (char)(atoi(child->Attribute("id")));
         
@@ -77,7 +77,7 @@ void cBitmapFontManager::UnloadFont(const std::string &name) {
     if (iter == m_Fonts.end()) {
         return;
     }
-    S_UnloadTexture(iter->second.m_TextureId);
+    S_DestroyGraphics(iter->second.m_GraphicsId);
     m_Fonts.erase(iter);
 }
 void cBitmapFontManager::DrawText(const std::string &text, int &x, int &y,
@@ -96,6 +96,8 @@ void cBitmapFontManager::DrawText(const std::string &text, int &x, int &y,
     int curX = x;
     int curY = y;
     int tmpY = 0;
+    
+    S_RawModColor(tmpFont.m_TextureId, r, g, b);
     for (int i = 0; i < (int)text.size(); i++) {
         auto iter = tmpFont.m_Characters.find(text[i]);
         if (iter == tmpFont.m_Characters.end()) {
@@ -105,7 +107,6 @@ void cBitmapFontManager::DrawText(const std::string &text, int &x, int &y,
         tmpY = curY + tmp.yOffset;
 
         if (iter->first != ' ') {
-            S_TextureModColor(tmpFont.m_TextureId, r, g, b);
             S_RefDrawTexture(tmpFont.m_TextureId, tmp.srcRect, curX, tmpY);
         }
         curX += tmp.advance;

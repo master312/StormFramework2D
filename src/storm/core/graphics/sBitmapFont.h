@@ -22,9 +22,13 @@ struct sBitmapChar {
 
 struct sBitmapFont {
     std::map<char, sBitmapChar> m_Characters;
+    /* ID of raw texture */
     uint32_t m_TextureId;
+    /* ID of graphics object */
+    uint32_t m_GraphicsId;
     sBitmapFont() { }
-    sBitmapFont(uint32_t texture) : m_TextureId(texture) { }
+    sBitmapFont(uint32_t texture, uint32_t graphics) : 
+                m_TextureId(texture), m_GraphicsId(graphics) { }
 };
 
 
