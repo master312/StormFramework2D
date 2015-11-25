@@ -24,9 +24,6 @@ void S_InitGraphics() {
     textureManager.Initialize();
 }
 
-bool S_TickGraphics() {
-    return graphicsManager.Tick();
-}
 void S_ClearScreen() {
     graphicsManager.GetGraphics()->ClearScreen();
 }

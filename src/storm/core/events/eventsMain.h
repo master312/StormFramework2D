@@ -14,7 +14,6 @@ namespace StormFramework { class cEventManager; }
 
 int S_InitEventManager();
 StormFramework::cEventManager &S_GetEventManager();
-void S_TickEvents();
 
 /* Adds new handler function callback to events manager */
 //void S_AddEventHandler(cStormCallbacker *cb, std::string name);

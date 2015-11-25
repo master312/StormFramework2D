@@ -27,9 +27,6 @@
     OnWindowResize()
     And call them from 'cEventBase'
     !!Also Event callbacks are totally unneeded!!
->>TODO: Proveri: negde u main klasama se tick() direkno izlaze, 
-        a negde moras da radis sGetManager().tick()
-        Standardizuj jednu metodu
 2. >> //TODO-HIGH: Better names for texture methods
         LoadTexture is not acurrate anymore. We now manipulate
         with texture objects, not raw textures!

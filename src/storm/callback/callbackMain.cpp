@@ -18,10 +18,6 @@ void S_RemoveCB(const std::string &name) {
     cbManager.Remove(name);
 }
 
-void S_TickCallbakcs() {
-    cbManager.Tick();
-}
-
 StormFramework::cCallbackManager &S_GetCallbackManager() {
     return cbManager;
 }

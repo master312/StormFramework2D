@@ -26,7 +26,6 @@ void S_AddIntervalCB(const std::string &name, StormCB *cb);
 
 void S_RemoveCB(const std::string &name);
 
-void S_TickCallbakcs();
 
 StormFramework::cCallbackManager &S_GetCallbackManager();
 

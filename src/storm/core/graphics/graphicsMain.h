@@ -21,8 +21,6 @@ int S_GetGraphicsApi();
 
 void S_InitGraphics();
 void S_ClearScreen();
-bool S_TickGraphics();
-void S_DeleteGraphics();
 StormFramework::cGraphicsManager &S_GetGraphicsManager();
 StormFramework::cTextureManager &S_GetTextureManager();
 StormFramework::cBitmapFontManager &S_GetFontManager();

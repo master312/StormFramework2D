@@ -1,5 +1,6 @@
 #include "cMain.h"
 #include "core/graphics/cGraphicsManager.h"
+#include "callback/cCallbackManager.h"
 
 namespace StormFramework {
 
@@ -58,8 +59,8 @@ void cMain::Start() {
 
 // Private methods
 void cMain::TickInternal() {
-    S_TickEvents();
-    S_TickCallbakcs();
+    S_GetEventManager().Tick();
+    S_GetCallbackManager().Tick();
 }
 void cMain::LogicTick() {
     cLayerManager &sm = S_GetLayerManager();
@@ -68,7 +69,7 @@ void cMain::LogicTick() {
 void cMain::GraphicsTick() {
     cLayerManager &sm = S_GetLayerManager();
     sm.GraphicsTick();
-    S_TickGraphics();
+    S_GetGraphicsManager().Tick();
 }
 void cMain::CalcAvgFps() {
     m_CurFps = (m_TmpFps / m_TmpFpsCount);

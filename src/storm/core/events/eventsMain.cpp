@@ -15,10 +15,6 @@ StormFramework::cEventManager &S_GetEventManager() {
     return eventManager;
 }
 
-void S_TickEvents() {
-    eventManager.Tick();
-}
-
 bool S_IsKeyDown(StormKey key) {
     return eventManager.GetInput()->IsKeyDown(key);
 }

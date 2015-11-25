@@ -28,7 +28,7 @@ void cLayerManager::PushLayer(cLayerBase *state) {
     UpdateActiveLayer();
 }
 void cLayerManager::Clear() {
-    for (uint32_t i = 0; i < m_Layers.size(); i++) {
+    for (uint32_t i = 1; i < m_Layers.size(); i++) {
         m_Layers[i]->OnShutdown();
         delete m_Layers[i];
     }
