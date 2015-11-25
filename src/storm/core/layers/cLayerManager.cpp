@@ -16,14 +16,12 @@ void cLayerManager::Init() {
                    "Must initialize event manager before state manager");
         return;
     }
-
-    S_Callback tmpCb = std::bind(&cLayerManager::EventHandler, this);
-    S_GetEventManager().AddHandler(tmpCb, "LayerManager", 0);
+    m_Layers.push_back(nullptr);
 }
 void cLayerManager::PushLayer(cLayerBase *state) {
     state->OnInit();
     state->SetState(STARTED);
-    if (m_Layers.size() > 0) {
+    if (m_Layers.size() > 0 && m_ActiveLayer > 0) {
         m_Layers[m_ActiveLayer]->Pause();
     }
     m_Layers.push_back(state);
@@ -62,20 +60,49 @@ void cLayerManager::GraphicsTick() {
     }
     m_Layers[m_ActiveLayer]->OnGraphicsTick();
 }
-int cLayerManager::EventHandler() {
-    if (!m_Layers[m_ActiveLayer]->IsStarted()) {
-        UpdateActiveLayer();
-        if (m_ActiveLayer == 0) {
-            return 0;
-        }
-    }
-    m_Layers[m_ActiveLayer]->OnEvent();
-    return 0;
+void cLayerManager::EventKeyDown(StormKey &key) {
+    if (m_ActiveLayer == 0) { return; }
+    m_Layers[m_ActiveLayer]->OnKeyDown(key);
+}
+void cLayerManager::EventKeyUp(StormKey &key) {
+    if (m_ActiveLayer == 0) { return; }
+    m_Layers[m_ActiveLayer]->OnKeyUp(key);
+}
+void cLayerManager::EventTextType() {
+    if (m_ActiveLayer == 0) { return; }
+    m_Layers[m_ActiveLayer]->OnTextType();
+}
+void cLayerManager::EventMouseDown(StormKey &key) {
+    if (m_ActiveLayer == 0) { return; }
+    m_Layers[m_ActiveLayer]->OnMouseDown(key);
+}
+void cLayerManager::EventMouseUp(StormKey &key) {
+    if (m_ActiveLayer == 0) { return; }
+    m_Layers[m_ActiveLayer]->OnMouseUp(key);
+}
+void cLayerManager::EventMouseScroll(int &scroll) {
+    if (m_ActiveLayer == 0) { return; }
+    m_Layers[m_ActiveLayer]->OnMouseScroll(scroll);
+}
+void cLayerManager::EventMouseMotion() {
+    if (m_ActiveLayer == 0) { return; }
+    m_Layers[m_ActiveLayer]->OnMouseMotion();
+}   
+void cLayerManager::EventWindowResize() {
+    if (m_ActiveLayer == 0) { return; }
+
+}
+void cLayerManager::EventWindowStateChange(int &state) {
+    if (m_ActiveLayer == 0) { return; }
+
 }
 
 void cLayerManager::UpdateActiveLayer() {
     m_ActiveLayer = 0;
     for (int i = (int)m_Layers.size() - 1; i >= 0; i--) {
+        if (m_Layers[i] == nullptr) 
+            continue;
+
         if (m_Layers[i]->IsStarted() && m_ActiveLayer == 0) {
             m_ActiveLayer = i;
         } else if (m_Layers[i]->IsStoped()) {

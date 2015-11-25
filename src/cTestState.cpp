@@ -23,7 +23,9 @@ void cTestState::OnInit() {
 	std::cout << "Inited " << std::endl;
 }
 void cTestState::OnGraphicsTick() {
-
+    if (S_IsKeyDown(KEY_c)) {
+        S_ClearScreen();
+    }
 }
 double tmpAngle = 0.0;
 void cTestState::OnLogicTick(uint32_t &delta) {
@@ -34,17 +36,8 @@ void cTestState::OnLogicTick(uint32_t &delta) {
     tmpAngle += 1;
     //std::cout << "TIME: " << (STORM_TIME - start) << std::endl;
 }
-void cTestState::OnEvent() {
-    if (S_IsMouseLeft()) {
-        S_TextureModPos(m_TestTexture, S_GetMouseLoc());
-    }
-    if (S_IsMouseRight()) {
-        S_TextureModZ(m_TestTexture, 250);
-    }
-    if (S_IsKeyDown(StormKey::KEY_c)) {
-        S_ClearScreen();
-    }
-    if (S_IsKeyDown(StormKey::KEY_s)) {
+void cTestState::OnKeyDown(StormKey &key) {
+    if (key == KEY_s) {
         std::cout << "Spawning 100 more..." << std::endl;
         for (int i = 0; i < 100; i++) {
             uint32_t tmp = S_LoadTexture("sprite.png");
@@ -52,13 +45,22 @@ void cTestState::OnEvent() {
                                  (rand() % 740) + 28);
             sprites.push_back(tmp);
         }
-    }
-    if (S_IsKeyDown(StormKey::KEY_d)) {
+    } else if (key == KEY_d) {
         std::cout << "DeSpawning..." << std::endl;
         for (int i = 0; i < 100; i++) {
             S_UnloadTexture(sprites[i]);
             sprites.erase(sprites.begin() + i);
         }
+    }
+}
+void cTestState::OnMouseDown(StormKey &key) {
+    if (key == MOUSE_RIGHT) {
+        S_TextureModZ(m_TestTexture, 250);
+    }
+}
+void cTestState::OnMouseMotion() {
+    if (S_IsMouseLeft()) {
+        S_TextureModPos(m_TestTexture, S_GetMouseLoc());
     }
 }
 void cTestState::OnPause() {

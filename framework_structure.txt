@@ -15,17 +15,21 @@
 //TODO-LATER-RESEARCH: Maybe create color mod variables in sTextureParameters
 
 //TODO-LOW: Split graphicsMain.h into multiple files 
+//TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
 
-1. >> //TODO-HIGH!!!!!!!!: New event system
+1. >> //DONE-HIGH!!!!!!!!: New event system
     In cLayer create new event callbacks.
     OnKeyDown(),
     OnKeyUp(),
-    OnMouseMotion(),
     OnMouseDown(),
     OnMouseUp(),
+    OnMouseMotion(),
     OnWindowResize()
     And call them from 'cEventBase'
     !!Also Event callbacks are totally unneeded!!
+>>TODO: Proveri: negde u main klasama se tick() direkno izlaze, 
+        a negde moras da radis sGetManager().tick()
+        Standardizuj jednu metodu
 2. >> //TODO-HIGH: Better names for texture methods
         LoadTexture is not acurrate anymore. We now manipulate
         with texture objects, not raw textures!
@@ -35,7 +39,6 @@
 >>//TODO-MEDIUM: Move callback folder to core
 >>//TODO-MEDIUM: Better callback creating method S_AddIntervalCB (2 complicated to create sCalback object every time)
 >>//TODO-AFTER ^^: Test everything.. like a lot
-
 
 //TODO-RESEARCH-MEDIUM: Mod color system
 

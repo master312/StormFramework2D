@@ -32,10 +32,19 @@ public:
     void LogicTick(uint32_t &delta);
     void GraphicsTick();
 
-    int EventHandler();
-
+    void EventKeyDown(StormKey &key);
+    void EventKeyUp(StormKey &key);
+    void EventTextType();
+    void EventMouseDown(StormKey &key);
+    void EventMouseUp(StormKey &key);
+    void EventMouseScroll(int &scroll);
+    void EventMouseMotion();
+    void EventWindowResize();
+    void EventWindowStateChange(int &state);
+    
     void UpdateActiveLayer();
 private:
+    /* WARNING: m_Layers[0] IS ALWAYS SET TO NULLPTR! */
     std::vector<cLayerBase*> m_Layers;
     uint32_t m_ActiveLayer;
 

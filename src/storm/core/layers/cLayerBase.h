@@ -8,6 +8,7 @@
 #define CLAYERBASE_H__
 #include <iostream>
 #include "../../defines.h"
+#include "../events/eStormKeys.h"
 
 namespace StormFramework {
 
@@ -30,14 +31,21 @@ public:
     virtual void OnGraphicsTick() { }
     /* Called on logic tick */
     virtual void OnLogicTick(uint32_t &delta) { }
-    /* Called on new event */
-    virtual void OnEvent() { }
     /* Called when state is paused */
     virtual void OnPause() { }
     /* Called when state was resumed */
     virtual void OnResume() { }
     /* Called when state is ended, just before state object deletion */
     virtual void OnShutdown() { }
+
+    /* Event handlers */
+    virtual void OnKeyDown(StormKey &key) { }
+    virtual void OnKeyUp(StormKey &key) { }
+    virtual void OnTextType() { }
+    virtual void OnMouseDown(StormKey &key) { }
+    virtual void OnMouseUp(StormKey &key) { }
+    virtual void OnMouseScroll(int &scroll) { }
+    virtual void OnMouseMotion() { }
 
     /* This function will end state, and delete state object */
     /* After OnShutdown() is called */

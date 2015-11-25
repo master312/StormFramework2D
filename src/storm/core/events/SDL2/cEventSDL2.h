@@ -15,7 +15,7 @@ namespace StormFramework {
 
 class cEventSDL2 : public cEventBase {
 public:
-    bool Update();
+    void Update();
 private:
     SDL_Event m_Event;
 };

@@ -14,8 +14,12 @@ public:
 	void OnGraphicsTick();
 	/* Called on logic tick */
 	void OnLogicTick(uint32_t &delta);
-	/* Called on new event */
-	void OnEvent();
+	/* Event handlers */
+	void OnKeyDown(StormKey &key);
+	void OnMouseDown(StormKey &key);
+	void OnMouseMotion();
+
+
 	/* Called when state is paused */
 	void OnPause();
 	/* Called when state was resumed */

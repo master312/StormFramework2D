@@ -1,9 +1,11 @@
 #include "cEventSDL2.h"
+#include "../cEventManager.h"
+#include "../eventsMain.h"
 
 namespace StormFramework {
 
-bool cEventSDL2::Update() {
-    bool toReturn = true;
+void cEventSDL2::Update() {
+    cEventManager &eManager = S_GetEventManager();
     while (SDL_PollEvent(&m_Event)) {
         switch (m_Event.type) {
             case SDL_WINDOWEVENT:
@@ -24,8 +26,7 @@ bool cEventSDL2::Update() {
             case SDL_TEXTINPUT:
                 if (m_IsTextMode) {
                     m_InputText += m_Event.text.text;
-                } else {
-                    toReturn = false;
+                    eManager.CBOnTextType();
                 }
                 break;
             case SDL_KEYDOWN: {
@@ -45,57 +46,72 @@ bool cEventSDL2::Update() {
                                 m_InputText.erase(m_InputText.size() - 1);
                             }
                         }
+
+                        eManager.CBOnTextType();
                     }
                     break;
                 } else {
-                    if (m_Event.key.repeat != 0) {
-                        toReturn = false;
-                    } else {
-                        if (m_Keys[tmpKey] == 'd') {
-                            toReturn = false;
-                        } else {
-                            m_Keys[tmpKey] = 'd';
-                        }
+                    if (m_Event.key.repeat == 0 && m_Keys[tmpKey] != 'd') {
+                        m_Keys[tmpKey] = 'd';
+                        eManager.CBOnKeyDown((StormKey)tmpKey);
                     }
                 }
                 break; }
             case SDL_KEYUP:
                 if (m_Keys.count(m_Event.key.keysym.sym) != 0) {
                     m_Keys.erase(m_Keys.find(m_Event.key.keysym.sym));
+                    eManager.CBOnKeyUp((StormKey)m_Event.key.keysym.sym);
                 }
                 break;
             case SDL_MOUSEMOTION:
                 m_MouseLoc.x = m_Event.motion.x;
                 m_MouseLoc.y = m_Event.motion.y;
+                eManager.CBOnMouseMotion();
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (m_Event.button.button == SDL_BUTTON_LEFT) {
-                    m_MouseKeys[StormKey::MOUSE_LEFT] = false;
+                    if (m_MouseKeys[StormKey::MOUSE_LEFT] != false) {
+                        m_MouseKeys[StormKey::MOUSE_LEFT] = false;
+                        eManager.CBOnMouseUp(StormKey::MOUSE_LEFT);
+                    }
                 } else if (m_Event.button.button == SDL_BUTTON_RIGHT) {
-                    m_MouseKeys[StormKey::MOUSE_RIGHT] = false;
+                    if (m_MouseKeys[StormKey::MOUSE_RIGHT] != false) {
+                        m_MouseKeys[StormKey::MOUSE_RIGHT] = false;
+                        eManager.CBOnMouseUp(StormKey::MOUSE_RIGHT);
+                    }
                 } else if (m_Event.button.button == SDL_BUTTON_MIDDLE) {
-                    m_MouseKeys[StormKey::MOUSE_MIDDLE] = false;
+                    if (m_MouseKeys[StormKey::MOUSE_MIDDLE] != false) {
+                        m_MouseKeys[StormKey::MOUSE_MIDDLE] = false;
+                        eManager.CBOnMouseUp(StormKey::MOUSE_MIDDLE);
+                    }
                 }
             break;
             case SDL_MOUSEBUTTONDOWN:
                 if (m_Event.button.button == SDL_BUTTON_LEFT) {
-                    m_MouseKeys[StormKey::MOUSE_LEFT] = true;
+                    if (m_MouseKeys[StormKey::MOUSE_LEFT] != true) {
+                        m_MouseKeys[StormKey::MOUSE_LEFT] = true;
+                        eManager.CBOnMouseDown(StormKey::MOUSE_LEFT);
+                    }
                 } else if (m_Event.button.button == SDL_BUTTON_RIGHT) {
-                    m_MouseKeys[StormKey::MOUSE_RIGHT] = true;
+                    if (m_MouseKeys[StormKey::MOUSE_RIGHT] != true) {
+                        m_MouseKeys[StormKey::MOUSE_RIGHT] = true;
+                        eManager.CBOnMouseDown(StormKey::MOUSE_RIGHT);
+                    }
                 } else if(m_Event.button.button == SDL_BUTTON_MIDDLE) {
-                    m_MouseKeys[StormKey::MOUSE_MIDDLE] = true;
+                    if (m_MouseKeys[StormKey::MOUSE_MIDDLE] != true) {
+                        m_MouseKeys[StormKey::MOUSE_MIDDLE] = true;
+                        eManager.CBOnMouseDown(StormKey::MOUSE_MIDDLE);
+                    }
                 }
                 break;
             case SDL_MOUSEWHEEL:
                 m_MouseScroll = m_Event.wheel.y;
+                eManager.CBOnMouseScroll(m_MouseScroll);
                 break;
             default:
-                toReturn = false;
                 break;
         }
-        return toReturn;
     }
-    return false;
 }
 
 } /* namespace StormFramework */
