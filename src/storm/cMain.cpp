@@ -54,6 +54,7 @@ void cMain::Start() {
         STORM_SLEEP(1);
     }
     S_GetLayerManager().Clear();
+    S_GetAnimationManager().Clear();
     S_LogInfo("cMain", "Main loop ended successfully");
 }
 
@@ -64,7 +65,9 @@ void cMain::TickInternal() {
 }
 void cMain::LogicTick() {
     cLayerManager &sm = S_GetLayerManager();
+    cAnimationManager &am = S_GetAnimationManager();
     sm.LogicTick(m_Delta);
+    am.Tick(m_Delta);
 }
 void cMain::GraphicsTick() {
     cLayerManager &sm = S_GetLayerManager();

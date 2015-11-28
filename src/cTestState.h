@@ -32,4 +32,7 @@ private:
 	uint32_t m_TestTexture;
 	uint32_t m_TestTextureDva;
 	uint32_t m_TestTextureTri;
+
+	uint32_t animidOne;
+	uint32_t animidTwo;
 };

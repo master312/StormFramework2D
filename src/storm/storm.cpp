@@ -8,6 +8,7 @@ int S_InitAll() {
     S_InitGraphics();
     S_InitEventManager();
     S_InitLayerManager();
+    S_InitAnimations();
     S_LogInfo("storm", "Framework initialized!");
     return 1;
 }

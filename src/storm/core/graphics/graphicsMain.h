@@ -40,22 +40,26 @@ void S_GraphModAngle(uint32_t id, double angle);
 void S_GraphModOpacity(uint32_t id, uint8_t opacity);
 void S_GraphModCenter(uint32_t id, sPoint &center);
 void S_GraphModCenter(uint32_t id, int x, int y);
-sRect &S_GraphGetPos(uint32_t id);    //TODO: Maby nullptr check ?
+sRect &S_GraphGetPos(uint32_t id);    //TODO: maybe nullptr check ?
 int &S_GraphGetZ(uint32_t id);
 bool S_GraphIsVisible(uint32_t id);
 double &S_GraphGetAngle(uint32_t id);
 uint8_t &S_GraphGetOpacity(uint32_t id);
 sPoint &S_GraphGetCenter(uint32_t id);
+/**** Texture section related methods ****/
+uint32_t S_CreateSection(const std::string &filename, sRect &section);
+uint32_t S_CreateSection(uint32_t &id, sRect &section);
+void S_GraphModSrc(uint32_t &id, sRect &src);
+sRect *S_GraphGetSrc(uint32_t &id);   // Returns source rect of object @id
 /* Raw texture related methods 
  * These texture drawing methods should not be used
  * These are only planned for internal use/testing */
-void S_RawModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b);
-void S_RefDrawTexture(uint32_t &id, sRect &src, int &x, int &y);
-void S_RefDrawTexture(uint32_t &id, int &x, int &y);
-uint32_t S_GetTextureWidth(uint32_t id);
-uint32_t S_GetTextureHeight(uint32_t id);
-/**** Texture section related methods ****/
-uint32_t S_CreateSection(const std::string &filename, sRect &section);
+//uint32_t S_Load
+void S_ModColorRaw(uint32_t id, uint8_t r, uint8_t g, uint8_t b);
+void S_DrawRaw(uint32_t &id, sRect &src, int &x, int &y);
+void S_DrawRaw(uint32_t &id, int &x, int &y);
+uint32_t S_GetRawTextureWidth(uint32_t id);
+uint32_t S_GetRawTextureHeight(uint32_t id);
 /**** Font manager ****/
 bool S_LoadFont(const std::string &filename);
 void S_UnlaodFont(const std::string &fontName);

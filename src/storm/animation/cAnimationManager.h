@@ -3,59 +3,52 @@
  * Author: master312
  *
  * Created on October 28, 2015, 7:59 PM
+ * Every animation have its own file with unique filename and path
+ * That is how we know should we create new animator, or load whole animation 
+
  */
 
 #ifndef CANIMATIONMANAGER_H__
 #define CANIMATIONMANAGER_H__
 #include <iostream>
 #include <map>
+#include <vector>
 #include "cAnimation.h"
 
 namespace StormFramework {
 
 class cAnimationManager {
 public:
-    cAnimationManager();
-
-    /* Loads animation from file. Returns 0 on error */
+    /* Loads animation and returns new animator ID
+     * If animation is already loaded, if will not 
+     * be loaded again. New instance will be created 
+     * in that case */
     uint32_t Load(const std::string &filename);
-    /* Unloads animation */
-    void Unload(uint32_t animationId);
+    void Unload(uint32_t &id);
+    /* Deletes all animations and clear all objects */
+    void Clear();
 
-    /* Adds animation object to manager */
-    /* Returns animation id, or 0 on error */
-    uint32_t Add(cAnimation anim, const std::string &filename);
-    /* Return pointer to cAnimation object, or nullptr if not found */
-    cAnimation *GetAnimation(uint32_t id);
-    cAnimation *GetAnimation(const std::string &filename);
+    /* Tick all animations */
+    void Tick(uint32_t &delta);
 
+    sAnimator *GetAnimator(uint32_t &id) {
+        auto iter = m_Animators.find(id);
+        if (iter == m_Animators.end()) {
+            return nullptr;
+        }
+        return iter->second->GetAnimator(id);
+    }
 
-    /* Creates new animator for @animationId */
-    /* Returns it's id, or 0 on error */
-    uint32_t CreateAnimator(uint32_t animationId);
-    /* Removes @animatorId form @animationId */
-    void RemoveAnimatior(uint32_t animationId, uint32_t animatorId);
-    // TODO: Animator control methods here
-    /* Returns pointer to animator object, or nulltpr if not found */
-    sAnimator *GetAnimator(uint32_t animationId, uint32_t animatorId);
-
-    void Draw(uint32_t &animationId, uint32_t &animatorId, int &x, int &y);
-    void Draw(uint32_t &animationId, uint32_t &animatorId, 
-              int &x, int &y, int &w, int &h) { }
-
-    void Tick();
-
-    /* If this is set to true, all animation that */
-    /* have no animator, and are unused for specified time */
-    /* will be deleted */
-    // TODO: ...
-    void SetAutoUnload(bool isAuto) { }
-private:
-    /* Map of all animation */
-    std::map<uint32_t, cAnimation> m_Animations;
-    std::map<std::string, uint32_t> m_Filenames;
-
-    bool m_IsAutoUnload;    // TODO ...
+    uint32_t GetAnimatorCount() { return m_Animators.size(); }
+    uint32_t GetAnimationCount() { return m_Animations.size(); }
+public:
+    /* Map of all animator id's 
+     * <animatorId, pointerToAnimation> */
+    std::map<uint32_t, cAnimation*> m_Animators;
+    /* Map of all animation objects, indexed by names */
+    std::map<std::string, cAnimation> m_Animations;
+    /* Vector of all animations used for iterating optimization */
+    std::vector<cAnimation*> m_AnimationsVec;
 };
 
 } /* namespace StormFramework */

@@ -25,7 +25,7 @@ typedef unsigned int uint;
 // Define storm framework version
 #define STORM_VERSION_MAJOR 0
 #define STORM_VERSION_MINOR 32
-#define STORM_VERSION_FIX 3
+#define STORM_VERSION_FIX 6
 
 #define STORM_API_SDL 1
 #define STORM_API_SDL2 2
@@ -34,7 +34,9 @@ typedef unsigned int uint;
 #define STORM_DIR_DATA "data/"
 #define STORM_DIR_GRAPHICS "data/graphics/"
 #define STORM_DIR_FONTS "data/fonts/"
+#define STORM_DIR_ANIMATIONS "data/animations/"
 
-#define STORM_TEXTURES_CLEAR_INTERVAL 10000     //(ms)
+#define STORM_TEXTURES_CLEAR_INTERVAL 10000 //(ms)
+#define STORM_ANIMATION_MAX_FPS 30   //Maximum FPS that animation can have
 
 #endif /* STORM_DEFINES_H__ */

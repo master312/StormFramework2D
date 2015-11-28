@@ -1,138 +1,223 @@
 #include "cAnimation.h"
+#include "../core/graphics/graphicsMain.h"
+#include "../core/graphics/cTextureManager.h"
+#include "../core/graphics/cGraphicsManager.h"
 
 namespace StormFramework {
 
-cAnimation::cAnimation() : m_FrameWidth(0), 
-                           m_FrameHeight(0), 
-                           m_TextureId(0),
-                           m_Fps(0.0f) {
+cAnimation::cAnimation() : m_Filename(""), m_TxtFilename(""),
+                           m_TextureId(0), m_Fps(0), 
+                           m_StartFrame(0), m_EndFrame(0),
+                           isInited(false) {
 }
-cAnimation::~cAnimation() {
+void cAnimation::Clear() {
+    if (m_TextureId > 0) {
+        for (auto &iter : m_Animators) {
+            S_DestroyGraphics(iter.first);
+        }
+        m_Animators.clear();
+        m_Frames.clear();
+        
+        S_GetTextureManager().GetTexture(m_TextureId)->DecUsage();
+    }
 }
-
-void cAnimation::AddFrameGroup(std::string name, 
-                               uint32_t startFrm, uint32_t endFrm) {
-    auto iter = m_FrameGroups.find(name);
-    if (iter != m_FrameGroups.end()) {
+int cAnimation::Save(const std::string &filename) { 
+    std::string fullPath = (char*)STORM_DIR_ANIMATIONS + filename;
+    cBinaryFile fOut(fullPath, true);
+    
+    if (!fOut.IsOpen()) {
         S_LogError("cAnimation", 
-                   "Framegroup with name '%s' already exists!", name.c_str());
-        return;
+                   "Could not open file '%s' for save", fullPath.c_str());
+        return -1;
     }
 
-    m_FrameGroups[name] = sFramesGroup(startFrm, endFrm);
+    fOut.WriteString(m_TxtFilename);
+    fOut.WriteUint32(m_Fps);
+    fOut.WriteUint32(m_StartFrame);
+    fOut.WriteUint32(m_EndFrame);
+    fOut.WriteSRect(m_Frame);
+    // Save frame groups
+    fOut.WriteUint32(m_Groups.size());
+    for (auto &iter : m_Groups) {
+        fOut.WriteString(iter.first);
+        fOut.WriteUint32(iter.second.m_Start);
+        fOut.WriteUint32(iter.second.m_End);
+    }
+    fOut.Close();
+
+    S_LogDebug("cAnimation", "Animation '%s' saved", fullPath.c_str());
+    return 1;
 }
-void cAnimation::RemoveFrameGroup(std::string name) {
-    auto iter = m_FrameGroups.find(name);
-    if (iter == m_FrameGroups.end()) {
+int cAnimation::Load(const std::string &filename) {
+    if (isInited)
+        return 0;
+
+    std::string fullPath = (char*)STORM_DIR_ANIMATIONS + filename;
+    cBinaryFile fOut(fullPath);
+    
+    if (!fOut.IsOpen()) {
         S_LogError("cAnimation", 
-        "Frame group with name '%s' dose not exists, and can not be deleted",
-        name.c_str());
-        return;
+                   "Could not open file '%s' for load", fullPath.c_str());
+        return -1;
     }
 
-    m_FrameGroups.erase(iter);
-}
-
-void cAnimation::Init(int framesX /* = 0 */, int framesY /* = 0 */) {
+    m_TxtFilename = fOut.ReadString();
+    m_Fps = fOut.ReadUint32();
+    m_StartFrame = fOut.ReadUint32();
+    m_EndFrame = fOut.ReadUint32();
+    m_Frame = fOut.ReadSRect();
+    // Save frame groups
+    uint32_t groups = fOut.ReadUint32();
+    for (uint32_t i = 0; i < groups; i++) {
+        std::string tmpStr = fOut.ReadString();
+        sFramesGroup tmpGr;
+        tmpGr.m_Start = fOut.ReadUint32();
+        tmpGr.m_End = fOut.ReadUint32();
+        m_Groups[tmpStr] = tmpGr;
+    }
+    fOut.Close();
+    
+    S_GetTextureManager().Load(m_TxtFilename, &m_TextureId);
     if (m_TextureId == 0) {
-        S_LogError("cAnimation",
-                   "Couldn't init animation. Texture not specified");
-        return;
-    }
-    uint32_t txtW = S_GetTextureWidth(m_TextureId);
-    uint32_t txtH = S_GetTextureHeight(m_TextureId);
-    if (m_FrameWidth == 0 || m_FrameHeight == 0) {
-        // Calculate frame size
-        if (framesX == 0 && framesY == 0) {
-            S_LogError("cAnimation", 
-                       "Couldn't init animation. Frame number not specified");
-            return;
-        }
-
-        m_FrameWidth = (int)(txtW / framesX);
-        m_FrameHeight = (int)(txtH / framesY);
-    } else {
-        framesX = (int)(txtW / m_FrameWidth);
-        framesY = (int)(txtH / m_FrameHeight);
+        S_LogError("cAnimation", "Texture error!");
+        return -1;
     }
 
-    for (int i = 0; i < framesX; i++) {
-        for(int j = 0; j < framesY; j++) {
-            sRect tmpSection;
-            tmpSection.x = i * m_FrameWidth;
-            tmpSection.y = j * m_FrameHeight;
-            tmpSection.w = m_FrameWidth;
-            tmpSection.h = m_FrameHeight;
-           // m_Frames.push_back(S_CreateSection(m_TextureId, tmpSection));
+    Init();
+
+    S_LogDebug("cAnimation", "Animation '%s' loaded", fullPath.c_str());
+    return 1;
+}
+int cAnimation::Set(const std::string &texture, uint32_t fps, 
+                      int w, int h, int x /* = 0 */, int y /* = 0 */) {
+    m_TxtFilename = texture;
+    S_GetTextureManager().Load(m_TxtFilename, &m_TextureId);
+    if (m_TextureId == 0) {
+        S_LogError("cAnimation", "Texture error!");
+        return -1;
+    }
+    m_Fps = fps;
+    m_Frame.x = x;
+    m_Frame.y = y;
+    m_Frame.w = w;
+    m_Frame.h = h;
+    return 1;
+}
+
+int cAnimation::Init() {
+    cTextureBase *txt = S_GetTextureManager().GetTexture(m_TextureId);
+    if (txt == nullptr) {
+        S_LogError("cAnimation", 
+                   "Init method called, but texture was not loaded");
+        return -1;
+    }
+    sRect tmpFrame = m_Frame;
+    int triggerWarning = 0;
+    if ((int)txt->GetWidthPx() <= m_Frame.x) {
+        tmpFrame.x = 0;
+        triggerWarning ++;
+    }
+    if ((int)txt->GetWidthPx() <= m_Frame.x + m_Frame.w) {
+        tmpFrame.w = txt->GetWidthPx();
+        triggerWarning ++;
+    }
+    if ((int)txt->GetHeightPx() <= m_Frame.y) {
+        tmpFrame.y = 0;
+        triggerWarning ++;
+    }
+    if ((int)txt->GetWidthPx() <= m_Frame.y + m_Frame.h) {
+        tmpFrame.x = txt->GetWidthPx();
+        triggerWarning ++;
+    }
+    m_Frame = tmpFrame;
+    if (triggerWarning > 0) {
+        S_LogWarning("cAnimation", "Frame size is bigger then texture");
+        if (triggerWarning == 4) {
+            // TODO: Create one section here
+            return 2;
         }
     }
+    int framesX = (txt->GetWidthPx() - m_Frame.x) / m_Frame.w;
+    int framesY = (txt->GetHeightPx() - m_Frame.y) / m_Frame.h;
+
+    if (framesX > (int)m_StartFrame) { 
+        m_StartFrame = 0; 
+    }
+    if ((framesX * framesY) > (int)m_EndFrame || m_EndFrame == 0) { 
+        m_EndFrame = framesX * framesY; 
+    }
+
+    sRect tmpRect = tmpFrame;
+    for (int j = 0; j < framesX; j++) {
+        for (int i = 0; i < framesY; i++) {
+            tmpRect.x = i * m_Frame.w;
+            tmpRect.y = j * m_Frame.h;
+            if (tmpRect.x + tmpRect.w > (int)txt->GetWidthPx()) {
+                tmpRect.w = (tmpRect.x + tmpRect.w) - txt->GetWidthPx();
+            }
+            m_Frames.push_back(tmpRect);
+        }
+    }
+    isInited = true;
+    return 1;
 }
-void cAnimation::Save(const std::string &filename) {
-    // TODO:...
-}
-bool cAnimation::Load(const std::string &filename) {
-    return false;    
-}
-void cAnimation::Unload() {
-    // for (auto &iter : m_Frames) {
-    //     S_RemoveSection(iter);
-    // }
+
+void cAnimation::Tick(uint32_t &delta) {
+    for (auto &iter : m_Animators) {
+        if (iter.second.m_IsAnimated) {
+            TickAnimator(&iter.second);
+        }
+    }
 }
 
 uint32_t cAnimation::CreateAnimator() {
-    uint32_t newId = 1;
-    
-    if (m_Animators.size() > 0) {
-        auto iter = m_Animators.end();
-        --iter;
-        newId = iter->first + 1;
+    sAnimator tmpAnimator(m_StartFrame, m_EndFrame, m_Fps);
+    uint32_t tmpId = S_CreateSection(m_TextureId, m_Frame);
+
+    if (tmpId == 0) {
+        S_LogError("cAnimation", "Could not create new section!");
+        return 0;
     }
 
-    m_Animators[newId] = sAnimator(0, m_Frames.size(), m_Fps);
-    return newId;
+    sTextureObject *tmp = S_GetGraphicsManager().GetLastCreated();
+    
+    tmp->m_DestRect.w = m_Frame.w;
+    tmp->m_DestRect.h = m_Frame.h;
+
+    tmpAnimator.m_Object = tmp;
+    m_Animators[tmpId] = tmpAnimator;
+
+    return tmpId;
 }
-void cAnimation::RemoveAnimatior(uint32_t animatorId) {
-    auto iter = m_Animators.find(animatorId);
+void cAnimation::RemoveAnimator(uint32_t &id) {
+     auto iter = m_Animators.find(id);
     if (iter == m_Animators.end()) {
         return;
     }
     m_Animators.erase(iter);
-}
-sAnimator *cAnimation::GetAnimator(uint32_t animatorId) {
-    auto iter = m_Animators.find(animatorId);
-    if (iter == m_Animators.end()) {
-        return nullptr;
-    }
-    return &iter->second;
+    S_DestroyGraphics(id);
 }
 
-void cAnimation::Draw(uint32_t &animatorId, int &x, int &y) {
-    sAnimator *animator = GetAnimator(animatorId);
-    if (animator == nullptr) {
-        S_LogError("cAnimation", 
-                   "Non existing animator trying to draw. id: %d", animatorId);
-        return;
-    }
-// /    S_DrawSection(m_Frames[animator->m_CurFrame], x, y);
+int cAnimation::AddGroup(const std::string &name, uint32_t start, uint32_t nd) {
+    std::cout << "TODO: ADD GROUP" << std::endl;
+    return 1;
 }
-
-void cAnimation::Tick() {
-    for (auto &iter : m_Animators) {
-        if (iter.second.m_IsAnimated) {
-            TickAnimator(iter.second);
+void cAnimation::RemoveGroup(const std::string &name) {
+    std::cout << "TODO: REMOVE GROUP" << std::endl;
+}
+// Private methods
+void cAnimation::TickAnimator(sAnimator *anim) {
+    // Check if animation is ready to tick
+    // TODO: Ove setuj SRC frame lokacije
+    if (STORM_TIME - anim->m_LastTime >= anim->m_FrameTime) {
+        if (anim->m_CurFrame >= anim->m_EndFrame) {
+            anim->m_CurFrame = anim->m_StartFrame;
         }
-    }
-}
 
-void cAnimation::TickAnimator(sAnimator &anim) { 
-    if (STORM_TIME - anim.m_LastTick > (1000.0f / anim.m_CurFps)) {
-        anim.m_CurFrame ++;
+        anim->m_Object->m_SrcRect = m_Frames[anim->m_CurFrame];
         
-        if (anim.m_CurFrame >= anim.m_EndFrame) {
-            anim.m_CurFrame = anim.m_StartFrame;
-        }
-
-        anim.m_LastTick = STORM_TIME;
+        anim->m_LastTime = STORM_TIME;
+        anim->m_CurFrame ++;
     }
 }
 

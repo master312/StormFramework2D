@@ -87,16 +87,16 @@ sPoint &S_GraphGetCenter(uint32_t id) {
     return graphicsManager.GetObject(id)->m_Center;
 }
 /* *********** raw texture methods ******** */
-void S_RawModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b) {
+void S_ModColorRaw(uint32_t id, uint8_t r, uint8_t g, uint8_t b) {
     textureManager.GetTexture(id)->ModColor(r, g, b);
 }
-void S_RefDrawTexture(uint32_t &id, sRect &src, int &x, int &y) {
+void S_DrawRaw(uint32_t &id, sRect &src, int &x, int &y) {
     textureManager.Draw(id, src, x, y);
 }
-void S_RefDrawTexture(uint32_t &id, int &x, int &y) {
+void S_DrawRaw(uint32_t &id, int &x, int &y) {
     textureManager.Draw(id, x, y);
 }
-uint32_t S_GetTextureWidth(uint32_t id) {
+uint32_t S_GetRawTextureWidth(uint32_t id) {
     StormFramework::cTextureBase *tmp = textureManager.GetTexture(id);
     if (tmp != nullptr) {
         return tmp->GetWidthPx();
@@ -104,7 +104,7 @@ uint32_t S_GetTextureWidth(uint32_t id) {
     S_LogError("graphicsMain.cpp", "Could not found texture id: '%d'", id);
     return 0;
 }
-uint32_t S_GetTextureHeight(uint32_t id) {
+uint32_t S_GetRawTextureHeight(uint32_t id) {
     StormFramework::cTextureBase *tmp = textureManager.GetTexture(id);
     if (tmp != nullptr) {
         return tmp->GetWidthPx();
@@ -115,6 +115,15 @@ uint32_t S_GetTextureHeight(uint32_t id) {
 /* **************************************** */
 uint32_t S_CreateSection(const std::string &filename , sRect &section) {
     return graphicsManager.CreateSection(filename, section);
+}
+uint32_t S_CreateSection(uint32_t &id, sRect &section) {
+    return graphicsManager.CreateSection(id, section);
+}
+void S_GraphModSrc(uint32_t &id, sRect &src) {
+    graphicsManager.GetObject(id)->m_SrcRect = src;
+}
+sRect *S_GraphGetSrc(uint32_t &id) {
+    return &graphicsManager.GetObject(id)->m_SrcRect;
 }
 
 bool S_LoadFont(const std::string &filename) {
