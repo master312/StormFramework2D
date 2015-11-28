@@ -97,7 +97,7 @@ void cBitmapFontManager::DrawText(const std::string &text, int &x, int &y,
     int curY = y;
     int tmpY = 0;
     
-    S_RawModColor(tmpFont.m_TextureId, r, g, b);
+    S_ModColorRaw(tmpFont.m_TextureId, r, g, b);
     for (int i = 0; i < (int)text.size(); i++) {
         auto iter = tmpFont.m_Characters.find(text[i]);
         if (iter == tmpFont.m_Characters.end()) {
@@ -107,7 +107,7 @@ void cBitmapFontManager::DrawText(const std::string &text, int &x, int &y,
         tmpY = curY + tmp.yOffset;
 
         if (iter->first != ' ') {
-            S_RefDrawTexture(tmpFont.m_TextureId, tmp.srcRect, curX, tmpY);
+            S_DrawRaw(tmpFont.m_TextureId, tmp.srcRect, curX, tmpY);
         }
         curX += tmp.advance;
         curX -= tmp.xOffset;

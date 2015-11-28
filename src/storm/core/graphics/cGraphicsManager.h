@@ -39,6 +39,7 @@ public:
 
     /* Creates texture section. Returns ID */
     uint32_t CreateSection(const std::string &filename, sRect &section);
+    uint32_t CreateSection(uint32_t &id, sRect &section);
 
     /* Texture object parameter setters/getters */
     void TxtModVisible(uint32_t &id, bool &isVisible);
@@ -53,6 +54,7 @@ public:
     cGraphicsBase *GetGraphics() { return m_Graphics; }
     uint32_t GetOnScreenCount() { return m_OnScreen.size(); }
     uint32_t GetObjectsCount() { return m_TextureObjects.size(); }
+    sTextureObject *GetLastCreated() { return m_LastObject; }
 private:
     int m_Api;
     cGraphicsBase *m_Graphics;
@@ -62,6 +64,8 @@ private:
     std::vector<sTextureObject*> m_OnScreen;
     /* Map of all texture objects */
     std::map<uint32_t, sTextureObject> m_TextureObjects;
+    /* Stores pointer to last created object */
+    sTextureObject *m_LastObject;
 
     /* Draw all texture objects on screen */
     void DrawAll();

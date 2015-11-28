@@ -7,7 +7,8 @@ namespace StormFramework {
 
 cGraphicsManager::cGraphicsManager() :
         m_Api(0),
-        m_Graphics(nullptr) {
+        m_Graphics(nullptr),
+        m_LastObject(nullptr) {
                                            
     std::stringstream ss;
     ss << "Storm Framework 2D ";
@@ -66,6 +67,9 @@ void cGraphicsManager::UnloadTexture(uint32_t &id) {
     }
     sTextureObject *obj = &iter->second;
     obj->m_Texture->DecUsage();
+    if (m_LastObject == obj) {
+        m_LastObject = nullptr;
+    }
     if (obj->m_IsVisible) {
         for (uint32_t i = 0; i < m_OnScreen.size(); i++) {
             if (m_OnScreen[i] == obj) {
@@ -89,6 +93,13 @@ uint32_t cGraphicsManager::CreateSection(const std::string &filename,
     cTextureBase *txt = S_GetTextureManager().Load(filename);
     if (txt == nullptr) {
         // Error has occurred. Logging is handled by texture manager
+        return 0;
+    }
+    return GenerateObject(txt, &section);
+}
+uint32_t cGraphicsManager::CreateSection(uint32_t &id, sRect &section) {
+    cTextureBase *txt = S_GetTextureManager().GetTexture(id);
+    if (txt == nullptr) {
         return 0;
     }
     return GenerateObject(txt, &section);
@@ -191,6 +202,7 @@ uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
         tmp.m_IsSection = true;
     }
 
+    m_LastObject = &m_TextureObjects[newId];
     m_OnScreen.push_back(&m_TextureObjects[newId]);
     std::sort(m_OnScreen.begin(), m_OnScreen.end(), sTextureObject::Cmp);
     

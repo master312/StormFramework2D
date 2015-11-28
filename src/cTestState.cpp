@@ -29,7 +29,7 @@ void cTestState::OnGraphicsTick() {
 }
 double tmpAngle = 0.0;
 void cTestState::OnLogicTick(uint32_t &delta) {
-    uint32_t start = STORM_TIME;
+ //   uint32_t start = STORM_TIME;
     for (uint32_t i = 0; i < sprites.size(); i++) {
         S_GraphModAngle(sprites[i], tmpAngle);
     }

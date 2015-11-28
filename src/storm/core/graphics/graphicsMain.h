@@ -49,13 +49,15 @@ sPoint &S_GraphGetCenter(uint32_t id);
 /* Raw texture related methods 
  * These texture drawing methods should not be used
  * These are only planned for internal use/testing */
-void S_RawModColor(uint32_t id, uint8_t r, uint8_t g, uint8_t b);
-void S_RefDrawTexture(uint32_t &id, sRect &src, int &x, int &y);
-void S_RefDrawTexture(uint32_t &id, int &x, int &y);
-uint32_t S_GetTextureWidth(uint32_t id);
-uint32_t S_GetTextureHeight(uint32_t id);
+//uint32_t S_Load
+void S_ModColorRaw(uint32_t id, uint8_t r, uint8_t g, uint8_t b);
+void S_DrawRaw(uint32_t &id, sRect &src, int &x, int &y);
+void S_DrawRaw(uint32_t &id, int &x, int &y);
+uint32_t S_GetRawTextureWidth(uint32_t id);
+uint32_t S_GetRawTextureHeight(uint32_t id);
 /**** Texture section related methods ****/
 uint32_t S_CreateSection(const std::string &filename, sRect &section);
+uint32_t S_CreateSection(uint32_t &id, sRect &section);
 /**** Font manager ****/
 bool S_LoadFont(const std::string &filename);
 void S_UnlaodFont(const std::string &fontName);

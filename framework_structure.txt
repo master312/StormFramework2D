@@ -25,8 +25,14 @@
 >>//TODO-MEDIUM: Better callback creating method S_AddIntervalCB (2 complicated to create sCalback object every time)
 >>//TODO-AFTER ^^: Test everything.. like a lot
 
+//TODO: Move graphics out of core folder
 //TODO-RESEARCH-MEDIUM: Mod color system
-
+//TODO: Rename sTextureObject to sGraphicsObject. It makes more sense
+//TODO: Rename methods LoadTexture,UnloadTexture,etc.. in cGraphicsManager
+//TODO: Skip cAnimation::tick ako je sTextureObject nevidljiv (nije vidljid xD )
+-After malistone
+//TODO: Rendering targets
+//TODO: Mogucnost da recimo imas dve razlicite animacije, a obe da animira isti animator
 -Root
 | -Core
 | | -Framework
