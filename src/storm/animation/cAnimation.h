@@ -28,6 +28,11 @@ public:
     cAnimation();
     void Clear();
 
+    /* These methods save/load animation from file. 
+     * Return < 0 on error */
+    int Save(const std::string &filename) { return 1; }
+    int Load(const std::string &filename) { return 1; }
+
     /* Loads texture, and initialize animation 
      * Returns < 0 on error */
     int Set(const std::string &texture,  uint32_t fps,
@@ -42,7 +47,7 @@ public:
     /* Creates new animator and returns it's id 
      * Animator ID is same as texture object ID */
     uint32_t CreateAnimator();
-    void RemoveAnimator(uint32_t id);
+    void RemoveAnimator(uint32_t &id);
     uint32_t CountAnimators() { return m_Animators.size(); }
 
     /* Adds new frame group to this animation. Returns < 0 on error */
@@ -100,7 +105,21 @@ public:
         S_ANIMCHECKMACRO(id) false;
         return a->m_IsAnimated;
     }
+    
+    /* Returns pointer to animator with @id, or nullptr if not found */
+    sAnimator *GetAnimator(uint32_t &id) {
+        auto iter = m_Animators.find(id);
+        if (iter == m_Animators.end()) {
+            S_LogError("cAnimation", 
+                       "Animator with ID %d dose not exists!", id);
+            return nullptr;
+        }
+        return &iter->second;
+    }
+    std::string &GetFilename() { return m_Filename; }
 private:
+    /* Filename of this animation */
+    std::string m_Filename;
     /* Map of all animators */
     std::map<uint32_t, sAnimator> m_Animators;
     /* Map of all frame groups */
@@ -114,18 +133,6 @@ private:
     uint32_t m_TextureId, m_Fps;
     uint32_t m_StartFrame, m_EndFrame;
 
-    //TODO: Create number of frames track var here
-
-    /* Returns pointer to animator with @id, or nullptr if not found */
-    sAnimator *GetAnimator(uint32_t &id) {
-        auto iter = m_Animators.find(id);
-        if (iter == m_Animators.end()) {
-            S_LogError("cAnimation", 
-                       "Animator with ID %d dose not exists!", id);
-            return nullptr;
-        }
-        return &iter->second;
-    }
     /* Handle's animator ticking */
     void TickAnimator(sAnimator *anim);
 };

@@ -35,6 +35,7 @@ typedef unsigned int uint;
 #define STORM_DIR_GRAPHICS "data/graphics/"
 #define STORM_DIR_FONTS "data/fonts/"
 
-#define STORM_TEXTURES_CLEAR_INTERVAL 10000     //(ms)
+#define STORM_TEXTURES_CLEAR_INTERVAL 10000 //(ms)
+#define STORM_ANIMATION_MAX_FPS 30   //Maximum FPS that animation can have
 
 #endif /* STORM_DEFINES_H__ */

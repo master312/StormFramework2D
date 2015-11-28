@@ -5,8 +5,9 @@
 
 namespace StormFramework {
 
-cAnimation::cAnimation() : m_TextureId(0), m_Fps(0),
-                           m_StartFrame(0), m_EndFrame(0) {
+cAnimation::cAnimation() : m_Filename(""), m_TextureId(0), 
+                           m_Fps(0), m_StartFrame(0), 
+                           m_EndFrame(0) {
 
 }
 void cAnimation::Clear() {
@@ -120,7 +121,7 @@ uint32_t cAnimation::CreateAnimator() {
 
     return tmpId;
 }
-void cAnimation::RemoveAnimator(uint32_t id) {
+void cAnimation::RemoveAnimator(uint32_t &id) {
      auto iter = m_Animators.find(id);
     if (iter == m_Animators.end()) {
         return;
@@ -131,6 +132,7 @@ void cAnimation::RemoveAnimator(uint32_t id) {
 
 int cAnimation::AddGroup(const std::string &name, uint32_t start, uint32_t nd) {
     std::cout << "TODO: ADD GROUP" << std::endl;
+    return 1;
 }
 void cAnimation::RemoveGroup(const std::string &name) {
     std::cout << "TODO: REMOVE GROUP" << std::endl;

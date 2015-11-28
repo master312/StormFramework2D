@@ -8,6 +8,7 @@
 //TODO-LOW: in logger, pass 'va_list ap' as reference
 //TODO-LOW: Cleanup/rewrite cEventSDL2 class
 
+//TODO-RESEARCH-MEDIUM: Mod color system
 
 //TODO: Do not draw texture if its out of screen
 //TODO: Create effect_move(newPos, time), effect_rotate(angle, time) methods
@@ -19,23 +20,41 @@
 
 
 3. >> //TODO: Fix animation! Broken because of new objects system
+4. >> //TODO: Texture menager TODO on top...
+5. >> //TODO: Add option to stop auto-drawing and ticking
+       -of animations and graphic. Use one #define in defines.h for this 
 
 >>//TODO-MEDIUM: Rename 'callback' to 'interupt'
 >>//TODO-MEDIUM: Move callback folder to core
 >>//TODO-MEDIUM: Better callback creating method S_AddIntervalCB (2 complicated to create sCalback object every time)
 >>//TODO-AFTER ^^: Test everything.. like a lot
 
+//TODO: Create delay (timeout) before animation object deletion
 //TODO: Move graphics out of core folder
-//TODO-RESEARCH-MEDIUM: Mod color system
 //TODO: Rename sTextureObject to sGraphicsObject. It makes more sense
 //TODO: Rename methods LoadTexture,UnloadTexture,etc.. in cGraphicsManager
 //TODO: Skip cAnimation::tick ako je sTextureObject nevidljiv (nije vidljid xD )
 //TODO: Rename 'GetHeightPx' to 'GetPxHeight' (and for width too)
 //TODO: daj opciju animacijama da specifikujes dal ces da frejmovi idu po X ili po Y osi
         -TO je u cAnimation::init negde dole u loop-u
+
 -After malistone
 //TODO: Rendering targets
 //TODO: Mogucnost da recimo imas dve razlicite animacije, a obe da animira isti animator
+
+
+!! THIS IS NOT STORMFRAMEWORK FEATURE !!
+1. >>HIGH!//TODO: Some king of texture sets/packs. For now, only textures set xml files, 
+        -like s_LoadTextureSet(xmlFilename, std::vector). Do same thing for animations
+2. >>//TODO: XML data loader. For tast above, do not create methods in managers,
+        -...create new cResourceManager that will parse XML files and
+        -all other 'load' methods from managers
+3. >>//TODO: Do not load textures and shit via filenames.
+             -Load them via names specified in XML file/s
+4. >>//TODO: Add option for auto-generating XML file based on files in /data dir
+!! IT WILL BE ENGINE'S FEATURE !!
+
+
 -Root
 | -Core
 | | -Framework
