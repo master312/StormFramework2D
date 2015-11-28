@@ -18,6 +18,7 @@
 #include <vector>
 #include <map>
 #include "../core/framework/frameworkMain.h"
+#include "../core/framework/cBinaryFile.h"
 #include "../core/graphics/graphicsMain.h"
 #include "sAnimator.h"
 
@@ -30,8 +31,8 @@ public:
 
     /* These methods save/load animation from file. 
      * Return < 0 on error */
-    int Save(const std::string &filename) { return 1; }
-    int Load(const std::string &filename) { return 1; }
+    int Save(const std::string &filename);
+    int Load(const std::string &filename);
 
     /* Loads texture, and initialize animation 
      * Returns < 0 on error */
@@ -120,18 +121,24 @@ public:
 private:
     /* Filename of this animation */
     std::string m_Filename;
-    /* Map of all animators */
-    std::map<uint32_t, sAnimator> m_Animators;
-    /* Map of all frame groups */
-    std::map<std::string, sFramesGroup> m_Groups;
-    /* Vector of coordinates of every frame in this animation */
-    std::vector<sRect> m_Frames;
-    
-    /* Size of one frame, and start position on texture */
-    sRect m_Frame;
+    /* File name of texture */
+    std::string m_TxtFilename;
+
     /* Default animation variables */
     uint32_t m_TextureId, m_Fps;
     uint32_t m_StartFrame, m_EndFrame;
+    /* Size of one frame, and start position on texture */
+    sRect m_Frame;
+    
+    /* Map of all frame groups */
+    std::map<std::string, sFramesGroup> m_Groups;
+    /* Map of all animators */
+    std::map<uint32_t, sAnimator> m_Animators;
+    /* Vector of coordinates of every frame in this animation */
+    std::vector<sRect> m_Frames;
+    
+    /* This is set to true if animation object is ready to use */
+    bool isInited;
 
     /* Handle's animator ticking */
     void TickAnimator(sAnimator *anim);

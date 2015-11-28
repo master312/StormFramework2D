@@ -5,10 +5,10 @@
 
 namespace StormFramework {
 
-cAnimation::cAnimation() : m_Filename(""), m_TextureId(0), 
-                           m_Fps(0), m_StartFrame(0), 
-                           m_EndFrame(0) {
-
+cAnimation::cAnimation() : m_Filename(""), m_TxtFilename(""),
+                           m_TextureId(0), m_Fps(0), 
+                           m_StartFrame(0), m_EndFrame(0),
+                           isInited(false) {
 }
 void cAnimation::Clear() {
     if (m_TextureId > 0) {
@@ -21,10 +21,77 @@ void cAnimation::Clear() {
         S_GetTextureManager().GetTexture(m_TextureId)->DecUsage();
     }
 }
+int cAnimation::Save(const std::string &filename) { 
+    std::string fullPath = (char*)STORM_DIR_ANIMATIONS + filename;
+    cBinaryFile fOut(fullPath, true);
+    
+    if (!fOut.IsOpen()) {
+        S_LogError("cAnimation", 
+                   "Could not open file '%s' for save", fullPath.c_str());
+        return -1;
+    }
 
+    fOut.WriteString(m_TxtFilename);
+    fOut.WriteUint32(m_Fps);
+    fOut.WriteUint32(m_StartFrame);
+    fOut.WriteUint32(m_EndFrame);
+    fOut.WriteSRect(m_Frame);
+    // Save frame groups
+    fOut.WriteUint32(m_Groups.size());
+    for (auto &iter : m_Groups) {
+        fOut.WriteString(iter.first);
+        fOut.WriteUint32(iter.second.m_Start);
+        fOut.WriteUint32(iter.second.m_End);
+    }
+    fOut.Close();
+
+    S_LogDebug("cAnimation", "Animation '%s' saved", fullPath.c_str());
+    return 1;
+}
+int cAnimation::Load(const std::string &filename) {
+    if (isInited)
+        return 0;
+
+    std::string fullPath = (char*)STORM_DIR_ANIMATIONS + filename;
+    cBinaryFile fOut(fullPath);
+    
+    if (!fOut.IsOpen()) {
+        S_LogError("cAnimation", 
+                   "Could not open file '%s' for load", fullPath.c_str());
+        return -1;
+    }
+
+    m_TxtFilename = fOut.ReadString();
+    m_Fps = fOut.ReadUint32();
+    m_StartFrame = fOut.ReadUint32();
+    m_EndFrame = fOut.ReadUint32();
+    m_Frame = fOut.ReadSRect();
+    // Save frame groups
+    uint32_t groups = fOut.ReadUint32();
+    for (uint32_t i = 0; i < groups; i++) {
+        std::string tmpStr = fOut.ReadString();
+        sFramesGroup tmpGr;
+        tmpGr.m_Start = fOut.ReadUint32();
+        tmpGr.m_End = fOut.ReadUint32();
+        m_Groups[tmpStr] = tmpGr;
+    }
+    fOut.Close();
+    
+    S_GetTextureManager().Load(m_TxtFilename, &m_TextureId);
+    if (m_TextureId == 0) {
+        S_LogError("cAnimation", "Texture error!");
+        return -1;
+    }
+
+    Init();
+
+    S_LogDebug("cAnimation", "Animation '%s' loaded", fullPath.c_str());
+    return 1;
+}
 int cAnimation::Set(const std::string &texture, uint32_t fps, 
                       int w, int h, int x /* = 0 */, int y /* = 0 */) {
-    S_GetTextureManager().Load(texture, &m_TextureId);
+    m_TxtFilename = texture;
+    S_GetTextureManager().Load(m_TxtFilename, &m_TextureId);
     if (m_TextureId == 0) {
         S_LogError("cAnimation", "Texture error!");
         return -1;
@@ -91,6 +158,7 @@ int cAnimation::Init() {
             m_Frames.push_back(tmpRect);
         }
     }
+    isInited = true;
     return 1;
 }
 

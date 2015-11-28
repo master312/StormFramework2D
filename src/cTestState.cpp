@@ -1,4 +1,6 @@
 #include "cTestState.h"
+#include "storm/animation/cAnimation.h"
+
 
 using namespace StormFramework;
 
@@ -10,11 +12,16 @@ cTestState::~cTestState() {
 	
 }
 std::vector<uint32_t> sprites;
+cAnimation test;
+uint32_t animid;
 void cTestState::OnInit() {
     m_TestTexture = S_CreateGraphics("sprite.png");
     m_TestTextureDva = S_CreateGraphics("sprite.png");
     m_TestTextureTri = S_CreateGraphics("sprite.png");
 
+    test.Load("testAnimation.anim");
+    animid = test.CreateAnimator();
+    S_GraphModPos(animid, 670, 670);
 
     S_GraphModZ(m_TestTexture, 1000);
 
