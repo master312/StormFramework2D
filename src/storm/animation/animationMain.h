@@ -12,6 +12,11 @@ typedef StormFramework::cAnimation StormAnimation;
 typedef StormFramework::sAnimator StormAnimator;
 
 void S_InitAnimations();
+StormFramework::cAnimationManager &S_GetAnimationManager();
 
+uint32_t S_LoadAnimation(const std::string &filename);
+void S_UnloadAnimation(uint32_t &id);
+
+StormAnimator *S_GetAnimator(uint32_t &id);
 
 #endif /* ANIMATIONMAIN_H__ */

@@ -19,8 +19,7 @@
 //TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
 
 
-3. >> //TODO: Fix animation! Broken because of new objects system
-4. >> //TODO: Texture menager TODO on top...
+4. >> //TODO: Texture menager TODO writen on top of file...
 5. >> //TODO: Add option to stop auto-drawing and ticking
        -of animations and graphic. Use one #define in defines.h for this 
 
@@ -33,6 +32,7 @@
 //TODO: Move graphics out of core folder
 //TODO: Rename sTextureObject to sGraphicsObject. It makes more sense
 //TODO: Rename methods LoadTexture,UnloadTexture,etc.. in cGraphicsManager
+//TODO: Rename cData to cBinary
 //TODO: Skip cAnimation::tick ako je sTextureObject nevidljiv (nije vidljid xD )
 //TODO: Rename 'GetHeightPx' to 'GetPxHeight' (and for width too)
 //TODO: daj opciju animacijama da specifikujes dal ces da frejmovi idu po X ili po Y osi

@@ -27,11 +27,11 @@ void cAnimationManager::Unload(uint32_t &id) {
     if (iter == m_Animators.end()) {
         return;
     }
-    
+
     cAnimation *tmpA = iter->second;
     m_Animators.erase(iter);
     tmpA->RemoveAnimator(id);
-    
+
     if (tmpA->CountAnimators() <= 0) {
         // Animation not in use. Delete it
         for (uint32_t i = 0; i < m_AnimationsVec.size(); i++) {
@@ -40,10 +40,18 @@ void cAnimationManager::Unload(uint32_t &id) {
                 break;
             }
         }
-        
+
         tmpA->Clear();
         m_Animations.erase(tmpA->GetFilename());
     }
+}
+void cAnimationManager::Clear() {
+    for (uint32_t i = 0; i < m_AnimationsVec.size(); i++) {
+        m_AnimationsVec[i]->Clear();
+    }
+    m_Animators.clear();
+    m_AnimationsVec.clear();
+    m_Animations.clear();
 }
 void cAnimationManager::Tick(uint32_t &delta) {
     for (uint32_t i = 0; i < m_AnimationsVec.size(); i++) {

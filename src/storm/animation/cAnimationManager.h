@@ -25,6 +25,8 @@ public:
      * in that case */
     uint32_t Load(const std::string &filename);
     void Unload(uint32_t &id);
+    /* Deletes all animations and clear all objects */
+    void Clear();
 
     /* Tick all animations */
     void Tick(uint32_t &delta);
