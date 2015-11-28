@@ -28,9 +28,13 @@ public:
     cAnimation();
     void Clear();
 
-    /* Fill this animation object with animation data 
-     * returns < 0 on error */
-    int Create(const std::string &texture, int w, int h, int x = 0, int y = 0);
+    /* Loads texture, and initialize animation 
+     * Returns < 0 on error */
+    int Set(const std::string &texture,  uint32_t fps,
+            int w, int h, int x = 0, int y = 0);
+
+    /* Initialize animation (splits texture into sections) */
+    int Init();
 
     /* Logic tick */
     void Tick(uint32_t &delta);
@@ -97,11 +101,12 @@ public:
         return a->m_IsAnimated;
     }
 private:
-    /* Map of all animators 
-     * <id, object> ID is same as sGraphicsObject ID in graphics manager */
+    /* Map of all animators */
     std::map<uint32_t, sAnimator> m_Animators;
     /* Map of all frame groups */
     std::map<std::string, sFramesGroup> m_Groups;
+    /* Vector of coordinates of every frame in this animation */
+    std::vector<sRect> m_Frames;
     
     /* Size of one frame, and start position on texture */
     sRect m_Frame;
@@ -109,6 +114,7 @@ private:
     uint32_t m_TextureId, m_Fps;
     uint32_t m_StartFrame, m_EndFrame;
 
+    //TODO: Create number of frames track var here
 
     /* Returns pointer to animator with @id, or nullptr if not found */
     sAnimator *GetAnimator(uint32_t &id) {

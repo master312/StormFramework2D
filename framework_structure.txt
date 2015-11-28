@@ -30,6 +30,9 @@
 //TODO: Rename sTextureObject to sGraphicsObject. It makes more sense
 //TODO: Rename methods LoadTexture,UnloadTexture,etc.. in cGraphicsManager
 //TODO: Skip cAnimation::tick ako je sTextureObject nevidljiv (nije vidljid xD )
+//TODO: Rename 'GetHeightPx' to 'GetPxHeight' (and for width too)
+//TODO: daj opciju animacijama da specifikujes dal ces da frejmovi idu po X ili po Y osi
+        -TO je u cAnimation::init negde dole u loop-u
 -After malistone
 //TODO: Rendering targets
 //TODO: Mogucnost da recimo imas dve razlicite animacije, a obe da animira isti animator

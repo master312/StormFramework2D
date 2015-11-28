@@ -119,6 +119,12 @@ uint32_t S_CreateSection(const std::string &filename , sRect &section) {
 uint32_t S_CreateSection(uint32_t &id, sRect &section) {
     return graphicsManager.CreateSection(id, section);
 }
+void S_GraphModSrc(uint32_t &id, sRect &src) {
+    graphicsManager.GetObject(id)->m_SrcRect = src;
+}
+sRect *S_GraphGetSrc(uint32_t &id) {
+    return &graphicsManager.GetObject(id)->m_SrcRect;
+}
 
 bool S_LoadFont(const std::string &filename) {
     return fontManager.LoadFont(filename);

@@ -25,19 +25,24 @@ struct sAnimator {
     uint32_t m_LastTime;
     /* Is animation running (auto ticking) */
     bool m_IsAnimated;
+    /* Pointer to sTextureObject */
+    sTextureObject *m_Object;
 
     sAnimator () : m_CurFrame(0),
                    m_FrameTime(0.0f),
                    m_StartFrame(0),
                    m_EndFrame(0),
                    m_LastTime(STORM_TIME),
-                   m_IsAnimated(true) { }
-    sAnimator (uint32_t start, uint32_t end, uint32_t fps) :
+                   m_IsAnimated(true),
+                   m_Object(nullptr) { }
+    sAnimator (uint32_t start, uint32_t end, 
+               uint32_t fps, sTextureObject *texture = nullptr) :
                m_CurFrame(start),
                m_StartFrame(start),
                m_EndFrame(end),
                m_LastTime(STORM_TIME),
-               m_IsAnimated(true) { 
+               m_IsAnimated(true),
+               m_Object(texture) { 
 
         m_FrameTime = (float) 1000 / fps;
     }

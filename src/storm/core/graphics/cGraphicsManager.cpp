@@ -195,13 +195,13 @@ uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
     tmp.m_DestRect.w = texture->GetWidthPx();
     tmp.m_DestRect.h = texture->GetHeightPx();
     tmp.CalcMiddle();
-    m_TextureObjects[newId] = tmp;
 
     if (section != nullptr) {
         tmp.m_SrcRect = *section;
         tmp.m_IsSection = true;
     }
-
+    
+    m_TextureObjects[newId] = tmp;
     m_LastObject = &m_TextureObjects[newId];
     m_OnScreen.push_back(&m_TextureObjects[newId]);
     std::sort(m_OnScreen.begin(), m_OnScreen.end(), sTextureObject::Cmp);

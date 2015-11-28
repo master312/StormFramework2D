@@ -1,5 +1,7 @@
 #include "cTestState.h"
 
+using namespace StormFramework;
+
 
 cTestState::cTestState() {
 	std::cout << "Created " << std::endl;
