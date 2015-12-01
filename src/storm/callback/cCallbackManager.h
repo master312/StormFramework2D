@@ -26,6 +26,7 @@ struct sCallback;
 
 class cCallbackManager {
 public:
+    cCallbackManager() : m_LastDelayedId(0) { }
     ~cCallbackManager();
     void Clear();
 
@@ -33,12 +34,17 @@ public:
 
     void AddIntervalCallback(const std::string &name,
                              sCallback *callback);
-    void AddDelayedCallback(sCallback *callback);
+    uint32_t AddDelayedCallback(sCallback *callback);
 
+    /* Removes 'interval callback' by name */
     void Remove(const std::string &name);
+    /* Removes delayed callback by ID */
+    void Remove(uint32_t &id);
 private:
     std::map<std::string, sCallback*> m_IntervalCallbacks;
     std::vector<sCallback*> m_DelayedCallbacks;
+    /* ID of last added dellayed callback */
+    uint32_t m_LastDelayedId;
 
     /* This method returns true, if @name already exists */
     /* in any of callback std::map-s */ 

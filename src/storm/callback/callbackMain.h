@@ -19,13 +19,14 @@ namespace StormFramework {
 /* Initialize callback system */
 int S_InitCallbacks();;
 /* Callback method will be called only once after specified delay */
-void S_AddDelayedCB(StormCB *cb);
+/* Return 'ID' of callback, so it can be canceled later */
+uint32_t S_AddDelayedCB(StormCB *cb);
 /* Callback method will be called on specified interval */
 /* If method returns < 0, it will be removed from callback system */
 void S_AddIntervalCB(const std::string &name, StormCB *cb);
 
 void S_RemoveCB(const std::string &name);
-
+void S_RemoveCB(uint32_t &id);
 
 StormFramework::cCallbackManager &S_GetCallbackManager();
 

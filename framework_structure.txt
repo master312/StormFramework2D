@@ -19,9 +19,8 @@
 //TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
 
 
-4. >> //TODO: Texture menager TODO writen on top of file...
-5. >> //TODO: Add option to stop auto-drawing and ticking
-       -of animations and graphic. Use one #define in defines.h for this 
+5. >> //TODO: Add option to stop auto-drawing and auto-ticking
+       of animations and graphic. Use one #define in defines.h for this 
 
 >>//TODO-MEDIUM: Rename 'callback' to 'interupt'
 >>//TODO-MEDIUM: Move callback folder to core

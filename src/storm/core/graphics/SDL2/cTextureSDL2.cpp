@@ -54,7 +54,12 @@ int cTextureSDL2::Load() {
     return 1;
 }
 void cTextureSDL2::Unload() {
+    if (m_Texture == nullptr)
+        return;
     SDL_DestroyTexture(m_Texture);
+    m_Texture = nullptr;
+    S_LogDebug("cTextureSDL2", 
+               "Texture '%s' unloaded from memory", m_Filename.c_str());
 }
 void cTextureSDL2::Draw(const int &srcX, const int &srcY, 
     const int &srcW, const int &srcH, const int &destX, const int &destY, 

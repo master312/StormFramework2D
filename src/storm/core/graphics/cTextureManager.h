@@ -14,7 +14,6 @@
 #include <iostream>
 #include <sstream>
 #include <map>
-#include "../../callback/callbackMain.h"
 #include "../framework/frameworkMain.h"
 #include "../framework/cFileSystem.h"
 #include "graphicsMain.h"
@@ -32,10 +31,11 @@ public:
     
     // Loads texture. Returns nulltpr on error
     cTextureBase *Load(const std::string &filename, uint32_t *id = nullptr);
-    // Delete all unused texture. 
-    // Called by callback system on specified interval 
-    int ClearTick();
-    
+    // Deletes @texture object from m_Textures.
+    // THIS METHOD IS INTENDED TO BE USED ONLY BY CALLBACK
+    // FROM cTextureBase CLASS!
+    void Unload(cTextureBase *texture);
+
     /*** Texture drawing methods ***/
     // Draws texture, using preset parameters
     void Draw(sTextureObject *par);

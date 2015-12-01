@@ -42,8 +42,15 @@ void cCallbackManager::AddIntervalCallback(const std::string &name,
     }
     m_IntervalCallbacks[name] = callback;
 }
-void cCallbackManager::AddDelayedCallback(sCallback *callback) {
+uint32_t cCallbackManager::AddDelayedCallback(sCallback *callback) {
+    if (m_LastDelayedId == callback->m_LastTime) {
+        S_LogWarning("cCallbackManager", 
+                     "Multiple callbacks added in less the one MS.");
+    }
+
+    m_LastDelayedId = callback->m_LastTime;
     m_DelayedCallbacks.push_back(callback);
+    return callback->m_LastTime;
 }
 
 void cCallbackManager::Remove(const std::string &name) {
@@ -51,6 +58,14 @@ void cCallbackManager::Remove(const std::string &name) {
         // Callback is "on interval" type
         delete m_IntervalCallbacks[name];
         m_IntervalCallbacks.erase(name);
+    }
+}
+void cCallbackManager::Remove(uint32_t &id) {
+    for (uint32_t i = 0; i < m_DelayedCallbacks.size(); i++) {
+        if (m_DelayedCallbacks[i]->m_LastTime == id) {
+            m_DelayedCallbacks.erase(m_DelayedCallbacks.begin() + i);
+            return;
+        }
     }
 }
 // Private methods

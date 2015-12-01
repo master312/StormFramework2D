@@ -1,6 +1,5 @@
 #include "cTextureManager.h"
 #include "SDL2/cTextureSDL2.h"
-#include <functional>
 
 namespace StormFramework {
 
@@ -15,9 +14,7 @@ cTextureManager::~cTextureManager() {
     m_TextureFilenames.clear();
 }
 void cTextureManager::Initialize() {
-    S_AddIntervalCB("TextureClearTick", 
-                    new StormCB(STORM_TEXTURES_CLEAR_INTERVAL,
-                              std::bind(&cTextureManager::ClearTick, this)));
+
 }
 
 cTextureBase *cTextureManager::Load(const std::string &filename, 
@@ -64,26 +61,16 @@ cTextureBase *cTextureManager::Load(const std::string &filename,
 
     return texture;
 }
-int cTextureManager::ClearTick() {
-    bool isDeleted = false;
-    for (auto &iter : m_Textures) {
-        cTextureBase *txt = iter.second;
-        if (txt->GetUsage() <= 0) {
-            // Texture is unused. Delete it
-            m_TextureFilenames.erase(txt->GetFilename());
-            m_Textures.erase(iter.first);
-            
-            m_MemoryUsage -= (txt->GetMemoryUsage() / 1024);
-            delete txt;
+void cTextureManager::Unload(cTextureBase *texture) {
 
-            isDeleted = true;
-        }
-    }
-    if (isDeleted) {
-        UpdateDebugString();
-    }
+    m_MemoryUsage -= (texture->GetMemoryUsage() / 1024);
+    uint32_t id = m_TextureFilenames[texture->GetFilename()];
+    texture->Unload();
+    m_TextureFilenames.erase(texture->GetFilename());
+    m_Textures.erase(id);
 
-    return 1;
+    UpdateDebugString();
+    delete texture;
 }
 void cTextureManager::Draw(sTextureObject *obj) {
     if (obj == nullptr) {

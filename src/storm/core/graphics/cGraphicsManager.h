@@ -10,7 +10,6 @@
 #include <algorithm>
 #include <vector>
 #include <map>
-#include <algorithm>
 #include <sstream>
 #include "../../defines.h"
 #include "cGraphicsBase.h"
