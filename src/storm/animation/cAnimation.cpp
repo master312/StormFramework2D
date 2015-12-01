@@ -165,7 +165,7 @@ int cAnimation::Init() {
 void cAnimation::Tick(uint32_t &delta) {
     for (auto &iter : m_Animators) {
         if (iter.second.m_IsAnimated) {
-            TickAnimator(&iter.second);
+            TickAnimator(&iter.second, delta);
         }
     }
 }
@@ -206,18 +206,26 @@ void cAnimation::RemoveGroup(const std::string &name) {
     std::cout << "TODO: REMOVE GROUP" << std::endl;
 }
 // Private methods
-void cAnimation::TickAnimator(sAnimator *anim) {
+void cAnimation::TickAnimator(sAnimator *anim, uint32_t &delta) {
     // Check if animation is ready to tick
-    // TODO: Ove setuj SRC frame lokacije
-    if (STORM_TIME - anim->m_LastTime >= anim->m_FrameTime) {
+    float framesLate = (STORM_TIME - anim->m_LastTime) / anim->m_FrameTime;
+    if (framesLate >= 1.0f) {
+        if (framesLate >= 2) {
+            anim->m_CurFrame += (int)framesLate;
+            if (anim->m_CurFrame >= anim->m_EndFrame) {
+                uint32_t tmp = anim->m_CurFrame / anim->m_EndFrame;
+                anim->m_CurFrame = (anim->m_EndFrame * tmp);
+            }
+        } else {
+            anim->m_CurFrame ++;
+        }
+        
         if (anim->m_CurFrame >= anim->m_EndFrame) {
             anim->m_CurFrame = anim->m_StartFrame;
         }
 
-        anim->m_Object->m_SrcRect = m_Frames[anim->m_CurFrame];
-        
+        anim->m_Object->m_SrcRect = m_Frames[anim->m_CurFrame];        
         anim->m_LastTime = STORM_TIME;
-        anim->m_CurFrame ++;
     }
 }
 

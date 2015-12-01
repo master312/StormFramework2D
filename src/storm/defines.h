@@ -18,9 +18,10 @@ typedef unsigned int uint;
 //TODO: Mac support
 #endif
 
-#define STORM_BUILD_SDL 0
+// Uncomment libraries you want to build
+//#define STORM_BUILD_SDL 0
 #define STORM_BUILD_SDL2 1
-#define STORM_BUILD_GLES 0
+#define STORM_BUILD_GLES 1
 
 // Define storm framework version
 #define STORM_VERSION_MAJOR 0
@@ -36,7 +37,13 @@ typedef unsigned int uint;
 #define STORM_DIR_FONTS "data/fonts/"
 #define STORM_DIR_ANIMATIONS "data/animations/"
 
-#define STORM_TEXTURE_TIMEOUT 5000  //Delete texture if unused for this time(ms)
+#define STORM_TEXTURE_TIMEOUT 10000  //Delete texture if unused for this time(ms)
 #define STORM_ANIMATION_MAX_FPS 30   //Maximum FPS that animation can have
+
+// It this is set to zero, graphics will not be drawn
+// automatically on load. It has to be drawn manually every frame
+#define STORM_ENABLE_DRAW_MANAGER 1
+// It this is set to zero, animation will not tick
+#define STORM_ENABLE_ANIMATE_MANAGER 1
 
 #endif /* STORM_DEFINES_H__ */

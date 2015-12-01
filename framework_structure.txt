@@ -1,26 +1,17 @@
-//TODO-LOW: Texture timeout before deletion
-//MABY-LOW: Research more... Do not keep Draw methods in texture manager class
-//TODO-MEDIUM: Create separated class for managing texture sections
 //TODO-MEDIUM: Background box behind the text
 //TODO-MEDIUM: Text size modulation
 //TODO-LOW: Check if ifdef #BUILD_SDL2 is put in every SDL2 related class
 //TODO-PAUSED: Create texture spliting system, if texture is bigger then hardware supports
 //TODO-LOW: in logger, pass 'va_list ap' as reference
-//TODO-LOW: Cleanup/rewrite cEventSDL2 class
 
 //TODO-RESEARCH-MEDIUM: Mod color system
 
 //TODO: Do not draw texture if its out of screen
-//TODO: Create effect_move(newPos, time), effect_rotate(angle, time) methods
-        -effect_fadeout(time), effect_fadein(time)
 //TODO-LATER-RESEARCH: Maybe create color mod variables in sTextureParameters
 
 //TODO-LOW: Split graphicsMain.h into multiple files 
 //TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
 
-
-5. >> //TODO: Add option to stop auto-drawing and auto-ticking
-       of animations and graphic. Use one #define in defines.h for this 
 
 >>//TODO-MEDIUM: Rename 'callback' to 'interupt'
 >>//TODO-MEDIUM: Move callback folder to core
@@ -70,18 +61,17 @@
 | | | -Timer class                                          == DONE
 | | | -Vector2 class                                        == CREATED
 | | -Graphics
-| | | -Rendering system                                     == BASE-DONE
+| | | -Rendering system                                     == DONE
 | | | -Textures manager                                     == DONE
-| | | -Texture section manager                              == TODO
 | | | -Font rendering                                       == BASE-DONE
-| | -Events manager                                         == BASE-DONE
-| | -States manager                                         == DONE ?
+| | -Events manager                                         == DONE
+| | -Layers manager                                         == DONE
 | -Audio
 | | -Sound manager                                          == CREATED
 | | -Music manager                                          == CREATED
 | -Console manager                                          == RESEARCH
 | -Animation class                                          == BASE-DONE;  TODO: Delta based ticking
-| -Animation manager                                        == BASE-DONE
+| -Animation manager                                        == DONE
 | -Network manager                                          == LATER
 | -Callbacks manager                                        == DONE
 | --Main class                                              == BASE-DONE

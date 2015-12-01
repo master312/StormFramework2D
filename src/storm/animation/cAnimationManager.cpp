@@ -54,9 +54,11 @@ void cAnimationManager::Clear() {
     m_Animations.clear();
 }
 void cAnimationManager::Tick(uint32_t &delta) {
+#if STORM_ENABLE_ANIMATE_MANAGER != 0
     for (uint32_t i = 0; i < m_AnimationsVec.size(); i++) {
         m_AnimationsVec[i]->Tick(delta);
     }
+#endif
 }
 
 } /* namespace StormFramework */

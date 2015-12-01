@@ -42,8 +42,10 @@ int cGraphicsManager::Initialize() {
 
     return 1;
 }
-bool cGraphicsManager::Tick() {    
+bool cGraphicsManager::Tick() {
+#if STORM_ENABLE_DRAW_MANAGER != 0
     DrawAll();
+#endif
 
     S_DrawText(m_DebugString, 5, 5);
     S_DrawText(S_GetTextureManager().GetDebugString(), 5, 25);

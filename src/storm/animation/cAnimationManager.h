@@ -14,6 +14,7 @@
 #include <map>
 #include <vector>
 #include "cAnimation.h"
+#include "../defines.h"
 
 namespace StormFramework {
 

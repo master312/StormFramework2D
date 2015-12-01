@@ -141,7 +141,7 @@ private:
     bool isInited;
 
     /* Handle's animator ticking */
-    void TickAnimator(sAnimator *anim);
+    void TickAnimator(sAnimator *anim, uint32_t &delta);
 };
 
 } /* namespace StormFramework { */
