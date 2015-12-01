@@ -1,5 +1,5 @@
 /* 
- * File:   eventsMain.h
+ * File:   cBinary.h
  * Author: master312
  *
  * Created on Thu March 5 10:50:50 2015
@@ -7,14 +7,14 @@
  * And binary data manipulation
  * TODO: Add Int64 methods
  */
-#ifndef STORM_CDATA_H__
-#define STORM_CDATA_H__
+#ifndef SCBINARY_H__
+#define SCBINARY_H__
 #include "../../defines.h"
 #include <iostream>
 
 namespace StormFramework {
 
-class cData {
+class cBinary {
 public:
     static bool IsBigEndian();
     

@@ -39,10 +39,10 @@ StormFramework::cBitmapFontManager &S_GetFontManager() {
 
 uint32_t S_CreateGraphics(const std::string &filename, 
                        uint32_t *id /* = nullptr */) {
-    return graphicsManager.LoadTexture(filename, id);
+    return graphicsManager.CreateObject(filename, id);
 }
 void S_DestroyGraphics(uint32_t id) {
-    graphicsManager.UnloadTexture(id);
+    graphicsManager.DestroyObject(id);
 }
 void S_GraphModVisible(uint32_t id, bool isVisible) {
     graphicsManager.TxtModVisible(id, isVisible);

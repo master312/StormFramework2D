@@ -8,7 +8,7 @@
 #ifndef CANIMATOR_H__
 #define CANIMATOR_H__
 #include "../core/framework/frameworkMain.h"
-#include "../core/graphics/sTextureObject.h"
+#include "../core/graphics/sGraphicsObject.h"
 
 namespace StormFramework {
 
@@ -25,8 +25,8 @@ struct sAnimator {
     uint32_t m_LastTime;
     /* Is animation running (auto ticking) */
     bool m_IsAnimated;
-    /* Pointer to sTextureObject */
-    sTextureObject *m_Object;
+    /* Pointer to sGraphicsObject */
+    sGraphicsObject *m_Object;
 
     sAnimator () : m_CurFrame(0),
                    m_FrameTime(0.0f),
@@ -36,7 +36,7 @@ struct sAnimator {
                    m_IsAnimated(true),
                    m_Object(nullptr) { }
     sAnimator (uint32_t start, uint32_t end, 
-               uint32_t fps, sTextureObject *texture = nullptr) :
+               uint32_t fps, sGraphicsObject *texture = nullptr) :
                m_CurFrame(start),
                m_StartFrame(start),
                m_EndFrame(end),

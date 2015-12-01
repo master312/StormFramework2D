@@ -14,7 +14,7 @@
 #include "../../defines.h"
 #include "cGraphicsBase.h"
 #include "graphicsMain.h"
-#include "sTextureObject.h"
+#include "sGraphicsObject.h"
 #include "cBitmapFontManager.h"
 
 namespace StormFramework {
@@ -32,9 +32,9 @@ public:
 
     /* Loads texture, and creates new texture object. */
     /* Returns Object ID. @*id should only be used for debugging/testing */
-    uint32_t LoadTexture(const std::string &filename, uint32_t *id = nullptr);
-    void UnloadTexture(uint32_t &id);
-    sTextureObject *GetObject(uint32_t &id);
+    uint32_t CreateObject(const std::string &filename, uint32_t *id = nullptr);
+    void DestroyObject(uint32_t &id);
+    sGraphicsObject *GetObject(uint32_t &id);
 
     /* Creates texture section. Returns ID */
     uint32_t CreateSection(const std::string &filename, sRect &section);
@@ -53,18 +53,18 @@ public:
     cGraphicsBase *GetGraphics() { return m_Graphics; }
     uint32_t GetOnScreenCount() { return m_OnScreen.size(); }
     uint32_t GetObjectsCount() { return m_TextureObjects.size(); }
-    sTextureObject *GetLastCreated() { return m_LastObject; }
+    sGraphicsObject *GetLastCreated() { return m_LastObject; }
 private:
     int m_Api;
     cGraphicsBase *m_Graphics;
     std::string m_DebugString;
 
     /* Vector of all texture objects that are currently on screen */
-    std::vector<sTextureObject*> m_OnScreen;
+    std::vector<sGraphicsObject*> m_OnScreen;
     /* Map of all texture objects */
-    std::map<uint32_t, sTextureObject> m_TextureObjects;
+    std::map<uint32_t, sGraphicsObject> m_TextureObjects;
     /* Stores pointer to last created object */
-    sTextureObject *m_LastObject;
+    sGraphicsObject *m_LastObject;
 
     /* Draw all texture objects on screen */
     void DrawAll();

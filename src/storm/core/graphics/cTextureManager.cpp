@@ -72,7 +72,7 @@ void cTextureManager::Unload(cTextureBase *texture) {
     UpdateDebugString();
     delete texture;
 }
-void cTextureManager::Draw(sTextureObject *obj) {
+void cTextureManager::Draw(sGraphicsObject *obj) {
     if (obj == nullptr) {
         return;
     }

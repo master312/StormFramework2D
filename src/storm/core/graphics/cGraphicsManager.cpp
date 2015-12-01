@@ -53,7 +53,7 @@ bool cGraphicsManager::Tick() {
     m_Graphics->SwapBuffers();
     return true;
 }
-uint32_t cGraphicsManager::LoadTexture(const std::string &filename, 
+uint32_t cGraphicsManager::CreateObject(const std::string &filename, 
                                        uint32_t *id) {
     cTextureBase *txt = S_GetTextureManager().Load(filename, id);
     if (txt == nullptr) {
@@ -62,12 +62,12 @@ uint32_t cGraphicsManager::LoadTexture(const std::string &filename,
     }
     return GenerateObject(txt);
 }
-void cGraphicsManager::UnloadTexture(uint32_t &id) {
+void cGraphicsManager::DestroyObject(uint32_t &id) {
     auto iter = m_TextureObjects.find(id);
     if (iter == m_TextureObjects.end()) {
         return;
     }
-    sTextureObject *obj = &iter->second;
+    sGraphicsObject *obj = &iter->second;
     obj->m_Texture->DecUsage();
     if (m_LastObject == obj) {
         m_LastObject = nullptr;
@@ -83,7 +83,7 @@ void cGraphicsManager::UnloadTexture(uint32_t &id) {
     obj = nullptr; //Not needed, but just in case leave it here
     m_TextureObjects.erase(iter);
 }
-sTextureObject *cGraphicsManager::GetObject(uint32_t &id) {
+sGraphicsObject *cGraphicsManager::GetObject(uint32_t &id) {
     auto iter = m_TextureObjects.find(id);
     if (iter == m_TextureObjects.end()) {
         return nullptr;
@@ -107,7 +107,7 @@ uint32_t cGraphicsManager::CreateSection(uint32_t &id, sRect &section) {
     return GenerateObject(txt, &section);
 }
 void cGraphicsManager::TxtModVisible(uint32_t &id, bool &isVisible) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
@@ -126,7 +126,7 @@ void cGraphicsManager::TxtModVisible(uint32_t &id, bool &isVisible) {
     tmp->m_IsVisible = isVisible;    
 }
 void cGraphicsManager::TxtModPos(uint32_t &id, sPoint &point) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
@@ -134,7 +134,7 @@ void cGraphicsManager::TxtModPos(uint32_t &id, sPoint &point) {
     tmp->m_DestRect.y = point.y;
 }
 void cGraphicsManager::TxtModPos(uint32_t &id, int &x, int &y) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
@@ -142,36 +142,36 @@ void cGraphicsManager::TxtModPos(uint32_t &id, int &x, int &y) {
     tmp->m_DestRect.y = y;
 }
 void cGraphicsManager::TxtModZ(uint32_t &id, int &z) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Z = z;
-    std::sort(m_OnScreen.begin(), m_OnScreen.end(), sTextureObject::Cmp);
+    std::sort(m_OnScreen.begin(), m_OnScreen.end(), sGraphicsObject::Cmp);
 }
 void cGraphicsManager::TxtModAngle(uint32_t &id, double &angle) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Angle = angle;
 }
 void cGraphicsManager::TxtModOpacity(uint32_t &id, uint8_t &opacity) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Opacity = opacity;
 }
 void cGraphicsManager::TxtModCenter(uint32_t &id, sPoint &center) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Center = center;
 }
 void cGraphicsManager::TxtModCenter(uint32_t &id, int &x, int &y) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
@@ -192,7 +192,7 @@ uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
         --iter;
         newId = iter->first + 1;
     }
-    sTextureObject tmp;
+    sGraphicsObject tmp;
     tmp.m_Texture = texture;
     tmp.m_DestRect.w = texture->GetWidthPx();
     tmp.m_DestRect.h = texture->GetHeightPx();
@@ -206,7 +206,7 @@ uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
     m_TextureObjects[newId] = tmp;
     m_LastObject = &m_TextureObjects[newId];
     m_OnScreen.push_back(&m_TextureObjects[newId]);
-    std::sort(m_OnScreen.begin(), m_OnScreen.end(), sTextureObject::Cmp);
+    std::sort(m_OnScreen.begin(), m_OnScreen.end(), sGraphicsObject::Cmp);
     
     return newId;
 }

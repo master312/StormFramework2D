@@ -179,7 +179,7 @@ uint32_t cAnimation::CreateAnimator() {
         return 0;
     }
 
-    sTextureObject *tmp = S_GetGraphicsManager().GetLastCreated();
+    sGraphicsObject *tmp = S_GetGraphicsManager().GetLastCreated();
     
     tmp->m_DestRect.w = m_Frame.w;
     tmp->m_DestRect.h = m_Frame.h;

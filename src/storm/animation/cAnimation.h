@@ -4,11 +4,11 @@
  *
  * Created on October 26, 2015, 8:02 PM
  * Princip sine miladine:
- *  -Every sAnimator object have sTextureObject, and theirs ids are the same
- *  -sTextureObject is texture section.
- *  -sTextureObject ~MUST~ be created and deleted trough cAnimation class
- *  -sAnimator contains pointer to sTextureObject (to make process easier on CPU)
- *  -sAnimator ~MUST~ be deleted before sTextureObject  
+ *  -Every sAnimator object have sGraphicsObject, and theirs ids are the same
+ *  -sGraphicsObject is texture section.
+ *  -sGraphicsObject ~MUST~ be created and deleted trough cAnimation class
+ *  -sAnimator contains pointer to sGraphicsObject (to make process easier on CPU)
+ *  -sAnimator ~MUST~ be deleted before sGraphicsObject  
  */
 
 #ifndef CANIMATION_H__

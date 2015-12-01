@@ -14,7 +14,7 @@
 #include "../framework/cFileSystem.h"
 #include "graphicsMain.h"
 #include "cTextureBase.h"
-#include "sTextureObject.h"
+#include "sGraphicsObject.h"
 
 namespace StormFramework {
 
@@ -34,7 +34,7 @@ public:
 
     /*** Texture drawing methods ***/
     // Draws texture, using preset parameters
-    void Draw(sTextureObject *par);
+    void Draw(sGraphicsObject *par);
     // These methods should only be used for internal or debug purposes
     void Draw(uint32_t &id, int &x, int &y);
     void Draw(uint32_t &id, int &x, int &y, int &w, int &h);
