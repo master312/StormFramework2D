@@ -3,10 +3,6 @@
  * Author: master312
  *
  * Created on September 26, 2015, 8:42 PM
- * TODO: int ClearTick(); is not needed!!!
- * Create new "Clear()" method in cTextureBase
- * and call if after delay (using calback system)
- * if texture usage drops to zero.
  */
 
 #ifndef CTEXTUREMANAGER_H__
