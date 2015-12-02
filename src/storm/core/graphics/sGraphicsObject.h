@@ -30,8 +30,8 @@ struct sGraphicsObject {
                        m_Angle(angle), m_Opacity(opacity), 
                        m_Texture(texture), m_Z(0), m_IsVisible(true),
                        m_IsSection(false) { 
-        m_DestRect.w = m_Texture->GetWidthPx();
-        m_DestRect.h = m_Texture->GetHeightPx();
+        m_DestRect.w = m_Texture->GetPxWidth();
+        m_DestRect.h = m_Texture->GetPxHeight();
         CalcMiddle();
     }
 
@@ -39,8 +39,8 @@ struct sGraphicsObject {
     void CalcMiddle() {
         if (m_Texture == nullptr)
             return;
-        m_Center.x = m_Texture->GetWidthPx() / 2;
-        m_Center.y = m_Texture->GetHeightPx() / 2;
+        m_Center.x = m_Texture->GetPxWidth() / 2;
+        m_Center.y = m_Texture->GetPxHeight() / 2;
     }
 
     // Compare method. Used for sorting (std::sort)

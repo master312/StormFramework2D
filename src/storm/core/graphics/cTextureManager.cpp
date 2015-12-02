@@ -78,7 +78,7 @@ void cTextureManager::Draw(sGraphicsObject *obj) {
     }
     cTextureBase *tmp = obj->m_Texture;
     if (!obj->m_IsSection) {
-        tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), 
+        tmp->Draw(0, 0, tmp->GetPxWidth(), tmp->GetPxHeight(), 
                   obj->m_DestRect.x, obj->m_DestRect.y, 
                   obj->m_DestRect.w, obj->m_DestRect.h, 
                   obj->m_Angle, obj->m_Opacity, obj->m_Center);
@@ -96,8 +96,8 @@ void cTextureManager::Draw(uint32_t &id, int &x, int &y) {
         return;
     }
     
-    tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), x, y, 
-              tmp->GetWidthPx(), tmp->GetHeightPx(), 0, 255, m_DefCenter);
+    tmp->Draw(0, 0, tmp->GetPxWidth(), tmp->GetPxHeight(), x, y, 
+              tmp->GetPxWidth(), tmp->GetPxHeight(), 0, 255, m_DefCenter);
 }
 void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
     cTextureBase *tmp = m_Textures[id];
@@ -105,7 +105,7 @@ void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
         return;
     }
 
-    tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), x, y, 
+    tmp->Draw(0, 0, tmp->GetPxWidth(), tmp->GetPxHeight(), x, y, 
               w, h, 0, 255, m_DefCenter);
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, int &x, int &y) {

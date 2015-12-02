@@ -1,4 +1,5 @@
 #include "cGraphicsSDL2.h"
+#ifdef STORM_BUILD_SDL2
 
 namespace StormFramework {
 
@@ -50,3 +51,4 @@ void cGraphicsSDL2::ClearScreen() {
 }
 
 } /* namespace StormFramework */
+#endif /* #ifdef STORM_BUILD_SDL2 */

@@ -4,9 +4,10 @@
  *
  * Created on September 27, 2015, 3:23 AM
  */
-
 #ifndef CTEXTURESDL2_H__
 #define CTEXTURESDL2_H__
+#include "../../../defines.h"
+#ifdef STORM_BUILD_SDL2
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -29,8 +30,8 @@ public:
               const int &destW, const int &destH,
               const double &angle, const int &opacity, sPoint &center);
     
-    uint32_t GetWidthPx() { return m_Width; }
-    uint32_t GetHeightPx() { return m_Height; }
+    uint32_t GetPxWidth() { return m_Width; }
+    uint32_t GetPxHeight() { return m_Height; }
 
     void ModColor(uint8_t &r, uint8_t &g, uint8_t &b);
 private:
@@ -46,4 +47,4 @@ private:
 
 } /* namespace StormFramework */
 #endif  /* CTEXTURESDL2_H */
-
+#endif /* #ifdef STORM_BUILD_SDL2 */

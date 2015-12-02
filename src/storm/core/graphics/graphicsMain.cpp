@@ -99,7 +99,7 @@ void S_DrawRaw(uint32_t &id, int &x, int &y) {
 uint32_t S_GetRawTextureWidth(uint32_t id) {
     StormFramework::cTextureBase *tmp = textureManager.GetTexture(id);
     if (tmp != nullptr) {
-        return tmp->GetWidthPx();
+        return tmp->GetPxWidth();
     }
     S_LogError("graphicsMain.cpp", "Could not found texture id: '%d'", id);
     return 0;
@@ -107,7 +107,7 @@ uint32_t S_GetRawTextureWidth(uint32_t id) {
 uint32_t S_GetRawTextureHeight(uint32_t id) {
     StormFramework::cTextureBase *tmp = textureManager.GetTexture(id);
     if (tmp != nullptr) {
-        return tmp->GetWidthPx();
+        return tmp->GetPxWidth();
     }
     S_LogError("graphicsMain.cpp", "Could not found texture id: '%d'", id);
     return 0;

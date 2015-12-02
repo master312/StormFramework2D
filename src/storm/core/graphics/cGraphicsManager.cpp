@@ -50,6 +50,8 @@ bool cGraphicsManager::Tick() {
     S_DrawText(m_DebugString, 5, 5);
     S_DrawText(S_GetTextureManager().GetDebugString(), 5, 25);
 
+    S_DrawText("Test\nStEst", 100, 100);
+
     m_Graphics->SwapBuffers();
     return true;
 }
@@ -194,8 +196,8 @@ uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
     }
     sGraphicsObject tmp;
     tmp.m_Texture = texture;
-    tmp.m_DestRect.w = texture->GetWidthPx();
-    tmp.m_DestRect.h = texture->GetHeightPx();
+    tmp.m_DestRect.w = texture->GetPxWidth();
+    tmp.m_DestRect.h = texture->GetPxHeight();
     tmp.CalcMiddle();
 
     if (section != nullptr) {

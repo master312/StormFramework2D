@@ -1,3 +1,5 @@
+#include "../../../defines.h"
+#ifdef STORM_BUILD_SDL2
 #include "cTextureSDL2.h"
 #include "cGraphicsSDL2.h"
 #include "../graphicsMain.h"
@@ -104,3 +106,4 @@ SDL_Texture *cTextureSDL2::MakeTexture(SDL_Surface *sur, uint32_t &size) {
 }
 
 } /* namespace StormFramework */
+#endif /* #ifdef STORM_BUILD_SDL2 */

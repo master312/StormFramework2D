@@ -1,3 +1,5 @@
+#include "../../../defines.h"
+#ifdef STORM_BUILD_SDL2
 #include "cEventSDL2.h"
 #include "../cEventManager.h"
 #include "../eventsMain.h"
@@ -115,3 +117,4 @@ void cEventSDL2::Update() {
 }
 
 } /* namespace StormFramework */
+#endif /* #ifdef STORM_BUILD_SDL2 */

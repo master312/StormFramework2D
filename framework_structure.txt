@@ -1,6 +1,5 @@
+//TODO-MEDIUM: Use strings class in cBitmapFontManager loading progress
 //TODO-MEDIUM: Background box behind the text
-//TODO-MEDIUM: Text size modulation
-//TODO-LOW: Check if ifdef #BUILD_SDL2 is put in every SDL2 related class
 //TODO-PAUSED: Create texture spliting system, if texture is bigger then hardware supports
 //TODO-LOW: in logger, pass 'va_list ap' as reference
 
@@ -13,20 +12,22 @@
 //TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
 
 
->>//TODO-MEDIUM: Rename 'callback' to 'interupt'
+>>//TODO-maby?: Rename 'callback' to 'interupt'
 >>//TODO-MEDIUM: Move callback folder to core
 >>//TODO-MEDIUM: Better callback creating method S_AddIntervalCB (2 complicated to create sCalback object every time)
 >>//TODO-AFTER ^^: Test everything.. like a lot
 
+//TODO-HIGH: Set texture transparency color
 //TODO: Create delay (timeout) before animation object deletion
 //TODO: Skip cAnimation::tick ako je sTextureObject nevidljiv (nije vidljid xD )
-//TODO: Rename 'GetHeightPx' to 'GetPxHeight' (and for width too)
 //TODO: daj opciju animacijama da specifikujes dal ces da frejmovi idu po X ili po Y osi
         -TO je u cAnimation::init negde dole u loop-u
 
 -After malistone
 //TODO: Rendering targets
-//TODO: Mogucnost da recimo imas dve razlicite animacije, a obe da animira isti animator
+//TODO: Mogucnost da recimo imas dve razlicite animacije, 
+        a obe da animira isti animator. To moze da bude korisno recimo
+        za animiranje armora na igracu
 
 
 !! THIS IS NOT STORMFRAMEWORK FEATURE !!

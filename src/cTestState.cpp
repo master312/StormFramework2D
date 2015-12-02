@@ -53,9 +53,11 @@ void cTestState::OnKeyDown(StormKey &key) {
         }
     } else if (key == KEY_d) {
         std::cout << "DeSpawning..." << std::endl;
+        int count = 0;
         for (int i = 0; i < (int)sprites.size(); i++) {
-            if (i == 100)
+            if (count == 100)
                 break;
+            count++;
             S_DestroyGraphics(sprites[i]);
             sprites.erase(sprites.begin() + i);
             i = i > 0 ? i - 1 : 0;

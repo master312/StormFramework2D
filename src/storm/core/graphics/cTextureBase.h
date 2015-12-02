@@ -36,8 +36,8 @@ public:
                       const double &angle, const int &opacity,
                       sPoint &center) { }
     
-    virtual uint32_t GetWidthPx() = 0;
-    virtual uint32_t GetHeightPx() = 0;    
+    virtual uint32_t GetPxWidth() = 0;
+    virtual uint32_t GetPxHeight() = 0;    
 
     virtual void ModColor(uint8_t &r, uint8_t &g, uint8_t &b) { }
 

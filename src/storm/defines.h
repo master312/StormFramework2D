@@ -19,7 +19,7 @@ typedef unsigned int uint;
 #endif
 
 // Uncomment libraries you want to build
-//#define STORM_BUILD_SDL 0
+//#define STORM_BUILD_SDL 1
 #define STORM_BUILD_SDL2 1
 #define STORM_BUILD_GLES 1
 

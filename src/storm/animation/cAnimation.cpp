@@ -113,20 +113,20 @@ int cAnimation::Init() {
     }
     sRect tmpFrame = m_Frame;
     int triggerWarning = 0;
-    if ((int)txt->GetWidthPx() <= m_Frame.x) {
+    if ((int)txt->GetPxWidth() <= m_Frame.x) {
         tmpFrame.x = 0;
         triggerWarning ++;
     }
-    if ((int)txt->GetWidthPx() <= m_Frame.x + m_Frame.w) {
-        tmpFrame.w = txt->GetWidthPx();
+    if ((int)txt->GetPxWidth() <= m_Frame.x + m_Frame.w) {
+        tmpFrame.w = txt->GetPxWidth();
         triggerWarning ++;
     }
-    if ((int)txt->GetHeightPx() <= m_Frame.y) {
+    if ((int)txt->GetPxHeight() <= m_Frame.y) {
         tmpFrame.y = 0;
         triggerWarning ++;
     }
-    if ((int)txt->GetWidthPx() <= m_Frame.y + m_Frame.h) {
-        tmpFrame.x = txt->GetWidthPx();
+    if ((int)txt->GetPxWidth() <= m_Frame.y + m_Frame.h) {
+        tmpFrame.x = txt->GetPxWidth();
         triggerWarning ++;
     }
     m_Frame = tmpFrame;
@@ -137,8 +137,8 @@ int cAnimation::Init() {
             return 2;
         }
     }
-    int framesX = (txt->GetWidthPx() - m_Frame.x) / m_Frame.w;
-    int framesY = (txt->GetHeightPx() - m_Frame.y) / m_Frame.h;
+    int framesX = (txt->GetPxWidth() - m_Frame.x) / m_Frame.w;
+    int framesY = (txt->GetPxHeight() - m_Frame.y) / m_Frame.h;
 
     if (framesX > (int)m_StartFrame) { 
         m_StartFrame = 0; 
@@ -152,8 +152,8 @@ int cAnimation::Init() {
         for (int i = 0; i < framesY; i++) {
             tmpRect.x = i * m_Frame.w;
             tmpRect.y = j * m_Frame.h;
-            if (tmpRect.x + tmpRect.w > (int)txt->GetWidthPx()) {
-                tmpRect.w = (tmpRect.x + tmpRect.w) - txt->GetWidthPx();
+            if (tmpRect.x + tmpRect.w > (int)txt->GetPxWidth()) {
+                tmpRect.w = (tmpRect.x + tmpRect.w) - txt->GetPxWidth();
             }
             m_Frames.push_back(tmpRect);
         }
