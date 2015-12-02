@@ -8,7 +8,7 @@
 #define SCALLBACK_H__
 #include <functional>
 #include <iostream>
-#include "../core/framework/frameworkMain.h"
+#include "../framework/frameworkMain.h"
 
 typedef std::function<int()> S_Callback;
 

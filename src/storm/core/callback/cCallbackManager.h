@@ -17,8 +17,8 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include "../core/framework/frameworkMain.h"
-#include "../defines.h"
+#include "../framework/frameworkMain.h"
+#include "../../defines.h"
 
 namespace StormFramework {
 

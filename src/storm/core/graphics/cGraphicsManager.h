@@ -59,16 +59,18 @@ private:
     cGraphicsBase *m_Graphics;
     std::string m_DebugString;
 
-    /* Vector of all texture objects that are currently on screen */
+    /* Vector of all objects that are currently on screen */
     std::vector<sGraphicsObject*> m_OnScreen;
-    /* Map of all texture objects */
+    /* Map of all objects */
     std::map<uint32_t, sGraphicsObject> m_TextureObjects;
     /* Stores pointer to last created object */
     sGraphicsObject *m_LastObject;
 
     /* Draw all texture objects on screen */
     void DrawAll();
-    /* Created new texture object, insert it into map, and return id */
+    /* Returns true if object is on the screen */
+    bool IsOnScreen(sGraphicsObject *obj);
+    /* Created new graphics object, insert it into map, and return id */
     uint32_t GenerateObject(cTextureBase *texture, sRect *section = nullptr);
 
 };

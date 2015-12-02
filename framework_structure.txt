@@ -1,19 +1,14 @@
 //TODO-MEDIUM: Use strings class in cBitmapFontManager loading progress
 //TODO-MEDIUM: Background box behind the text
 //TODO-PAUSED: Create texture spliting system, if texture is bigger then hardware supports
-//TODO-LOW: in logger, pass 'va_list ap' as reference
 
-//TODO-RESEARCH-MEDIUM: Mod color system
-
-//TODO: Do not draw texture if its out of screen
-//TODO-LATER-RESEARCH: Maybe create color mod variables in sTextureParameters
+//TODO-LATER-RESEARCH: Mod color system
+                       Maybe create color mod variables 
+                       in sTextureParameters
 
 //TODO-LOW: Split graphicsMain.h into multiple files 
-//TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
-
 
 >>//TODO-maby?: Rename 'callback' to 'interupt'
->>//TODO-MEDIUM: Move callback folder to core
 >>//TODO-MEDIUM: Better callback creating method S_AddIntervalCB (2 complicated to create sCalback object every time)
 >>//TODO-AFTER ^^: Test everything.. like a lot
 
@@ -28,6 +23,7 @@
 //TODO: Mogucnost da recimo imas dve razlicite animacije, 
         a obe da animira isti animator. To moze da bude korisno recimo
         za animiranje armora na igracu
+//TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
 
 
 !! THIS IS NOT STORMFRAMEWORK FEATURE !!

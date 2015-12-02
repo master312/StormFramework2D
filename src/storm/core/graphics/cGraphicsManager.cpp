@@ -50,8 +50,6 @@ bool cGraphicsManager::Tick() {
     S_DrawText(m_DebugString, 5, 5);
     S_DrawText(S_GetTextureManager().GetDebugString(), 5, 25);
 
-    S_DrawText("Test\nStEst", 100, 100);
-
     m_Graphics->SwapBuffers();
     return true;
 }
@@ -183,8 +181,16 @@ void cGraphicsManager::TxtModCenter(uint32_t &id, int &x, int &y) {
 // Private methods
 void cGraphicsManager::DrawAll() {
     for (auto i : m_OnScreen) {
-        S_GetTextureManager().Draw(i);
+        if (IsOnScreen(i)) {
+            S_GetTextureManager().Draw(i);
+        }
     }
+}
+bool cGraphicsManager::IsOnScreen(sGraphicsObject *obj) {
+    return obj->m_DestRect.x + obj->m_DestRect.w > 0 &&
+           obj->m_DestRect.x < m_Graphics->GetWidth() &&
+           obj->m_DestRect.y + obj->m_DestRect.h > 0 &&
+           obj->m_DestRect.y < m_Graphics->GetHeight();
 }
 uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
                                           sRect *section /* = nullptr */) {
