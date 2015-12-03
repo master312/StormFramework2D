@@ -22,6 +22,7 @@
         za animiranje armora na igracu
 //TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
 
+//TODO: Error defines. e.x. S_ERR_TEXTURE_TOO_BIG, S_ERR_NOT_FOUND
 
 !! THIS IS NOT STORMFRAMEWORK FEATURE !!
 1. >>HIGH!//TODO: Some king of texture sets/packs. For now, only textures set xml files, 

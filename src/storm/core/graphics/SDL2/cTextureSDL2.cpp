@@ -27,28 +27,24 @@ int cTextureSDL2::Load() {
         return -1;
     }
     
+    // TODO: Split texture if it is bigger resolution that hardware supports
     m_Width = tmpSur->w;
     m_Height = tmpSur->h;
     
-    // Split texture if it is bigger resolution that hardware supports
-//    uint32_t maxW = p_Graphics->GetMaxTxtWidth();
-//    uint32_t maxH = p_Graphics->GetMaxTxtHeight();
-    // int chunkWidth = 0;
-    // int chunkHeight = 0;
-    
-//    if (m_Width > maxW)
-//        chunkWidth = (m_Width / maxW) + 1;
-//    if (m_Height > maxH)
-//        chunkHeight = (m_Height / maxH) + 1;
-    
-    //TODO THIS(texture split) NEXT!
+    uint32_t maxW = p_Graphics->GetMaxTxtWidth();
+    uint32_t maxH = p_Graphics->GetMaxTxtHeight();
+    if (m_Width > maxW || m_Height > maxH) {
+        S_LogError("cTextureSDL2", 
+                   "Texture '%s' is bigger then hardware supports");
+        return -2;
+    }
     
     m_Texture = MakeTexture(tmpSur, m_MemoryUsage);
     
     SDL_FreeSurface(tmpSur);
     
     if (m_Texture == nullptr) {
-        return -1;
+        return -3;
     }
     
     S_LogDebug("cTextureSDL2", "Texture '%s' loaded", m_Filename.c_str());
