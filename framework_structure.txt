@@ -14,7 +14,7 @@
 
 //TODO: Zavrsi vise muziku jebem mu sunce... Al pre toga sve ovo iznad :D
 
--After malistone
+-- After malistone --
 //TODO: Rendering targets
 //TODO: Mogucnost da recimo imas dve razlicite animacije, 
         a obe da animira isti animator. To moze da bude korisno recimo

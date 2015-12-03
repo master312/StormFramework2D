@@ -55,6 +55,10 @@ public:
     int AddGroup(const std::string &name, uint32_t start, uint32_t end);
     void RemoveGroup(const std::string &name);
 
+    /* Called by interrupt manger to delete this texture
+     * if its not longer in use. Should never be called manually */
+    int Deletioninterrupt();
+
     /* Setters and getters for default parameters */
     void SetFrame(sRect &frame) { m_Frame = frame; }
     sRect &GetFrame() { return m_Frame; }

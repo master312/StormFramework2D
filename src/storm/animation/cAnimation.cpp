@@ -205,6 +205,9 @@ int cAnimation::AddGroup(const std::string &name, uint32_t start, uint32_t nd) {
 void cAnimation::RemoveGroup(const std::string &name) {
     std::cout << "TODO: REMOVE GROUP" << std::endl;
 }
+int cAnimation::Deletioninterrupt() {
+    
+}
 // Private methods
 void cAnimation::TickAnimator(sAnimator *anim, uint32_t &delta) {
     if (!S_GetGraphicsManager().IsOnScreen(anim->m_Object)) {

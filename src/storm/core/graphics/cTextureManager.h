@@ -43,6 +43,19 @@ public:
     void Draw(uint32_t &id, sRect &src, sRect &dest);
     // // // // //
 
+    void SetUseColorKeying(bool use) { m_UseColorKeying = use; }
+    bool IsColorKeying() { return m_UseColorKeying; }
+    void SetColorKey(uint8_t r, uint8_t g, uint8_t b) {
+        m_KeyR = r;
+        m_KeyG = g;
+        m_KeyB = b;
+    }
+    void GetColorKey(uint8_t &r, uint8_t &g, uint8_t &b) {
+        r = m_KeyR;
+        b = m_KeyG;
+        b = m_KeyB;
+    }
+
     cTextureBase *GetTexture(uint32_t &textureId);
 
     // Returns memory usage of all loaded textures (in KB)

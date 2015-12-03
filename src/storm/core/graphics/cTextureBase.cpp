@@ -1,5 +1,5 @@
 #include "cTextureBase.h"
-#include "../../core/interupts/interuptMain.h"
+#include "../../core/interrupts/interruptMain.h"
 #include "cTextureManager.h"
 #include "graphicsMain.h"
 
@@ -17,7 +17,7 @@ void cTextureBase::DecUsage() {
     m_Usage--;
     if (m_Usage <= 0 && m_DeleteCbId == 0) {
         // Texture not in use. Delete id after timeout
-        m_DeleteCbId = S_AddDelayedCB(new STORM_INTERUPT(STORM_TEXTURE_TIMEOUT, 
+        m_DeleteCbId = S_AddDelayedCB(new STORM_interrupt(STORM_TEXTURE_TIMEOUT, 
                                                          cTextureBase, 
                                                          DeleteCb,
                                                          this));

@@ -13,7 +13,7 @@
 #include "core/events/cEventManager.h"
 #include "core/layers/layersMain.h"
 #include "animation/animationMain.h"
-#include "core/interupts/interuptMain.h"
+#include "core/interrupts/interruptMain.h"
 #include "defines.h"
 
 namespace StormFramework {
