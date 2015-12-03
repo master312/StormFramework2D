@@ -4,7 +4,10 @@
 namespace StormFramework {
 
 
-cTextureManager::cTextureManager() : m_MemoryUsage(0) {
+cTextureManager::cTextureManager() : 
+        m_MemoryUsage(0),
+        m_UseColorKeying(true),
+        m_KeyR(255), m_KeyG(0), m_KeyB(255) {
 }
 cTextureManager::~cTextureManager() {
     for (auto &i : m_Textures) {
@@ -158,7 +161,13 @@ cTextureBase *cTextureManager::CreateAndLoad(const std::string &filename) {
         return nullptr;
     }
     texture->SetFilename(filename);
-    if (texture->Load() <= 0) {
+    int status = 0;
+    if (m_UseColorKeying) {
+        status = texture->Load(m_KeyR, m_KeyG, m_KeyB);
+    } else {
+        status = texture->Load();
+    }
+    if (status <= 0) {
         delete texture;
         return nullptr;
     }

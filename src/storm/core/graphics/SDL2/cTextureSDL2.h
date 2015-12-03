@@ -22,7 +22,9 @@ public:
     cTextureSDL2();
     ~cTextureSDL2();
     
-    int Load();
+    int Load(uint8_t keyR = 0, 
+             uint8_t keyG = 0, 
+             uint8_t keyB = 0);
     void Unload();
     void Draw(const int &srcX, const int &srcY, 
               const int &srcW, const int &srcH,

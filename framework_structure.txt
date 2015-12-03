@@ -1,6 +1,6 @@
-//TODO-MEDIUM: Use strings class in cBitmapFontManager loading progress
+//INFO: Default texture transparency color key is 255,0,255
+//TODO-MEDIUM: Use strings class in cBitmapFontManager loading process
 //TODO-MEDIUM: Background box behind the text
-//TODO-PAUSED: Create texture spliting system, if texture is bigger then hardware supports
 
 //TODO-LATER-RESEARCH: Mod color system
                        Maybe create color mod variables 
@@ -8,7 +8,6 @@
 
 //TODO-LOW: Split graphicsMain.h into multiple files 
 
-//TODO-HIGH: Set texture transparency color
 //TODO: Create delay (timeout) before animation object deletion
 //TODO: daj opciju animacijama da specifikujes dal ces da frejmovi idu po X ili po Y osi
         -TO je u cAnimation::init negde dole u loop-u

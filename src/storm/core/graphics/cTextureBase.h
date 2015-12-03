@@ -14,12 +14,15 @@ namespace StormFramework {
 
 class cTextureBase {
 public:
-    cTextureBase() : m_Filename(""), m_Usage(0), 
+    cTextureBase() : m_Filename(""), m_Usage(0),
                      m_MemoryUsage(0), m_DeleteCbId(0) { }
     virtual ~cTextureBase() { Unload(); }
     
-    /* Return > 0 on success, or -1 on error */
-    virtual int Load() { return 0; }
+    // Return > 0 on success, or -1 on error
+    // keyR,G,B are transparency color keys.
+    virtual int Load(uint8_t keyR = 0, 
+                     uint8_t keyG = 0, 
+                     uint8_t keyB = 0) { return 0; }
     virtual void Unload() { }
     bool Reload() {
         S_LogDebug("cTextureBase", "Reloading texture...");

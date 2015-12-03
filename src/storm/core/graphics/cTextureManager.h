@@ -64,6 +64,9 @@ private:
     // Default texture center (0, 0)
     // This variable is created for optimization purposes only
     sPoint m_DefCenter;
+    // Default color key values
+    bool m_UseColorKeying;
+    uint8_t m_KeyR, m_KeyG, m_KeyB;
     
     // Returns pointer to new (empty) TextureObject created for active api
     cTextureBase *CreateTextureObject();

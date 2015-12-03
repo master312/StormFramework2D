@@ -19,7 +19,9 @@ cTextureSDL2::cTextureSDL2() : m_Texture(nullptr), m_IsSplit(false),
 }
 cTextureSDL2::~cTextureSDL2() {
 }
-int cTextureSDL2::Load() {
+int cTextureSDL2::Load(uint8_t keyR /*= 0*/, 
+                       uint8_t keyG /*= 0*/, 
+                       uint8_t keyB /*= 0*/) {
     SDL_Surface *tmpSur = IMG_Load(m_Filename.c_str());
     if (tmpSur == nullptr) {
         S_LogError("cTextureSDL2", 
@@ -39,6 +41,12 @@ int cTextureSDL2::Load() {
         return -2;
     }
     
+    if (keyR > 0 || keyG > 0 || keyB > 0) {
+        // Sets texture color key, if keying is enabled
+        uint32_t tmpKey = SDL_MapRGB(tmpSur->format, keyR, keyG, keyB); 
+        SDL_SetColorKey(tmpSur, SDL_TRUE, tmpKey);
+    }
+
     m_Texture = MakeTexture(tmpSur, m_MemoryUsage);
     
     SDL_FreeSurface(tmpSur);
