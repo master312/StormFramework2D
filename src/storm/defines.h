@@ -26,7 +26,7 @@ typedef unsigned int uint;
 // Define storm framework version
 #define STORM_VERSION_MAJOR 0
 #define STORM_VERSION_MINOR 32
-#define STORM_VERSION_FIX 14
+#define STORM_VERSION_FIX 16
 
 #define STORM_API_SDL 1
 #define STORM_API_SDL2 2
@@ -38,6 +38,7 @@ typedef unsigned int uint;
 #define STORM_DIR_ANIMATIONS "data/animations/"
 
 #define STORM_TEXTURE_TIMEOUT 10000  //Delete texture if unused for this time(ms)
+#define STORM_ANIMATION_TIMEOUT 2000 //Delete animation object if unused for time(ms)
 #define STORM_ANIMATION_MAX_FPS 30   //Maximum FPS that animation can have
 
 // It this is set to zero, graphics will not be drawn

@@ -30,6 +30,7 @@ StormFramework::cBitmapFontManager &S_GetFontManager();
 // It is safe to load same texture multiple times. It will be reused...
 // @*id is raw texture ID, and should only be used for testing/debugging
 uint32_t S_CreateGraphics(const std::string &filename, uint32_t *id = nullptr);
+// Destroys graphic object and animation objects
 void S_DestroyGraphics(uint32_t id);
 /* Graphics object parameter modifying methods */
 void S_GraphModVisible(uint32_t id, bool isVisible);

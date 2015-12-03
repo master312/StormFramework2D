@@ -1,5 +1,5 @@
 /* 
- * File:   cinterruptManager.h
+ * File:   cInterruptManager.h
  * Author: master312
  *
  * Created on November 02, 2015, 9:01 PM
@@ -22,29 +22,28 @@
 
 namespace StormFramework {
 
-struct sinterrupt;
+struct sInterrupt;
 
-class cinterruptManager {
+class cInterruptManager {
 public:
-    cinterruptManager() : m_LastDelayedId(0) { }
-    ~cinterruptManager();
+    cInterruptManager() : m_NextId(0) { }
+    ~cInterruptManager();
     void Clear();
 
     void Tick();
 
-    void Addinterrupt(const std::string &name,
-                             sinterrupt *callback);
-    uint32_t AddDelayedCallback(sinterrupt *callback);
+    void AddInterrupt(const std::string &name,
+                             sInterrupt *callback);
+    uint32_t AddDelayedCallback(sInterrupt *callback);
 
     /* Removes 'interval callback' by name */
     void Remove(const std::string &name);
     /* Removes delayed callback by ID */
     void Remove(uint32_t &id);
 private:
-    std::map<std::string, sinterrupt*> m_IntervalCallbacks;
-    std::vector<sinterrupt*> m_DelayedCallbacks;
-    /* ID of last added dellayed callback */
-    uint32_t m_LastDelayedId;
+    std::map<std::string, sInterrupt*> m_IntervalCallbacks;
+    std::vector<sInterrupt*> m_DelayedCallbacks;
+    uint32_t m_NextId;
 
     /* This method returns true, if @name already exists */
     /* in any of callback std::map-s */ 

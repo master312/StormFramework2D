@@ -62,6 +62,10 @@ void cTestState::OnKeyDown(StormKey &key) {
             sprites.erase(sprites.begin() + i);
             i = i > 0 ? i - 1 : 0;
         }
+    } else if (key == KEY_a) {
+        S_DestroyGraphics(animidOne);
+        S_DestroyGraphics(animidTwo);
+        animidOne = animidTwo = 0;
     }
 }
 void cTestState::OnMouseDown(StormKey &key) {

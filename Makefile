@@ -12,12 +12,12 @@ $(OBJDIR)main.o: src/main.cpp
 	$(CC) $(CFLAGS) -c src/main.cpp $(LIBS) -o $(OBJDIR)main.o 
 $(OBJDIR)tinyxml2.o: src/storm/thirdparty/tinyxml2.cpp src/storm/thirdparty/tinyxml2.h
 	$(CC) $(CFLAGS) -c src/storm/thirdparty/tinyxml2.cpp $(LIBS) -o $(OBJDIR)tinyxml2.o 
-$(OBJDIR)cAnimation.o: src/storm/animation/cAnimation.cpp src/storm/animation/cAnimation.h
-	$(CC) $(CFLAGS) -c src/storm/animation/cAnimation.cpp $(LIBS) -o $(OBJDIR)cAnimation.o 
-$(OBJDIR)cAnimationManager.o: src/storm/animation/cAnimationManager.cpp src/storm/animation/cAnimationManager.h
-	$(CC) $(CFLAGS) -c src/storm/animation/cAnimationManager.cpp $(LIBS) -o $(OBJDIR)cAnimationManager.o 
-$(OBJDIR)animationMain.o: src/storm/animation/animationMain.cpp src/storm/animation/animationMain.h
-	$(CC) $(CFLAGS) -c src/storm/animation/animationMain.cpp $(LIBS) -o $(OBJDIR)animationMain.o 
+$(OBJDIR)cAnimation.o: src/storm/animations/cAnimation.cpp src/storm/animations/cAnimation.h
+	$(CC) $(CFLAGS) -c src/storm/animations/cAnimation.cpp $(LIBS) -o $(OBJDIR)cAnimation.o 
+$(OBJDIR)cAnimationManager.o: src/storm/animations/cAnimationManager.cpp src/storm/animations/cAnimationManager.h
+	$(CC) $(CFLAGS) -c src/storm/animations/cAnimationManager.cpp $(LIBS) -o $(OBJDIR)cAnimationManager.o 
+$(OBJDIR)animationsMain.o: src/storm/animations/animationsMain.cpp src/storm/animations/animationsMain.h
+	$(CC) $(CFLAGS) -c src/storm/animations/animationsMain.cpp $(LIBS) -o $(OBJDIR)animationsMain.o 
 $(OBJDIR)cMain.o: src/storm/cMain.cpp src/storm/cMain.h
 	$(CC) $(CFLAGS) -c src/storm/cMain.cpp $(LIBS) -o $(OBJDIR)cMain.o 
 $(OBJDIR)cTextureManager.o: src/storm/core/graphics/cTextureManager.cpp src/storm/core/graphics/cTextureManager.h
@@ -36,8 +36,8 @@ $(OBJDIR)cBitmapFontManager.o: src/storm/core/graphics/cBitmapFontManager.cpp sr
 	$(CC) $(CFLAGS) -c src/storm/core/graphics/cBitmapFontManager.cpp $(LIBS) -o $(OBJDIR)cBitmapFontManager.o 
 $(OBJDIR)cTextureBase.o: src/storm/core/graphics/cTextureBase.cpp src/storm/core/graphics/cTextureBase.h
 	$(CC) $(CFLAGS) -c src/storm/core/graphics/cTextureBase.cpp $(LIBS) -o $(OBJDIR)cTextureBase.o 
-$(OBJDIR)interruptMain.o: src/storm/core/interrupts/interruptMain.cpp src/storm/core/interrupts/interruptMain.h
-	$(CC) $(CFLAGS) -c src/storm/core/interrupts/interruptMain.cpp $(LIBS) -o $(OBJDIR)interruptMain.o 
+$(OBJDIR)interruptsMain.o: src/storm/core/interrupts/interruptsMain.cpp src/storm/core/interrupts/interruptsMain.h
+	$(CC) $(CFLAGS) -c src/storm/core/interrupts/interruptsMain.cpp $(LIBS) -o $(OBJDIR)interruptsMain.o 
 $(OBJDIR)cInterruptManager.o: src/storm/core/interrupts/cInterruptManager.cpp src/storm/core/interrupts/cInterruptManager.h
 	$(CC) $(CFLAGS) -c src/storm/core/interrupts/cInterruptManager.cpp $(LIBS) -o $(OBJDIR)cInterruptManager.o 
 $(OBJDIR)cFileSystem.o: src/storm/core/framework/cFileSystem.cpp src/storm/core/framework/cFileSystem.h
@@ -79,5 +79,5 @@ $(OBJDIR)cAudioBase.o: src/storm/audio/cAudioBase.cpp src/storm/audio/cAudioBase
 $(OBJDIR)cAudioManager.o: src/storm/audio/cAudioManager.cpp src/storm/audio/cAudioManager.h
 	$(CC) $(CFLAGS) -c src/storm/audio/cAudioManager.cpp $(LIBS) -o $(OBJDIR)cAudioManager.o 
 
-debug: $(OBJDIR)cTestState.o $(OBJDIR)main.o $(OBJDIR)tinyxml2.o $(OBJDIR)cAnimation.o $(OBJDIR)cAnimationManager.o $(OBJDIR)animationMain.o $(OBJDIR)cMain.o $(OBJDIR)cTextureManager.o $(OBJDIR)cGraphicsSDL2.o $(OBJDIR)cTextureSDL2.o $(OBJDIR)cGraphicsManager.o $(OBJDIR)graphicsMain.o $(OBJDIR)cGraphicsBase.o $(OBJDIR)cBitmapFontManager.o $(OBJDIR)cTextureBase.o $(OBJDIR)interruptMain.o $(OBJDIR)cInterruptManager.o $(OBJDIR)cFileSystem.o $(OBJDIR)cFileParser.o $(OBJDIR)cBinary.o $(OBJDIR)cString.o $(OBJDIR)cLogger.o $(OBJDIR)frameworkMain.o $(OBJDIR)cVector2.o $(OBJDIR)cBinaryFile.o $(OBJDIR)cEventSDL2.o $(OBJDIR)cEventManager.o $(OBJDIR)eventsMain.o $(OBJDIR)layersMain.o $(OBJDIR)cLayerManager.o $(OBJDIR)cLayerBase.o $(OBJDIR)storm.o $(OBJDIR)cSoundBase.o $(OBJDIR)cMusicBase.o $(OBJDIR)cAudioBase.o $(OBJDIR)cAudioManager.o 
-	$(CC) $(CFLAGS) $(OBJDIR)cTestState.o $(OBJDIR)main.o $(OBJDIR)tinyxml2.o $(OBJDIR)cAnimation.o $(OBJDIR)cAnimationManager.o $(OBJDIR)animationMain.o $(OBJDIR)cMain.o $(OBJDIR)cTextureManager.o $(OBJDIR)cGraphicsSDL2.o $(OBJDIR)cTextureSDL2.o $(OBJDIR)cGraphicsManager.o $(OBJDIR)graphicsMain.o $(OBJDIR)cGraphicsBase.o $(OBJDIR)cBitmapFontManager.o $(OBJDIR)cTextureBase.o $(OBJDIR)interruptMain.o $(OBJDIR)cInterruptManager.o $(OBJDIR)cFileSystem.o $(OBJDIR)cFileParser.o $(OBJDIR)cBinary.o $(OBJDIR)cString.o $(OBJDIR)cLogger.o $(OBJDIR)frameworkMain.o $(OBJDIR)cVector2.o $(OBJDIR)cBinaryFile.o $(OBJDIR)cEventSDL2.o $(OBJDIR)cEventManager.o $(OBJDIR)eventsMain.o $(OBJDIR)layersMain.o $(OBJDIR)cLayerManager.o $(OBJDIR)cLayerBase.o $(OBJDIR)storm.o $(OBJDIR)cSoundBase.o $(OBJDIR)cMusicBase.o $(OBJDIR)cAudioBase.o $(OBJDIR)cAudioManager.o  -o "$(EXNAME)" $(LIBS)
+debug: $(OBJDIR)cTestState.o $(OBJDIR)main.o $(OBJDIR)tinyxml2.o $(OBJDIR)cAnimation.o $(OBJDIR)cAnimationManager.o $(OBJDIR)animationsMain.o $(OBJDIR)cMain.o $(OBJDIR)cTextureManager.o $(OBJDIR)cGraphicsSDL2.o $(OBJDIR)cTextureSDL2.o $(OBJDIR)cGraphicsManager.o $(OBJDIR)graphicsMain.o $(OBJDIR)cGraphicsBase.o $(OBJDIR)cBitmapFontManager.o $(OBJDIR)cTextureBase.o $(OBJDIR)interruptsMain.o $(OBJDIR)cInterruptManager.o $(OBJDIR)cFileSystem.o $(OBJDIR)cFileParser.o $(OBJDIR)cBinary.o $(OBJDIR)cString.o $(OBJDIR)cLogger.o $(OBJDIR)frameworkMain.o $(OBJDIR)cVector2.o $(OBJDIR)cBinaryFile.o $(OBJDIR)cEventSDL2.o $(OBJDIR)cEventManager.o $(OBJDIR)eventsMain.o $(OBJDIR)layersMain.o $(OBJDIR)cLayerManager.o $(OBJDIR)cLayerBase.o $(OBJDIR)storm.o $(OBJDIR)cSoundBase.o $(OBJDIR)cMusicBase.o $(OBJDIR)cAudioBase.o $(OBJDIR)cAudioManager.o 
+	$(CC) $(CFLAGS) $(OBJDIR)cTestState.o $(OBJDIR)main.o $(OBJDIR)tinyxml2.o $(OBJDIR)cAnimation.o $(OBJDIR)cAnimationManager.o $(OBJDIR)animationsMain.o $(OBJDIR)cMain.o $(OBJDIR)cTextureManager.o $(OBJDIR)cGraphicsSDL2.o $(OBJDIR)cTextureSDL2.o $(OBJDIR)cGraphicsManager.o $(OBJDIR)graphicsMain.o $(OBJDIR)cGraphicsBase.o $(OBJDIR)cBitmapFontManager.o $(OBJDIR)cTextureBase.o $(OBJDIR)interruptsMain.o $(OBJDIR)cInterruptManager.o $(OBJDIR)cFileSystem.o $(OBJDIR)cFileParser.o $(OBJDIR)cBinary.o $(OBJDIR)cString.o $(OBJDIR)cLogger.o $(OBJDIR)frameworkMain.o $(OBJDIR)cVector2.o $(OBJDIR)cBinaryFile.o $(OBJDIR)cEventSDL2.o $(OBJDIR)cEventManager.o $(OBJDIR)eventsMain.o $(OBJDIR)layersMain.o $(OBJDIR)cLayerManager.o $(OBJDIR)cLayerBase.o $(OBJDIR)storm.o $(OBJDIR)cSoundBase.o $(OBJDIR)cMusicBase.o $(OBJDIR)cAudioBase.o $(OBJDIR)cAudioManager.o  -o "$(EXNAME)" $(LIBS)

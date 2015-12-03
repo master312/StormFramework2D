@@ -23,13 +23,14 @@ struct sGraphicsObject {
     int32_t m_Z;        // Z coordinate
     bool m_IsVisible;
     bool m_IsSection;   // True if this object is texture section
+    bool m_IsAnimation; // True if this object is used for animations
     sGraphicsObject() : m_Angle(0), m_Opacity(255), 
                        m_Texture(nullptr), m_Z(0), m_IsVisible(true),
-                       m_IsSection(false) { }
+                       m_IsSection(false), m_IsAnimation(false) { }
     sGraphicsObject(double angle, uint8_t opacity, cTextureBase *texture) : 
                        m_Angle(angle), m_Opacity(opacity), 
                        m_Texture(texture), m_Z(0), m_IsVisible(true),
-                       m_IsSection(false) { 
+                       m_IsSection(false), m_IsAnimation(false) { 
         m_DestRect.w = m_Texture->GetPxWidth();
         m_DestRect.h = m_Texture->GetPxHeight();
         CalcMiddle();

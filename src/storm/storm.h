@@ -9,8 +9,8 @@
 #define SSTORM_H__
 #include "cMain.h"
 #include "core/events/eventsMain.h"
-#include "core/interrupts/interruptMain.h"
-#include "animation/animationMain.h"
+#include "core/interrupts/interruptsMain.h"
+#include "animations/animationsMain.h"
 
 /* Initialize all elements of storm framework */
 /* Graphics api must be set using 'S_SetGraphicsApi(...)'  */

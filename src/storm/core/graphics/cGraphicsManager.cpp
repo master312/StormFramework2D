@@ -2,6 +2,8 @@
 #include "SDL2/cGraphicsSDL2.h"
 #include "graphicsMain.h"
 #include "cTextureManager.h"
+#include "../../animations/cAnimationManager.h"
+#include "../../animations/animationsMain.h"
 
 namespace StormFramework {
 
@@ -54,7 +56,7 @@ bool cGraphicsManager::Tick() {
     return true;
 }
 uint32_t cGraphicsManager::CreateObject(const std::string &filename, 
-                                       uint32_t *id) {
+                                        uint32_t *id) {
     cTextureBase *txt = S_GetTextureManager().Load(filename, id);
     if (txt == nullptr) {
         // Error has occurred. Logging is handled by texture manager
@@ -80,6 +82,9 @@ void cGraphicsManager::DestroyObject(uint32_t &id) {
             }
         }
     }
+    if (obj->m_IsAnimation) {
+        S_GetAnimationManager().Unload(id);
+    }
     obj = nullptr; //Not needed, but just in case leave it here
     m_TextureObjects.erase(iter);
 }
@@ -104,6 +109,7 @@ uint32_t cGraphicsManager::CreateSection(uint32_t &id, sRect &section) {
     if (txt == nullptr) {
         return 0;
     }
+    txt->IncUsage();
     return GenerateObject(txt, &section);
 }
 void cGraphicsManager::TxtModVisible(uint32_t &id, bool &isVisible) {

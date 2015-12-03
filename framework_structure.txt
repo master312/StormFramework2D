@@ -1,4 +1,13 @@
-//INFO: Default texture transparency color key is 255,0,255
+//INFO: 
+ * Default texture transparency color key is 255,0,255
+ * S_AddDelayedCB(new STORM_INTERRUPT(time, class, method, object));
+ * S_CreateInterrupt()
+ *
+ *
+ *
+ *
+//
+
 //TODO-MEDIUM: Use strings class in cBitmapFontManager loading process
 //TODO-MEDIUM: Background box behind the text
 
@@ -8,7 +17,6 @@
 
 //TODO-LOW: Split graphicsMain.h into multiple files 
 
-//TODO: Create delay (timeout) before animation object deletion
 //TODO: daj opciju animacijama da specifikujes dal ces da frejmovi idu po X ili po Y osi
         -TO je u cAnimation::init negde dole u loop-u
 
