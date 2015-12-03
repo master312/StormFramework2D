@@ -1,6 +1,6 @@
 #include "cMain.h"
 #include "core/graphics/cGraphicsManager.h"
-#include "core/callback/cCallbackManager.h"
+#include "core/interupts/cInteruptManager.h"
 
 namespace StormFramework {
 

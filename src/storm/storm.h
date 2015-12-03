@@ -9,7 +9,7 @@
 #define SSTORM_H__
 #include "cMain.h"
 #include "core/events/eventsMain.h"
-#include "core/callback/callbackMain.h"
+#include "core/interupts/interuptMain.h"
 #include "animation/animationMain.h"
 
 /* Initialize all elements of storm framework */

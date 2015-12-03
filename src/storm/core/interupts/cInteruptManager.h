@@ -1,5 +1,5 @@
 /* 
- * File:   cCallbackManager.h
+ * File:   cInteruptManager.h
  * Author: master312
  *
  * Created on November 02, 2015, 9:01 PM
@@ -22,27 +22,27 @@
 
 namespace StormFramework {
 
-struct sCallback;
+struct sInterupt;
 
-class cCallbackManager {
+class cInteruptManager {
 public:
-    cCallbackManager() : m_LastDelayedId(0) { }
-    ~cCallbackManager();
+    cInteruptManager() : m_LastDelayedId(0) { }
+    ~cInteruptManager();
     void Clear();
 
     void Tick();
 
-    void AddIntervalCallback(const std::string &name,
-                             sCallback *callback);
-    uint32_t AddDelayedCallback(sCallback *callback);
+    void AddInterupt(const std::string &name,
+                             sInterupt *callback);
+    uint32_t AddDelayedCallback(sInterupt *callback);
 
     /* Removes 'interval callback' by name */
     void Remove(const std::string &name);
     /* Removes delayed callback by ID */
     void Remove(uint32_t &id);
 private:
-    std::map<std::string, sCallback*> m_IntervalCallbacks;
-    std::vector<sCallback*> m_DelayedCallbacks;
+    std::map<std::string, sInterupt*> m_IntervalCallbacks;
+    std::vector<sInterupt*> m_DelayedCallbacks;
     /* ID of last added dellayed callback */
     uint32_t m_LastDelayedId;
 

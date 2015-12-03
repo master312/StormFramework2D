@@ -178,6 +178,12 @@ void cGraphicsManager::TxtModCenter(uint32_t &id, int &x, int &y) {
     tmp->m_Center.x = x;
     tmp->m_Center.y = y;
 }
+bool cGraphicsManager::IsOnScreen(sGraphicsObject *obj) {
+    return obj->m_DestRect.x + obj->m_DestRect.w > 0 &&
+           obj->m_DestRect.x < m_Graphics->GetWidth() &&
+           obj->m_DestRect.y + obj->m_DestRect.h > 0 &&
+           obj->m_DestRect.y < m_Graphics->GetHeight();
+}
 // Private methods
 void cGraphicsManager::DrawAll() {
     for (auto i : m_OnScreen) {
@@ -185,12 +191,6 @@ void cGraphicsManager::DrawAll() {
             S_GetTextureManager().Draw(i);
         }
     }
-}
-bool cGraphicsManager::IsOnScreen(sGraphicsObject *obj) {
-    return obj->m_DestRect.x + obj->m_DestRect.w > 0 &&
-           obj->m_DestRect.x < m_Graphics->GetWidth() &&
-           obj->m_DestRect.y + obj->m_DestRect.h > 0 &&
-           obj->m_DestRect.y < m_Graphics->GetHeight();
 }
 uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
                                           sRect *section /* = nullptr */) {

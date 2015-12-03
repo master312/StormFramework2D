@@ -49,6 +49,8 @@ public:
     void TxtModOpacity(uint32_t &id, uint8_t &opacity);
     void TxtModCenter(uint32_t &id, sPoint &center);
     void TxtModCenter(uint32_t &id, int &x, int &y);
+    /* Returns true if object is on the screen */
+    bool IsOnScreen(sGraphicsObject *obj);
 
     cGraphicsBase *GetGraphics() { return m_Graphics; }
     uint32_t GetOnScreenCount() { return m_OnScreen.size(); }
@@ -68,8 +70,6 @@ private:
 
     /* Draw all texture objects on screen */
     void DrawAll();
-    /* Returns true if object is on the screen */
-    bool IsOnScreen(sGraphicsObject *obj);
     /* Created new graphics object, insert it into map, and return id */
     uint32_t GenerateObject(cTextureBase *texture, sRect *section = nullptr);
 

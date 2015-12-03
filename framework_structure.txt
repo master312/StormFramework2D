@@ -8,15 +8,12 @@
 
 //TODO-LOW: Split graphicsMain.h into multiple files 
 
->>//TODO-maby?: Rename 'callback' to 'interupt'
->>//TODO-MEDIUM: Better callback creating method S_AddIntervalCB (2 complicated to create sCalback object every time)
->>//TODO-AFTER ^^: Test everything.. like a lot
-
 //TODO-HIGH: Set texture transparency color
 //TODO: Create delay (timeout) before animation object deletion
-//TODO: Skip cAnimation::tick ako je sTextureObject nevidljiv (nije vidljid xD )
 //TODO: daj opciju animacijama da specifikujes dal ces da frejmovi idu po X ili po Y osi
         -TO je u cAnimation::init negde dole u loop-u
+
+//TODO: Zavrsi vise muziku jebem mu sunce... Al pre toga sve ovo iznad :D
 
 -After malistone
 //TODO: Rendering targets
@@ -63,7 +60,7 @@
 | | -Sound manager                                          == CREATED
 | | -Music manager                                          == CREATED
 | -Console manager                                          == RESEARCH
-| -Animation class                                          == BASE-DONE;  TODO: Delta based ticking
+| -Animation class                                          == DONE
 | -Animation manager                                        == DONE
 | -Network manager                                          == LATER
 | -Callbacks manager                                        == DONE

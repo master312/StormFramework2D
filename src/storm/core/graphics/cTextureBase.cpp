@@ -1,7 +1,6 @@
 #include "cTextureBase.h"
-#include "../../core/callback/callbackMain.h"
+#include "../../core/interupts/interuptMain.h"
 #include "cTextureManager.h"
-#include <functional>
 #include "graphicsMain.h"
 
 namespace StormFramework {
@@ -18,8 +17,10 @@ void cTextureBase::DecUsage() {
     m_Usage--;
     if (m_Usage <= 0 && m_DeleteCbId == 0) {
         // Texture not in use. Delete id after timeout
-        m_DeleteCbId = S_AddDelayedCB(new StormCB(STORM_TEXTURE_TIMEOUT,
-                        std::bind(&cTextureBase::DeleteCb, this)));
+        m_DeleteCbId = S_AddDelayedCB(new STORM_INTERUPT(STORM_TEXTURE_TIMEOUT, 
+                                                         cTextureBase, 
+                                                         DeleteCb,
+                                                         this));
     }
 }
 

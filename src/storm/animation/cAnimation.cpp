@@ -207,6 +207,10 @@ void cAnimation::RemoveGroup(const std::string &name) {
 }
 // Private methods
 void cAnimation::TickAnimator(sAnimator *anim, uint32_t &delta) {
+    if (!S_GetGraphicsManager().IsOnScreen(anim->m_Object)) {
+        // This animator is out of screen
+        return;
+    }
     // Check if animation is ready to tick
     float framesLate = (STORM_TIME - anim->m_LastTime) / anim->m_FrameTime;
     if (framesLate >= 1.0f) {

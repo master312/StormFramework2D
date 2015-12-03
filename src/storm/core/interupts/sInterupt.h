@@ -1,5 +1,5 @@
 /* 
- * File:   sCallback.h
+ * File:   sInterupt.h
  * Author: master312
  *
  * Created on November 02, 2015, 9:09 PM
@@ -14,7 +14,7 @@ typedef std::function<int()> S_Callback;
 
 namespace StormFramework {
 
-struct sCallback {
+struct sInterupt {
     /* Interval on what this callback is called (ms) */
     uint32_t m_Interval;
     /* Last time when this interval was called */
@@ -22,11 +22,11 @@ struct sCallback {
     /* Callback method */
     S_Callback m_Callback;
 
-    sCallback(uint32_t time, S_Callback callback) : 
+    sInterupt(uint32_t time, S_Callback callback) : 
                 m_Interval(time),
                 m_LastTime(STORM_TIME), 
                 m_Callback(callback) { }
-    sCallback(S_Callback callback) : 
+    sInterupt(S_Callback callback) : 
                 m_Interval(1),
                 m_LastTime(STORM_TIME),
                 m_Callback(callback) { }
