@@ -1,47 +1,35 @@
-//TODO-LOW: Texture timeout before deletion
-//MABY-LOW: Research more... Do not keep Draw methods in texture manager class
-//TODO-MEDIUM: Create separated class for managing texture sections
+//INFO: 
+ * Default texture transparency color key is 255,0,255
+ * S_AddDelayedCB(new STORM_INTERRUPT(time, class, method, object));
+ * S_CreateInterrupt()
+ *
+ *
+ *
+ *
+//
+
+//TODO-MEDIUM: Use strings class in cBitmapFontManager loading process
 //TODO-MEDIUM: Background box behind the text
-//TODO-MEDIUM: Text size modulation
-//TODO-LOW: Check if ifdef #BUILD_SDL2 is put in every SDL2 related class
-//TODO-PAUSED: Create texture spliting system, if texture is bigger then hardware supports
-//TODO-LOW: in logger, pass 'va_list ap' as reference
-//TODO-LOW: Cleanup/rewrite cEventSDL2 class
 
-//TODO-RESEARCH-MEDIUM: Mod color system
-
-//TODO: Do not draw texture if its out of screen
-//TODO: Create effect_move(newPos, time), effect_rotate(angle, time) methods
-        -effect_fadeout(time), effect_fadein(time)
-//TODO-LATER-RESEARCH: Maybe create color mod variables in sTextureParameters
+//TODO-LATER-RESEARCH: Mod color system
+                       Maybe create color mod variables 
+                       in sTextureParameters
 
 //TODO-LOW: Split graphicsMain.h into multiple files 
-//TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
 
-
-4. >> //TODO: Texture menager TODO writen on top of file...
-5. >> //TODO: Add option to stop auto-drawing and ticking
-       -of animations and graphic. Use one #define in defines.h for this 
-
->>//TODO-MEDIUM: Rename 'callback' to 'interupt'
->>//TODO-MEDIUM: Move callback folder to core
->>//TODO-MEDIUM: Better callback creating method S_AddIntervalCB (2 complicated to create sCalback object every time)
->>//TODO-AFTER ^^: Test everything.. like a lot
-
-//TODO: Create delay (timeout) before animation object deletion
-//TODO: Move graphics out of core folder
-//TODO: Rename sTextureObject to sGraphicsObject. It makes more sense
-//TODO: Rename methods LoadTexture,UnloadTexture,etc.. in cGraphicsManager
-//TODO: Rename cData to cBinary
-//TODO: Skip cAnimation::tick ako je sTextureObject nevidljiv (nije vidljid xD )
-//TODO: Rename 'GetHeightPx' to 'GetPxHeight' (and for width too)
 //TODO: daj opciju animacijama da specifikujes dal ces da frejmovi idu po X ili po Y osi
         -TO je u cAnimation::init negde dole u loop-u
 
--After malistone
-//TODO: Rendering targets
-//TODO: Mogucnost da recimo imas dve razlicite animacije, a obe da animira isti animator
+//TODO: Zavrsi vise muziku jebem mu sunce... Al pre toga sve ovo iznad :D
 
+-- After malistone --
+//TODO: Rendering targets
+//TODO: Mogucnost da recimo imas dve razlicite animacije, 
+        a obe da animira isti animator. To moze da bude korisno recimo
+        za animiranje armora na igracu
+//TODO: Load default texture if ID not avalible. (if m_Texture == nullptr)
+
+//TODO: Error defines. e.x. S_ERR_TEXTURE_TOO_BIG, S_ERR_NOT_FOUND
 
 !! THIS IS NOT STORMFRAMEWORK FEATURE !!
 1. >>HIGH!//TODO: Some king of texture sets/packs. For now, only textures set xml files, 
@@ -71,18 +59,17 @@
 | | | -Timer class                                          == DONE
 | | | -Vector2 class                                        == CREATED
 | | -Graphics
-| | | -Rendering system                                     == BASE-DONE
+| | | -Rendering system                                     == DONE
 | | | -Textures manager                                     == DONE
-| | | -Texture section manager                              == TODO
 | | | -Font rendering                                       == BASE-DONE
-| | -Events manager                                         == BASE-DONE
-| | -States manager                                         == DONE ?
+| | -Events manager                                         == DONE
+| | -Layers manager                                         == DONE
 | -Audio
 | | -Sound manager                                          == CREATED
 | | -Music manager                                          == CREATED
 | -Console manager                                          == RESEARCH
-| -Animation class                                          == BASE-DONE;  TODO: Delta based ticking
-| -Animation manager                                        == BASE-DONE
+| -Animation class                                          == DONE
+| -Animation manager                                        == DONE
 | -Network manager                                          == LATER
 | -Callbacks manager                                        == DONE
 | --Main class                                              == BASE-DONE

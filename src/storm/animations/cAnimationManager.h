@@ -14,6 +14,7 @@
 #include <map>
 #include <vector>
 #include "cAnimation.h"
+#include "../defines.h"
 
 namespace StormFramework {
 
@@ -24,7 +25,12 @@ public:
      * be loaded again. New instance will be created 
      * in that case */
     uint32_t Load(const std::string &filename);
+    /* Remove animator. @id is animator ID */
     void Unload(uint32_t &id);
+    /* Deletes animation object @anim from m_Animations 
+     * This method is callback from cAnimation and should
+     * not be called manually */
+    void DeleteObject(cAnimation *anim);
     /* Deletes all animations and clear all objects */
     void Clear();
 

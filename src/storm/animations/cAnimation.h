@@ -4,11 +4,11 @@
  *
  * Created on October 26, 2015, 8:02 PM
  * Princip sine miladine:
- *  -Every sAnimator object have sTextureObject, and theirs ids are the same
- *  -sTextureObject is texture section.
- *  -sTextureObject ~MUST~ be created and deleted trough cAnimation class
- *  -sAnimator contains pointer to sTextureObject (to make process easier on CPU)
- *  -sAnimator ~MUST~ be deleted before sTextureObject  
+ *  -Every sAnimator object have sGraphicsObject, and theirs ids are the same
+ *  -sGraphicsObject is texture section.
+ *  -sGraphicsObject ~MUST~ be created and deleted trough cAnimation class
+ *  -sAnimator contains pointer to sGraphicsObject (to make process easier on CPU)
+ *  -sAnimator ~MUST~ be deleted before sGraphicsObject  
  */
 
 #ifndef CANIMATION_H__
@@ -54,6 +54,10 @@ public:
     /* Adds new frame group to this animation. Returns < 0 on error */
     int AddGroup(const std::string &name, uint32_t start, uint32_t end);
     void RemoveGroup(const std::string &name);
+
+    /* Called by interrupt manger to delete this texture
+     * if its not longer in use. Should never be called manually */
+    int DeletionInterrupt();
 
     /* Setters and getters for default parameters */
     void SetFrame(sRect &frame) { m_Frame = frame; }
@@ -141,7 +145,7 @@ private:
     bool isInited;
 
     /* Handle's animator ticking */
-    void TickAnimator(sAnimator *anim);
+    void TickAnimator(sAnimator *anim, uint32_t &delta);
 };
 
 } /* namespace StormFramework { */

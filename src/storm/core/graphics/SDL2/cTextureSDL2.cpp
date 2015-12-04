@@ -1,3 +1,5 @@
+#include "../../../defines.h"
+#ifdef STORM_BUILD_SDL2
 #include "cTextureSDL2.h"
 #include "cGraphicsSDL2.h"
 #include "../graphicsMain.h"
@@ -17,7 +19,7 @@ cTextureSDL2::cTextureSDL2() : m_Texture(nullptr), m_IsSplit(false),
 }
 cTextureSDL2::~cTextureSDL2() {
 }
-int cTextureSDL2::Load() {
+int cTextureSDL2::Load(sColor *colorKey /*= nullptr*/) {
     SDL_Surface *tmpSur = IMG_Load(m_Filename.c_str());
     if (tmpSur == nullptr) {
         S_LogError("cTextureSDL2", 
@@ -25,28 +27,33 @@ int cTextureSDL2::Load() {
         return -1;
     }
     
+    // TODO: Split texture if it is bigger resolution that hardware supports
     m_Width = tmpSur->w;
     m_Height = tmpSur->h;
     
-    // Split texture if it is bigger resolution that hardware supports
-//    uint32_t maxW = p_Graphics->GetMaxTxtWidth();
-//    uint32_t maxH = p_Graphics->GetMaxTxtHeight();
-    // int chunkWidth = 0;
-    // int chunkHeight = 0;
+    uint32_t maxW = p_Graphics->GetMaxTxtWidth();
+    uint32_t maxH = p_Graphics->GetMaxTxtHeight();
+    if (m_Width > maxW || m_Height > maxH) {
+        S_LogError("cTextureSDL2", 
+                   "Texture '%s' is bigger then hardware supports");
+        return -2;
+    }
     
-//    if (m_Width > maxW)
-//        chunkWidth = (m_Width / maxW) + 1;
-//    if (m_Height > maxH)
-//        chunkHeight = (m_Height / maxH) + 1;
-    
-    //TODO THIS(texture split) NEXT!
-    
+    if (colorKey != nullptr) {
+        // Sets texture color key, if keying is enabled
+        uint32_t tmpKey = SDL_MapRGB(tmpSur->format, 
+                                     colorKey->r, 
+                                     colorKey->g, 
+                                     colorKey->b); 
+        SDL_SetColorKey(tmpSur, SDL_TRUE, tmpKey);
+    }
+
     m_Texture = MakeTexture(tmpSur, m_MemoryUsage);
     
     SDL_FreeSurface(tmpSur);
     
     if (m_Texture == nullptr) {
-        return -1;
+        return -3;
     }
     
     S_LogDebug("cTextureSDL2", "Texture '%s' loaded", m_Filename.c_str());
@@ -54,7 +61,12 @@ int cTextureSDL2::Load() {
     return 1;
 }
 void cTextureSDL2::Unload() {
+    if (m_Texture == nullptr)
+        return;
     SDL_DestroyTexture(m_Texture);
+    m_Texture = nullptr;
+    S_LogDebug("cTextureSDL2", 
+               "Texture '%s' unloaded from memory", m_Filename.c_str());
 }
 void cTextureSDL2::Draw(const int &srcX, const int &srcY, 
     const int &srcW, const int &srcH, const int &destX, const int &destY, 
@@ -99,3 +111,4 @@ SDL_Texture *cTextureSDL2::MakeTexture(SDL_Surface *sur, uint32_t &size) {
 }
 
 } /* namespace StormFramework */
+#endif /* #ifdef STORM_BUILD_SDL2 */

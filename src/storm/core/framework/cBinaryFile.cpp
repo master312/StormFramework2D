@@ -1,5 +1,5 @@
 #include "cBinaryFile.h"
-#include "cData.h"
+#include "cBinary.h"
 
 namespace StormFramework {
 
@@ -52,31 +52,31 @@ int32_t cBinaryFile::ReadInt32() {
     if (m_WriteMode) return 0;
     m_File.read(m_Buffer, 4);
     m_CurLoc += 4;
-    return cData::ByteToInt32((char*)m_Buffer, 0);
+    return cBinary::ByteToInt32((char*)m_Buffer, 0);
 }
 uint32_t cBinaryFile::ReadUint32() {
     if (m_WriteMode) return 0;
     m_File.read(m_Buffer, 4);
     m_CurLoc += 4;
-    return cData::ByteToUint32((char*)m_Buffer, 0);
+    return cBinary::ByteToUint32((char*)m_Buffer, 0);
 }
 int16_t cBinaryFile::ReadInt16() {
     if (m_WriteMode) return 0;
     m_File.read(m_Buffer, 2);
     m_CurLoc += 2;
-    return cData::ByteToInt16((char*)m_Buffer, 0);
+    return cBinary::ByteToInt16((char*)m_Buffer, 0);
 }
 uint16_t cBinaryFile::ReadUint16() {
     if (m_WriteMode) return 0;
     m_File.read(m_Buffer, 2);
     m_CurLoc += 2;
-    return cData::ByteToUint16((char*)m_Buffer, 0);
+    return cBinary::ByteToUint16((char*)m_Buffer, 0);
 }
 float cBinaryFile::ReadFloat() {
     if (m_WriteMode) return 0.0f;
     m_File.read(m_Buffer, 4);
     m_CurLoc += 4;
-    return cData::ByteToFloat((char*)m_Buffer, 0);
+    return cBinary::ByteToFloat((char*)m_Buffer, 0);
 }
 char cBinaryFile::ReadByte() {
     if (m_WriteMode) return '0';
@@ -88,7 +88,7 @@ std::string cBinaryFile::ReadString() {
     if (m_WriteMode) return "0";
     uint32_t strLen = 0;
     m_File.read(m_Buffer, 4);
-    strLen = cData::ByteToUint32(m_Buffer, 0);
+    strLen = cBinary::ByteToUint32(m_Buffer, 0);
     char* tmpString = new char[strLen];
     m_File.read(tmpString, strLen);
     tmpString[strLen] = '\0';
@@ -118,31 +118,31 @@ sRect cBinaryFile::ReadSRect() {
 
 void cBinaryFile::WriteInt32(int32_t var) {
     if (!m_WriteMode) return;
-    cData::Int32ToByte(var, (char*)m_Buffer);
+    cBinary::Int32ToByte(var, (char*)m_Buffer);
     m_File.write(m_Buffer, 4);
     m_CurLoc += 4;
 }
 void cBinaryFile::WriteUint32(uint32_t var) {
     if (!m_WriteMode) return;
-    cData::Uint32ToByte(var, (char*)m_Buffer);
+    cBinary::Uint32ToByte(var, (char*)m_Buffer);
     m_File.write(m_Buffer, 4);
     m_CurLoc += 4;
 }
 void cBinaryFile::WriteInt16(int16_t var) {
     if (!m_WriteMode) return;
-    cData::Int16ToByte(var, (char*)m_Buffer);
+    cBinary::Int16ToByte(var, (char*)m_Buffer);
     m_File.write(m_Buffer, 2);
     m_CurLoc += 2;
 }
 void cBinaryFile::WriteUint16(uint16_t var) {
     if (!m_WriteMode) return;
-    cData::Uint16ToByte(var, (char*)m_Buffer);
+    cBinary::Uint16ToByte(var, (char*)m_Buffer);
     m_File.write(m_Buffer, 2);
     m_CurLoc += 2;
 }
 void cBinaryFile::WriteFloat(float var) {
     if (!m_WriteMode) return;
-    cData::FloatToByte(var, (char*)m_Buffer);
+    cBinary::FloatToByte(var, (char*)m_Buffer);
     m_File.write(m_Buffer, 4);
     m_CurLoc += 4;
 }

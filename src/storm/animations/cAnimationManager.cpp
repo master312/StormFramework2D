@@ -19,8 +19,9 @@ uint32_t cAnimationManager::Load(const std::string &filename) {
     } else {
         anim = &iter->second;
     }
-
-    return anim->CreateAnimator();
+    uint32_t tmpId = anim->CreateAnimator();
+    m_Animators[tmpId] = anim;
+    return tmpId;
 }
 void cAnimationManager::Unload(uint32_t &id) {
     auto iter = m_Animators.find(id);
@@ -30,20 +31,27 @@ void cAnimationManager::Unload(uint32_t &id) {
 
     cAnimation *tmpA = iter->second;
     m_Animators.erase(iter);
+    // Animation will be automatically deleted if there are 
+    // no any animators left using it
     tmpA->RemoveAnimator(id);
-
-    if (tmpA->CountAnimators() <= 0) {
-        // Animation not in use. Delete it
-        for (uint32_t i = 0; i < m_AnimationsVec.size(); i++) {
-            if (m_AnimationsVec[i] == tmpA) {
-                m_AnimationsVec.erase(m_AnimationsVec.begin() + i);
-                break;
-            }
-        }
-
-        tmpA->Clear();
-        m_Animations.erase(tmpA->GetFilename());
+}
+void cAnimationManager::DeleteObject(cAnimation *anim) {
+    if (anim == nullptr)
+        return;
+    auto iter = m_Animations.find(anim->GetFilename());
+    if (iter == m_Animations.end()) {
+        return;
     }
+    for (uint32_t i = 0; i < m_AnimationsVec.size(); i++) {
+        if (m_AnimationsVec[i] == anim) {
+            m_AnimationsVec.erase(m_AnimationsVec.begin() + i);
+            break;
+        }
+    }
+    S_LogDebug("cAnimationManager", 
+               "Animation object '%s' deleted", anim->GetFilename().c_str());
+    anim->Clear();
+    m_Animations.erase(iter);
 }
 void cAnimationManager::Clear() {
     for (uint32_t i = 0; i < m_AnimationsVec.size(); i++) {
@@ -54,9 +62,11 @@ void cAnimationManager::Clear() {
     m_Animations.clear();
 }
 void cAnimationManager::Tick(uint32_t &delta) {
+#if STORM_ENABLE_ANIMATE_MANAGER != 0
     for (uint32_t i = 0; i < m_AnimationsVec.size(); i++) {
         m_AnimationsVec[i]->Tick(delta);
     }
+#endif
 }
 
 } /* namespace StormFramework */

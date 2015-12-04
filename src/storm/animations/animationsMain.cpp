@@ -1,4 +1,5 @@
-#include "animationMain.h"
+#include "animationsMain.h"
+#include "cAnimationManager.h"
 
 StormFramework::cAnimationManager animManager;
 
@@ -12,9 +13,6 @@ StormFramework::cAnimationManager &S_GetAnimationManager() {
 
 uint32_t S_LoadAnimation(const std::string &filename) {
     return animManager.Load(filename);
-}
-void S_UnloadAnimation(uint32_t &id) {
-    animManager.Unload(id);
 }
 
 StormAnimator *S_GetAnimator(uint32_t &id) {

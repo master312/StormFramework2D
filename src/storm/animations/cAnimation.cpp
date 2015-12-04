@@ -2,6 +2,10 @@
 #include "../core/graphics/graphicsMain.h"
 #include "../core/graphics/cTextureManager.h"
 #include "../core/graphics/cGraphicsManager.h"
+#include "../core/interrupts/interruptsMain.h"
+
+#include "cAnimationManager.h"
+#include "animationsMain.h"
 
 namespace StormFramework {
 
@@ -17,11 +21,12 @@ void cAnimation::Clear() {
         }
         m_Animators.clear();
         m_Frames.clear();
-        
+
         S_GetTextureManager().GetTexture(m_TextureId)->DecUsage();
     }
 }
 int cAnimation::Save(const std::string &filename) { 
+    m_Filename = filename;
     std::string fullPath = (char*)STORM_DIR_ANIMATIONS + filename;
     cBinaryFile fOut(fullPath, true);
     
@@ -52,6 +57,7 @@ int cAnimation::Load(const std::string &filename) {
     if (isInited)
         return 0;
 
+    m_Filename = filename;
     std::string fullPath = (char*)STORM_DIR_ANIMATIONS + filename;
     cBinaryFile fOut(fullPath);
     
@@ -113,20 +119,20 @@ int cAnimation::Init() {
     }
     sRect tmpFrame = m_Frame;
     int triggerWarning = 0;
-    if ((int)txt->GetWidthPx() <= m_Frame.x) {
+    if ((int)txt->GetPxWidth() <= m_Frame.x) {
         tmpFrame.x = 0;
         triggerWarning ++;
     }
-    if ((int)txt->GetWidthPx() <= m_Frame.x + m_Frame.w) {
-        tmpFrame.w = txt->GetWidthPx();
+    if ((int)txt->GetPxWidth() <= m_Frame.x + m_Frame.w) {
+        tmpFrame.w = txt->GetPxWidth();
         triggerWarning ++;
     }
-    if ((int)txt->GetHeightPx() <= m_Frame.y) {
+    if ((int)txt->GetPxHeight() <= m_Frame.y) {
         tmpFrame.y = 0;
         triggerWarning ++;
     }
-    if ((int)txt->GetWidthPx() <= m_Frame.y + m_Frame.h) {
-        tmpFrame.x = txt->GetWidthPx();
+    if ((int)txt->GetPxWidth() <= m_Frame.y + m_Frame.h) {
+        tmpFrame.x = txt->GetPxWidth();
         triggerWarning ++;
     }
     m_Frame = tmpFrame;
@@ -137,8 +143,8 @@ int cAnimation::Init() {
             return 2;
         }
     }
-    int framesX = (txt->GetWidthPx() - m_Frame.x) / m_Frame.w;
-    int framesY = (txt->GetHeightPx() - m_Frame.y) / m_Frame.h;
+    int framesX = (txt->GetPxWidth() - m_Frame.x) / m_Frame.w;
+    int framesY = (txt->GetPxHeight() - m_Frame.y) / m_Frame.h;
 
     if (framesX > (int)m_StartFrame) { 
         m_StartFrame = 0; 
@@ -152,8 +158,8 @@ int cAnimation::Init() {
         for (int i = 0; i < framesY; i++) {
             tmpRect.x = i * m_Frame.w;
             tmpRect.y = j * m_Frame.h;
-            if (tmpRect.x + tmpRect.w > (int)txt->GetWidthPx()) {
-                tmpRect.w = (tmpRect.x + tmpRect.w) - txt->GetWidthPx();
+            if (tmpRect.x + tmpRect.w > (int)txt->GetPxWidth()) {
+                tmpRect.w = (tmpRect.x + tmpRect.w) - txt->GetPxWidth();
             }
             m_Frames.push_back(tmpRect);
         }
@@ -165,7 +171,7 @@ int cAnimation::Init() {
 void cAnimation::Tick(uint32_t &delta) {
     for (auto &iter : m_Animators) {
         if (iter.second.m_IsAnimated) {
-            TickAnimator(&iter.second);
+            TickAnimator(&iter.second, delta);
         }
     }
 }
@@ -179,7 +185,8 @@ uint32_t cAnimation::CreateAnimator() {
         return 0;
     }
 
-    sTextureObject *tmp = S_GetGraphicsManager().GetLastCreated();
+    sGraphicsObject *tmp = S_GetGraphicsManager().GetLastCreated();
+    tmp->m_IsAnimation = true;
     
     tmp->m_DestRect.w = m_Frame.w;
     tmp->m_DestRect.h = m_Frame.h;
@@ -190,12 +197,19 @@ uint32_t cAnimation::CreateAnimator() {
     return tmpId;
 }
 void cAnimation::RemoveAnimator(uint32_t &id) {
-     auto iter = m_Animators.find(id);
+    auto iter = m_Animators.find(id);
     if (iter == m_Animators.end()) {
         return;
     }
     m_Animators.erase(iter);
-    S_DestroyGraphics(id);
+    
+    // S_DestroyGraphics(id);   This is not needed anymore...
+    // because RemoveAnimator is now called from S_DestroyGraphics
+    
+    if (m_Animators.size() == 0) {
+        S_AddDelayedCB(new STORM_INTERRUPT(STORM_ANIMATION_TIMEOUT, 
+                              cAnimation, DeletionInterrupt, this));
+    }
 }
 
 int cAnimation::AddGroup(const std::string &name, uint32_t start, uint32_t nd) {
@@ -205,19 +219,38 @@ int cAnimation::AddGroup(const std::string &name, uint32_t start, uint32_t nd) {
 void cAnimation::RemoveGroup(const std::string &name) {
     std::cout << "TODO: REMOVE GROUP" << std::endl;
 }
+int cAnimation::DeletionInterrupt() {
+    if (m_Animators.size() > 0) {
+        return 1;
+    }
+    S_GetAnimationManager().DeleteObject(this);
+    return 1;
+}
 // Private methods
-void cAnimation::TickAnimator(sAnimator *anim) {
+void cAnimation::TickAnimator(sAnimator *anim, uint32_t &delta) {
+    if (!S_GetGraphicsManager().IsOnScreen(anim->m_Object)) {
+        // This animator is out of screen
+        return;
+    }
     // Check if animation is ready to tick
-    // TODO: Ove setuj SRC frame lokacije
-    if (STORM_TIME - anim->m_LastTime >= anim->m_FrameTime) {
+    float framesLate = (STORM_TIME - anim->m_LastTime) / anim->m_FrameTime;
+    if (framesLate >= 1.0f) {
+        if (framesLate >= 2) {
+            anim->m_CurFrame += (int)framesLate;
+            if (anim->m_CurFrame >= anim->m_EndFrame) {
+                uint32_t tmp = anim->m_CurFrame / anim->m_EndFrame;
+                anim->m_CurFrame = (anim->m_EndFrame * tmp);
+            }
+        } else {
+            anim->m_CurFrame ++;
+        }
+        
         if (anim->m_CurFrame >= anim->m_EndFrame) {
             anim->m_CurFrame = anim->m_StartFrame;
         }
 
-        anim->m_Object->m_SrcRect = m_Frames[anim->m_CurFrame];
-        
+        anim->m_Object->m_SrcRect = m_Frames[anim->m_CurFrame];        
         anim->m_LastTime = STORM_TIME;
-        anim->m_CurFrame ++;
     }
 }
 

@@ -11,21 +11,21 @@ cTestState::~cTestState() {
 std::vector<uint32_t> sprites;
 
 void cTestState::OnInit() {
-    m_TestTexture = S_CreateGraphics("sprite.png");
-    m_TestTextureDva = S_CreateGraphics("sprite.png");
-    m_TestTextureTri = S_CreateGraphics("sprite.png");
+   // m_TestTexture = S_CreateGraphics("sprite.png");
+  //  m_TestTextureDva = S_CreateGraphics("sprite.png");
+  //  m_TestTextureTri = S_CreateGraphics("sprite.png");
 
-    animidOne = S_LoadAnimation("testAnimation.anim");
-    S_GraphModPos(animidOne, 670, 670);
-    animidTwo = S_LoadAnimation("testAnimation.anim");
-    S_GraphModPos(animidTwo, 505, 397);
+  animidOne = S_LoadAnimation("testAnimation.anim");
+  S_GraphModPos(animidOne, 670, 670);
+  animidTwo = S_LoadAnimation("testAnimation.anim");
+  S_GraphModPos(animidTwo, 505, 397);
 
-    S_GraphModZ(m_TestTexture, 1000);
+ //   S_GraphModZ(m_TestTexture, 1000);
 
-    S_GraphModZ(m_TestTextureDva, 300);
-    S_GraphModZ(m_TestTextureTri, 200);
-    S_GraphModPos(m_TestTextureDva, 100, 100);
-    S_GraphModPos(m_TestTextureTri, 120, 120);
+ //   S_GraphModZ(m_TestTextureDva, 300);
+ //   S_GraphModZ(m_TestTextureTri, 200);
+ ///   S_GraphModPos(m_TestTextureDva, 100, 100);
+ //   S_GraphModPos(m_TestTextureTri, 120, 120);
 	std::cout << "Inited " << std::endl;
 }
 void cTestState::OnGraphicsTick() {
@@ -53,10 +53,19 @@ void cTestState::OnKeyDown(StormKey &key) {
         }
     } else if (key == KEY_d) {
         std::cout << "DeSpawning..." << std::endl;
-        for (int i = 0; i < 100; i++) {
+        int count = 0;
+        for (int i = 0; i < (int)sprites.size(); i++) {
+            if (count == 100)
+                break;
+            count++;
             S_DestroyGraphics(sprites[i]);
             sprites.erase(sprites.begin() + i);
+            i = i > 0 ? i - 1 : 0;
         }
+    } else if (key == KEY_a) {
+        S_DestroyGraphics(animidOne);
+        S_DestroyGraphics(animidTwo);
+        animidOne = animidTwo = 0;
     }
 }
 void cTestState::OnMouseDown(StormKey &key) {

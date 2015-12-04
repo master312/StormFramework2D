@@ -3,10 +3,6 @@
  * Author: master312
  *
  * Created on September 26, 2015, 8:42 PM
- * TODO: int ClearTick(); is not needed!!!
- * Create new "Clear()" method in cTextureBase
- * and call if after delay (using calback system)
- * if texture usage drops to zero.
  */
 
 #ifndef CTEXTUREMANAGER_H__
@@ -14,12 +10,11 @@
 #include <iostream>
 #include <sstream>
 #include <map>
-#include "../../callback/callbackMain.h"
 #include "../framework/frameworkMain.h"
 #include "../framework/cFileSystem.h"
 #include "graphicsMain.h"
 #include "cTextureBase.h"
-#include "sTextureObject.h"
+#include "sGraphicsObject.h"
 
 namespace StormFramework {
 
@@ -32,13 +27,14 @@ public:
     
     // Loads texture. Returns nulltpr on error
     cTextureBase *Load(const std::string &filename, uint32_t *id = nullptr);
-    // Delete all unused texture. 
-    // Called by callback system on specified interval 
-    int ClearTick();
-    
+    // Deletes @texture object from m_Textures.
+    // THIS METHOD IS INTENDED TO BE USED ONLY BY CALLBACK
+    // FROM cTextureBase CLASS!
+    void Unload(cTextureBase *texture);
+
     /*** Texture drawing methods ***/
     // Draws texture, using preset parameters
-    void Draw(sTextureObject *par);
+    void Draw(sGraphicsObject *par);
     // These methods should only be used for internal or debug purposes
     void Draw(uint32_t &id, int &x, int &y);
     void Draw(uint32_t &id, int &x, int &y, int &w, int &h);
@@ -46,6 +42,11 @@ public:
     void Draw(uint32_t &id, sRect &src, int &x, int &y, int &w, int &h);
     void Draw(uint32_t &id, sRect &src, sRect &dest);
     // // // // //
+
+    void SetUseColorKeying(bool use) { m_UseColorKeying = use; }
+    bool IsColorKeying() { return m_UseColorKeying; }
+    void SetColorKey(sColor color) { m_ColorKey = color; }
+    sColor &GetColorKey() { return m_ColorKey; }
 
     cTextureBase *GetTexture(uint32_t &textureId);
 
@@ -68,6 +69,9 @@ private:
     // Default texture center (0, 0)
     // This variable is created for optimization purposes only
     sPoint m_DefCenter;
+    // Default color key values
+    bool m_UseColorKeying;
+    sColor m_ColorKey;
     
     // Returns pointer to new (empty) TextureObject created for active api
     cTextureBase *CreateTextureObject();

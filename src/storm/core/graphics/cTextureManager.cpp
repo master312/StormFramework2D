@@ -1,11 +1,15 @@
 #include "cTextureManager.h"
 #include "SDL2/cTextureSDL2.h"
-#include <functional>
 
 namespace StormFramework {
 
 
-cTextureManager::cTextureManager() : m_MemoryUsage(0) {
+cTextureManager::cTextureManager() : 
+        m_MemoryUsage(0),
+        m_UseColorKeying(true) {
+    m_ColorKey.r = 255;
+    m_ColorKey.g = 0;
+    m_ColorKey.b = 255;
 }
 cTextureManager::~cTextureManager() {
     for (auto &i : m_Textures) {
@@ -15,9 +19,7 @@ cTextureManager::~cTextureManager() {
     m_TextureFilenames.clear();
 }
 void cTextureManager::Initialize() {
-    S_AddIntervalCB("TextureClearTick", 
-                    new StormCB(STORM_TEXTURES_CLEAR_INTERVAL,
-                              std::bind(&cTextureManager::ClearTick, this)));
+
 }
 
 cTextureBase *cTextureManager::Load(const std::string &filename, 
@@ -64,34 +66,24 @@ cTextureBase *cTextureManager::Load(const std::string &filename,
 
     return texture;
 }
-int cTextureManager::ClearTick() {
-    bool isDeleted = false;
-    for (auto &iter : m_Textures) {
-        cTextureBase *txt = iter.second;
-        if (txt->GetUsage() <= 0) {
-            // Texture is unused. Delete it
-            m_TextureFilenames.erase(txt->GetFilename());
-            m_Textures.erase(iter.first);
-            
-            m_MemoryUsage -= (txt->GetMemoryUsage() / 1024);
-            delete txt;
+void cTextureManager::Unload(cTextureBase *texture) {
 
-            isDeleted = true;
-        }
-    }
-    if (isDeleted) {
-        UpdateDebugString();
-    }
+    m_MemoryUsage -= (texture->GetMemoryUsage() / 1024);
+    uint32_t id = m_TextureFilenames[texture->GetFilename()];
+    texture->Unload();
+    m_TextureFilenames.erase(texture->GetFilename());
+    m_Textures.erase(id);
 
-    return 1;
+    UpdateDebugString();
+    delete texture;
 }
-void cTextureManager::Draw(sTextureObject *obj) {
+void cTextureManager::Draw(sGraphicsObject *obj) {
     if (obj == nullptr) {
         return;
     }
     cTextureBase *tmp = obj->m_Texture;
     if (!obj->m_IsSection) {
-        tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), 
+        tmp->Draw(0, 0, tmp->GetPxWidth(), tmp->GetPxHeight(), 
                   obj->m_DestRect.x, obj->m_DestRect.y, 
                   obj->m_DestRect.w, obj->m_DestRect.h, 
                   obj->m_Angle, obj->m_Opacity, obj->m_Center);
@@ -109,8 +101,8 @@ void cTextureManager::Draw(uint32_t &id, int &x, int &y) {
         return;
     }
     
-    tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), x, y, 
-              tmp->GetWidthPx(), tmp->GetHeightPx(), 0, 255, m_DefCenter);
+    tmp->Draw(0, 0, tmp->GetPxWidth(), tmp->GetPxHeight(), x, y, 
+              tmp->GetPxWidth(), tmp->GetPxHeight(), 0, 255, m_DefCenter);
 }
 void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
     cTextureBase *tmp = m_Textures[id];
@@ -118,7 +110,7 @@ void cTextureManager::Draw(uint32_t &id, int &x, int &y, int &w, int &h) {
         return;
     }
 
-    tmp->Draw(0, 0, tmp->GetWidthPx(), tmp->GetHeightPx(), x, y, 
+    tmp->Draw(0, 0, tmp->GetPxWidth(), tmp->GetPxHeight(), x, y, 
               w, h, 0, 255, m_DefCenter);
 }
 void cTextureManager::Draw(uint32_t &id, sRect &src, int &x, int &y) {
@@ -171,7 +163,13 @@ cTextureBase *cTextureManager::CreateAndLoad(const std::string &filename) {
         return nullptr;
     }
     texture->SetFilename(filename);
-    if (texture->Load() <= 0) {
+    int status = 0;
+    if (m_UseColorKeying) {
+        status = texture->Load(&m_ColorKey);
+    } else {
+        status = texture->Load();
+    }
+    if (status <= 0) {
         delete texture;
         return nullptr;
     }

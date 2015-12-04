@@ -2,6 +2,8 @@
 #include "SDL2/cGraphicsSDL2.h"
 #include "graphicsMain.h"
 #include "cTextureManager.h"
+#include "../../animations/cAnimationManager.h"
+#include "../../animations/animationsMain.h"
 
 namespace StormFramework {
 
@@ -42,8 +44,10 @@ int cGraphicsManager::Initialize() {
 
     return 1;
 }
-bool cGraphicsManager::Tick() {    
+bool cGraphicsManager::Tick() {
+#if STORM_ENABLE_DRAW_MANAGER != 0
     DrawAll();
+#endif
 
     S_DrawText(m_DebugString, 5, 5);
     S_DrawText(S_GetTextureManager().GetDebugString(), 5, 25);
@@ -51,8 +55,8 @@ bool cGraphicsManager::Tick() {
     m_Graphics->SwapBuffers();
     return true;
 }
-uint32_t cGraphicsManager::LoadTexture(const std::string &filename, 
-                                       uint32_t *id) {
+uint32_t cGraphicsManager::CreateObject(const std::string &filename, 
+                                        uint32_t *id) {
     cTextureBase *txt = S_GetTextureManager().Load(filename, id);
     if (txt == nullptr) {
         // Error has occurred. Logging is handled by texture manager
@@ -60,12 +64,12 @@ uint32_t cGraphicsManager::LoadTexture(const std::string &filename,
     }
     return GenerateObject(txt);
 }
-void cGraphicsManager::UnloadTexture(uint32_t &id) {
+void cGraphicsManager::DestroyObject(uint32_t &id) {
     auto iter = m_TextureObjects.find(id);
     if (iter == m_TextureObjects.end()) {
         return;
     }
-    sTextureObject *obj = &iter->second;
+    sGraphicsObject *obj = &iter->second;
     obj->m_Texture->DecUsage();
     if (m_LastObject == obj) {
         m_LastObject = nullptr;
@@ -78,10 +82,13 @@ void cGraphicsManager::UnloadTexture(uint32_t &id) {
             }
         }
     }
+    if (obj->m_IsAnimation) {
+        S_GetAnimationManager().Unload(id);
+    }
     obj = nullptr; //Not needed, but just in case leave it here
     m_TextureObjects.erase(iter);
 }
-sTextureObject *cGraphicsManager::GetObject(uint32_t &id) {
+sGraphicsObject *cGraphicsManager::GetObject(uint32_t &id) {
     auto iter = m_TextureObjects.find(id);
     if (iter == m_TextureObjects.end()) {
         return nullptr;
@@ -102,10 +109,11 @@ uint32_t cGraphicsManager::CreateSection(uint32_t &id, sRect &section) {
     if (txt == nullptr) {
         return 0;
     }
+    txt->IncUsage();
     return GenerateObject(txt, &section);
 }
 void cGraphicsManager::TxtModVisible(uint32_t &id, bool &isVisible) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
@@ -124,7 +132,7 @@ void cGraphicsManager::TxtModVisible(uint32_t &id, bool &isVisible) {
     tmp->m_IsVisible = isVisible;    
 }
 void cGraphicsManager::TxtModPos(uint32_t &id, sPoint &point) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
@@ -132,7 +140,7 @@ void cGraphicsManager::TxtModPos(uint32_t &id, sPoint &point) {
     tmp->m_DestRect.y = point.y;
 }
 void cGraphicsManager::TxtModPos(uint32_t &id, int &x, int &y) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
@@ -140,46 +148,54 @@ void cGraphicsManager::TxtModPos(uint32_t &id, int &x, int &y) {
     tmp->m_DestRect.y = y;
 }
 void cGraphicsManager::TxtModZ(uint32_t &id, int &z) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Z = z;
-    std::sort(m_OnScreen.begin(), m_OnScreen.end(), sTextureObject::Cmp);
+    std::sort(m_OnScreen.begin(), m_OnScreen.end(), sGraphicsObject::Cmp);
 }
 void cGraphicsManager::TxtModAngle(uint32_t &id, double &angle) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Angle = angle;
 }
 void cGraphicsManager::TxtModOpacity(uint32_t &id, uint8_t &opacity) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Opacity = opacity;
 }
 void cGraphicsManager::TxtModCenter(uint32_t &id, sPoint &center) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Center = center;
 }
 void cGraphicsManager::TxtModCenter(uint32_t &id, int &x, int &y) {
-    sTextureObject *tmp = GetObject(id);
+    sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Center.x = x;
     tmp->m_Center.y = y;
 }
+bool cGraphicsManager::IsOnScreen(sGraphicsObject *obj) {
+    return obj->m_DestRect.x + obj->m_DestRect.w > 0 &&
+           obj->m_DestRect.x < m_Graphics->GetWidth() &&
+           obj->m_DestRect.y + obj->m_DestRect.h > 0 &&
+           obj->m_DestRect.y < m_Graphics->GetHeight();
+}
 // Private methods
 void cGraphicsManager::DrawAll() {
     for (auto i : m_OnScreen) {
-        S_GetTextureManager().Draw(i);
+        if (IsOnScreen(i)) {
+            S_GetTextureManager().Draw(i);
+        }
     }
 }
 uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
@@ -190,10 +206,10 @@ uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
         --iter;
         newId = iter->first + 1;
     }
-    sTextureObject tmp;
+    sGraphicsObject tmp;
     tmp.m_Texture = texture;
-    tmp.m_DestRect.w = texture->GetWidthPx();
-    tmp.m_DestRect.h = texture->GetHeightPx();
+    tmp.m_DestRect.w = texture->GetPxWidth();
+    tmp.m_DestRect.h = texture->GetPxHeight();
     tmp.CalcMiddle();
 
     if (section != nullptr) {
@@ -204,7 +220,7 @@ uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
     m_TextureObjects[newId] = tmp;
     m_LastObject = &m_TextureObjects[newId];
     m_OnScreen.push_back(&m_TextureObjects[newId]);
-    std::sort(m_OnScreen.begin(), m_OnScreen.end(), sTextureObject::Cmp);
+    std::sort(m_OnScreen.begin(), m_OnScreen.end(), sGraphicsObject::Cmp);
     
     return newId;
 }

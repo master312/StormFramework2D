@@ -22,7 +22,7 @@ bool cBitmapFontManager::LoadFont(const std::string &filename) {
                    "Could not open file '%s'", fullPath.c_str());
         return false;
     }
-
+    // Loads font name
     XMLElement *element = doc.FirstChildElement("font");
     const char *fontName = element->Attribute("name");
     if (fontName == nullptr) {
@@ -30,8 +30,36 @@ bool cBitmapFontManager::LoadFont(const std::string &filename) {
                    "Invalid XML file. Could not find 'name' Attribute");
         return false;
     }
-    XMLElement *page = element->FirstChildElement("pages")
-                              ->FirstChildElement("page");
+    // Loads font size 
+    XMLElement *page = element->FirstChildElement("info");
+    const char *tmpFontSize = page->Attribute("size");
+    if (tmpFontSize == nullptr) {
+        S_LogError("cBitmapFontManager", 
+                   "Invalid XML file. Cold not find 'size' attribute");
+        return false;
+    }
+    int fontSize = atoi(tmpFontSize);
+    // Loads padding
+    const char *tmpPadding = page->Attribute("padding");
+    if (tmpPadding == nullptr) {
+        S_LogError("cBitmapFontManager",
+                   "Invalid XML file. Could not find 'padding' attribute");
+        return false;
+    }
+    uint32_t pUp, pRight, pDown, pLeft;
+    sscanf(tmpPadding, "%d,%d,%d,%d", &pUp, &pRight, &pDown, &pLeft);
+    // Loads new line height
+    page = element->FirstChildElement("common");
+    const char *tmpLineH = page->Attribute("lineHeight");
+    if (tmpLineH == nullptr) {
+        S_LogError("cBitmapFontManager", 
+                   "Invalid XML file. Could not find 'lineHeight' attribute");
+        return false;
+    }
+    int lineHeight = atoi(tmpLineH);
+    // Loads font texture
+    page = element->FirstChildElement("pages")
+                  ->FirstChildElement("page");
 
     const char *textureName = page->Attribute("file");
     if (textureName == nullptr) {
@@ -48,10 +76,15 @@ bool cBitmapFontManager::LoadFont(const std::string &filename) {
     }
     S_GraphModCenter(graphId, 0, 0);
     S_GraphModVisible(graphId, false);
+    // Loads font characters
     element = element->FirstChildElement("chars");
     XMLElement *child = element->FirstChildElement("char");
 
-    sBitmapFont tmpFont(textureId, graphId);
+    sBitmapFont tmpFont(textureId, graphId, fontSize, lineHeight);
+    tmpFont.m_Padding[0] = pUp;
+    tmpFont.m_Padding[1] = pRight;
+    tmpFont.m_Padding[2] = pDown;
+    tmpFont.m_Padding[3] = pLeft;
     for (; child; child = child->NextSiblingElement()) {
         char charId = (char)(atoi(child->Attribute("id")));
         
@@ -101,15 +134,23 @@ void cBitmapFontManager::DrawText(const std::string &text, int &x, int &y,
     for (int i = 0; i < (int)text.size(); i++) {
         auto iter = tmpFont.m_Characters.find(text[i]);
         if (iter == tmpFont.m_Characters.end()) {
+            if (text[i] == '\n') {
+                curY += tmpFont.m_LineHeight;
+                curY += tmpFont.m_Padding[2]; // Padding bottom
+                curX = x;
+            }
             continue;
         }
         sBitmapChar &tmp = iter->second;
         tmpY = curY + tmp.yOffset;
+        tmpY += tmpFont.m_Padding[0]; // Padding top
+
+        curX += tmpFont.m_Padding[3]; // Padding left
 
         if (iter->first != ' ') {
             S_DrawRaw(tmpFont.m_TextureId, tmp.srcRect, curX, tmpY);
         }
-        curX += tmp.advance;
+        curX += tmp.advance + tmpFont.m_Padding[1]; // Padding right
         curX -= tmp.xOffset;
     }
 }
