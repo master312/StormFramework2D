@@ -15,10 +15,10 @@ void cTestState::OnInit() {
   //  m_TestTextureDva = S_CreateGraphics("sprite.png");
   //  m_TestTextureTri = S_CreateGraphics("sprite.png");
 
-  animidOne = S_LoadAnimation("testAnimation.anim");
-  S_GraphModPos(animidOne, 670, 670);
-  animidTwo = S_LoadAnimation("testAnimation.anim");
-  S_GraphModPos(animidTwo, 505, 397);
+    animidOne = S_LoadAnimation("testAnimation.anim");
+    S_GraphModPos(animidOne, 670, 670);
+    animidTwo = S_LoadAnimation("testAnimation.anim");
+    S_GraphModPos(animidTwo, 505, 397);
 
  //   S_GraphModZ(m_TestTexture, 1000);
 

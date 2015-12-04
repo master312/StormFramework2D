@@ -68,8 +68,10 @@ private:
     /* Stores pointer to last created object */
     sGraphicsObject *m_LastObject;
 
-    /* Draw all texture objects on screen */
+    /* Draw all graphics objects on screen */
     void DrawAll();
+    /* Draw geometry object */
+    void DrawGeometry(sGraphicsObject *obj);
     /* Created new graphics object, insert it into map, and return id */
     uint32_t GenerateObject(cTextureBase *texture, sRect *section = nullptr);
 

@@ -194,8 +194,28 @@ bool cGraphicsManager::IsOnScreen(sGraphicsObject *obj) {
 void cGraphicsManager::DrawAll() {
     for (auto i : m_OnScreen) {
         if (IsOnScreen(i)) {
-            S_GetTextureManager().Draw(i);
+            if (i->m_Texture != nullptr) {
+                S_GetTextureManager().Draw(i);
+            } else {
+                DrawGeometry(i);
+            }
         }
+    }
+}
+void cGraphicsManager::DrawGeometry(sGraphicsObject *obj) {
+    sGeometry *gg = obj->m_Geometry;
+    if (gg == nullptr) {
+        S_LogWarning("cGraphicsManager", 
+                     "Tried to draw geometry without geometry... :D");
+        return;
+    }
+    switch (gg->m_Type) {
+        case RECTANGLE:
+            break;
+        case CIRCLE:
+            break;
+        case TRIANGLE:
+            break;
     }
 }
 uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,

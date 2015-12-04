@@ -10,6 +10,7 @@
 #include <iostream>
 #include "../../defines.h"
 #include "../framework/frameworkMain.h"
+#include "../framework/sPrimitives.h"
 
 namespace StormFramework {
 
@@ -29,6 +30,11 @@ public:
     virtual void ResizeWindow(uint32_t w, uint32_t h) { }
     virtual void SetWindowType(int type) { }
     
+    virtual void DrawFillRect(sRect &rect, sColor *color = nullptr) { }
+    virtual void DrawRect(sRect &rect, sColor *color = nullptr) { }
+    virtual void DrawFillCircle(uint32_t &radius, sColor *color = nullptr) { }
+    virtual void DrawCircle(uint32_t &radius, sColor *color = nullptr) { }
+
     int GetWidth() { return m_Width; }
     int GetHeight() { return m_Height; }
     bool IsFullscreen() { return m_Fullscreen; }

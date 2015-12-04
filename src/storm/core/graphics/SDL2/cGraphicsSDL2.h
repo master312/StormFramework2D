@@ -25,10 +25,18 @@ public:
     void SwapBuffers();
     void ClearScreen();
     
+    void DrawFillRect(sRect &rect, sColor *color = nullptr);
+    void DrawRect(sRect &rect, sColor *color = nullptr);
+    void DrawFillCircle(uint32_t &radius, sColor *color = nullptr);
+    void DrawCircle(uint32_t &radius, sColor *color = nullptr);
+
     SDL_Renderer *GetRenderer() { return m_Renderer; }
 private:
     SDL_Window *m_Window;
     SDL_Renderer *m_Renderer;
+
+
+    void SetDrawColor(sColor *color);
 };
 
 } /* namespace StormFramework */
