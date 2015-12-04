@@ -60,6 +60,8 @@ struct sRect {
 struct sColor {
     uint8_t r, g, b;
     sColor() : r(0), g(), b(0) { }
+    sColor(uint8_t _r, uint8_t _g, uint8_t _b) : 
+            r(_r), g(_g), b(_b) { }
 };
 
 struct sPoint { 

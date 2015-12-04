@@ -26,7 +26,7 @@ typedef unsigned int uint;
 // Define storm framework version
 #define STORM_VERSION_MAJOR 0
 #define STORM_VERSION_MINOR 32
-#define STORM_VERSION_FIX 16
+#define STORM_VERSION_FIX 17
 
 #define STORM_API_SDL 1
 #define STORM_API_SDL2 2

@@ -45,16 +45,8 @@ public:
 
     void SetUseColorKeying(bool use) { m_UseColorKeying = use; }
     bool IsColorKeying() { return m_UseColorKeying; }
-    void SetColorKey(uint8_t r, uint8_t g, uint8_t b) {
-        m_KeyR = r;
-        m_KeyG = g;
-        m_KeyB = b;
-    }
-    void GetColorKey(uint8_t &r, uint8_t &g, uint8_t &b) {
-        r = m_KeyR;
-        b = m_KeyG;
-        b = m_KeyB;
-    }
+    void SetColorKey(sColor color) { m_ColorKey = color; }
+    sColor &GetColorKey() { return m_ColorKey; }
 
     cTextureBase *GetTexture(uint32_t &textureId);
 
@@ -79,7 +71,7 @@ private:
     sPoint m_DefCenter;
     // Default color key values
     bool m_UseColorKeying;
-    uint8_t m_KeyR, m_KeyG, m_KeyB;
+    sColor m_ColorKey;
     
     // Returns pointer to new (empty) TextureObject created for active api
     cTextureBase *CreateTextureObject();

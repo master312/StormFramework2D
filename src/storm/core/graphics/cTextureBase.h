@@ -20,9 +20,7 @@ public:
     
     // Return > 0 on success, or -1 on error
     // keyR,G,B are transparency color keys.
-    virtual int Load(uint8_t keyR = 0, 
-                     uint8_t keyG = 0, 
-                     uint8_t keyB = 0) { return 0; }
+    virtual int Load(sColor *colorKey = nullptr) { return 0; }
     virtual void Unload() { }
     bool Reload() {
         S_LogDebug("cTextureBase", "Reloading texture...");
