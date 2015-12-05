@@ -36,25 +36,31 @@ public:
     void DestroyObject(uint32_t &id);
     sGraphicsObject *GetObject(uint32_t &id);
 
-    /* Creates texture section. Returns ID */
+    /* Creates texture section object. Returns ID 
+     * or 0 on error */
     uint32_t CreateSection(const std::string &filename, sRect &section);
     uint32_t CreateSection(uint32_t &id, sRect &section);
+    /* Creates geometry object. Return ID 
+     * or 0 on error */
+    uint32_t CreateGeometry(sGeometry *geometry);
+
 
     /* Texture object parameter setters/getters */
-    void TxtModVisible(uint32_t &id, bool &isVisible);
-    void TxtModPos(uint32_t &id, sPoint &point);
-    void TxtModPos(uint32_t &id, int &x, int &y);
-    void TxtModZ(uint32_t &id, int &z);
-    void TxtModAngle(uint32_t &id, double &angle);
-    void TxtModOpacity(uint32_t &id, uint8_t &opacity);
-    void TxtModCenter(uint32_t &id, sPoint &center);
-    void TxtModCenter(uint32_t &id, int &x, int &y);
+    void GraphModVisible(uint32_t &id, bool &isVisible);
+    void GraphModPos(uint32_t &id, sPoint &point);
+    void GraphModPos(uint32_t &id, int &x, int &y);
+    void GraphModZ(uint32_t &id, int &z);
+    void GraphModAngle(uint32_t &id, double &angle);
+    void GraphModOpacity(uint32_t &id, uint8_t &opacity);
+    void GraphModCenter(uint32_t &id, sPoint &center);
+    void GraphModCenter(uint32_t &id, int &x, int &y);
+    void GraphModSize(uint32_t &id, uint32_t &w, uint32_t &h);
     /* Returns true if object is on the screen */
     bool IsOnScreen(sGraphicsObject *obj);
 
     cGraphicsBase *GetGraphics() { return m_Graphics; }
     uint32_t GetOnScreenCount() { return m_OnScreen.size(); }
-    uint32_t GetObjectsCount() { return m_TextureObjects.size(); }
+    uint32_t GetObjectsCount() { return m_GraphicsObjects.size(); }
     sGraphicsObject *GetLastCreated() { return m_LastObject; }
 private:
     int m_Api;
@@ -64,8 +70,10 @@ private:
     /* Vector of all objects that are currently on screen */
     std::vector<sGraphicsObject*> m_OnScreen;
     /* Map of all objects */
-    std::map<uint32_t, sGraphicsObject> m_TextureObjects;
-    /* Stores pointer to last created object */
+    std::map<uint32_t, sGraphicsObject> m_GraphicsObjects;
+    /* Stores pointer to last created object 
+     * GenerateObject(..) ~MUST~ be called before
+     * accessing this object. */
     sGraphicsObject *m_LastObject;
 
     /* Draw all graphics objects on screen */

@@ -8,7 +8,7 @@
  *
 //
 //TODO-HIGH: Popravi crush na engine quit. Dvaput spawn, truput despawn pa quit odmah
-//TODO-HIGH: Draw circles...
+//TODO-HIGH: OPTIMIZE circle drawing methods, and code DrawFillCircle method
 
 //TODO-MEDIUM: Use strings class in cBitmapFontManager loading process
 //TODO-MEDIUM: Background box behind the text

@@ -45,28 +45,31 @@ void S_DestroyGraphics(uint32_t id) {
     graphicsManager.DestroyObject(id);
 }
 void S_GraphModVisible(uint32_t id, bool isVisible) {
-    graphicsManager.TxtModVisible(id, isVisible);
+    graphicsManager.GraphModVisible(id, isVisible);
 }
 void S_GraphModPos(uint32_t id, sPoint &point) {
-    graphicsManager.TxtModPos(id, point);
+    graphicsManager.GraphModPos(id, point);
 }
 void S_GraphModPos(uint32_t id, int x, int y) {
-    graphicsManager.TxtModPos(id, x, y);
+    graphicsManager.GraphModPos(id, x, y);
 }
 void S_GraphModZ(uint32_t id, int z) {
-    graphicsManager.TxtModZ(id, z);
+    graphicsManager.GraphModZ(id, z);
 }
 void S_GraphModAngle(uint32_t id, double angle) {
-    graphicsManager.TxtModAngle(id, angle);
+    graphicsManager.GraphModAngle(id, angle);
 }
 void S_GraphModOpacity(uint32_t id, uint8_t opacity) {
-    graphicsManager.TxtModOpacity(id, opacity);
+    graphicsManager.GraphModOpacity(id, opacity);
 }
 void S_GraphModCenter(uint32_t id, sPoint &center) {
-    graphicsManager.TxtModCenter(id, center);
+    graphicsManager.GraphModCenter(id, center);
 }
 void S_GraphModCenter(uint32_t id, int x, int y) {
-    graphicsManager.TxtModCenter(id, x, y);
+    graphicsManager.GraphModCenter(id, x, y);
+}
+void S_GraphModSize(uint32_t id, uint32_t w, uint32_t h) {
+    graphicsManager.GraphModSize(id, w, h);
 }
 sRect &S_GraphGetPos(uint32_t id) {
     return graphicsManager.GetObject(id)->m_DestRect;
@@ -124,6 +127,9 @@ void S_GraphModSrc(uint32_t &id, sRect &src) {
 }
 sRect *S_GraphGetSrc(uint32_t &id) {
     return &graphicsManager.GetObject(id)->m_SrcRect;
+}
+uint32_t S_CreateGeometry(StormGeometry *geometry) {
+    return graphicsManager.CreateGeometry(geometry);
 }
 
 bool S_LoadFont(const std::string &filename) {

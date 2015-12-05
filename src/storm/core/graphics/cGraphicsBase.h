@@ -32,8 +32,13 @@ public:
     
     virtual void DrawFillRect(sRect &rect, sColor *color = nullptr) { }
     virtual void DrawRect(sRect &rect, sColor *color = nullptr) { }
-    virtual void DrawFillCircle(uint32_t &radius, sColor *color = nullptr) { }
-    virtual void DrawCircle(uint32_t &radius, sColor *color = nullptr) { }
+    virtual void DrawFillCircle(int &x, int &y, 
+                                uint32_t &radius,
+                                sColor *color = nullptr) { }
+    virtual void DrawCircle(int &x, int &y, 
+                                uint32_t &radius,
+                                uint32_t width = 1,
+                                sColor *color = nullptr) { }
 
     int GetWidth() { return m_Width; }
     int GetHeight() { return m_Height; }

@@ -9,12 +9,19 @@
 #define GRAPHICSMAIN_H__
 #include <iostream>
 #include "../framework/frameworkMain.h"
+ #include "sGraphicsGeometry.h"
 
 namespace StormFramework { 
     class cGraphicsManager;
     class cTextureManager;
     class cBitmapFontManager;
+    class sGeometryRectangle;
+    class sGeometryCircle;
 }
+
+typedef StormFramework::sGeometry StormGeometry;
+typedef StormFramework::sGeometryRectangle StormGeoRect;
+typedef StormFramework::sGeometryCircle StormGeoCircle;
 
 void S_SetGraphicsApi(int api);
 int S_GetGraphicsApi();
@@ -41,17 +48,21 @@ void S_GraphModAngle(uint32_t id, double angle);
 void S_GraphModOpacity(uint32_t id, uint8_t opacity);
 void S_GraphModCenter(uint32_t id, sPoint &center);
 void S_GraphModCenter(uint32_t id, int x, int y);
+void S_GraphModSize(uint32_t id, uint32_t w, uint32_t h);
 sRect &S_GraphGetPos(uint32_t id);    //TODO: maybe nullptr check ?
 int &S_GraphGetZ(uint32_t id);
 bool S_GraphIsVisible(uint32_t id);
 double &S_GraphGetAngle(uint32_t id);
 uint8_t &S_GraphGetOpacity(uint32_t id);
 sPoint &S_GraphGetCenter(uint32_t id);
-/**** Texture section related methods ****/
+/**** Texture section object related methods ****/
 uint32_t S_CreateSection(const std::string &filename, sRect &section);
 uint32_t S_CreateSection(uint32_t &id, sRect &section);
 void S_GraphModSrc(uint32_t &id, sRect &src);
 sRect *S_GraphGetSrc(uint32_t &id);   // Returns source rect of object @id
+/**** Geometry object related methods ****/
+uint32_t S_CreateGeometry(StormGeometry *geometry);
+
 /* Raw texture related methods 
  * These texture drawing methods should not be used
  * These are only planned for internal use/testing */

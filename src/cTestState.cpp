@@ -20,6 +20,14 @@ void cTestState::OnInit() {
     animidTwo = S_LoadAnimation("testAnimation.anim");
     S_GraphModPos(animidTwo, 505, 397);
 
+    circleId = S_CreateGeometry(new StormGeoCircle(false, 100, 10));
+    S_GraphModPos(circleId, 150, 150);
+    S_GraphModSize(circleId, 200, 200);
+
+    rectId = S_CreateGeometry(new StormGeoRect());
+    S_GraphModPos(rectId, 435, 100);
+    S_GraphModSize(rectId, 298, 167);
+
  //   S_GraphModZ(m_TestTexture, 1000);
 
  //   S_GraphModZ(m_TestTextureDva, 300);

@@ -35,4 +35,7 @@ private:
 
 	uint32_t animidOne;
 	uint32_t animidTwo;
+
+	uint32_t circleId;
+	uint32_t rectId;
 };

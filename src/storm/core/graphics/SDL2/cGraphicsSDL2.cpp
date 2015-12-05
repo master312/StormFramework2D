@@ -62,12 +62,47 @@ void cGraphicsSDL2::DrawRect(sRect &rect, sColor *color /*= nullptr*/) {
     SetDrawColor(color);
     SDL_RenderDrawRect(m_Renderer, (SDL_Rect*)&rect);
 }
-void cGraphicsSDL2::DrawFillCircle(uint32_t &radius, 
+void cGraphicsSDL2::DrawFillCircle(int &x, int &y, 
+                                   uint32_t &radius, 
                                    sColor *color /*= nullptr*/) {
-
+    SetDrawColor(color);
+    int tmpX = 0;
+    int tmpY = 0;
+    for (int i = 0; i < 360; i++) {
+        tmpX = x + (sin(i) * radius);
+        tmpY = y + (cos(i) * radius);
+        SDL_RenderDrawPoint(m_Renderer, tmpX, tmpY);
+    }
 }
-void cGraphicsSDL2::DrawCircle(uint32_t &radius, sColor *color /*= nullptr*/) {
-    
+void cGraphicsSDL2::DrawCircle(int &x, int &y, 
+                               uint32_t &radius, 
+                               uint32_t width /* = 1 */,
+                               sColor *color /*= nullptr*/) {
+    SetDrawColor(color);
+    if (width == 0) {
+        width = 1;
+    }
+    int tmpX = 0;
+    int tmpY = 0;
+    int tmpEndX = 0;
+    int tmpEndY = 0;
+    for (double i = 0.0; i < 360.0; i += 0.4) {
+        tmpX = x + (cos(i) * radius);
+        tmpY = y + (sin(i) * radius);
+        if (width == 1) {
+            SDL_RenderDrawPoint(m_Renderer, tmpX, tmpY);
+        } else if (width > 1){
+            tmpEndX = x + (cos(i) * (radius - width));
+            tmpEndY = y + (sin(i) * (radius - width));
+            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX, tmpEndY);
+            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX - 1, tmpEndY);
+            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX, tmpEndY - 1);
+            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX - 1, tmpEndY - 1);
+            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX, tmpEndY + 1);
+            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX + 1, tmpEndY);
+            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX + 1, tmpEndY + 1);
+        }
+    }
 }
 
 // Private methods
