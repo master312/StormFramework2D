@@ -60,14 +60,6 @@ int cTextureSDL2::Load(sColor *colorKey /*= nullptr*/) {
     
     return 1;
 }
-void cTextureSDL2::Unload() {
-    if (m_Texture == nullptr)
-        return;
-    SDL_DestroyTexture(m_Texture);
-    m_Texture = nullptr;
-    S_LogDebug("cTextureSDL2", 
-               "Texture '%s' unloaded from memory", m_Filename.c_str());
-}
 void cTextureSDL2::Draw(const int &srcX, const int &srcY, 
     const int &srcW, const int &srcH, const int &destX, const int &destY, 
     const int &destW, const int &destH, const double &angle, const int &opacity,
@@ -97,7 +89,7 @@ void cTextureSDL2::Draw(const int &srcX, const int &srcY,
 void cTextureSDL2::ModColor(uint8_t &r, uint8_t &g, uint8_t &b) {
     SDL_SetTextureColorMod(m_Texture, r, g, b);
 }
-//Private methods
+// Private methods
 SDL_Texture *cTextureSDL2::MakeTexture(SDL_Surface *sur, uint32_t &size) {
     SDL_Renderer *renderer = p_Graphics->GetRenderer();
     SDL_Texture *tmp = SDL_CreateTextureFromSurface(renderer, sur);
@@ -108,6 +100,15 @@ SDL_Texture *cTextureSDL2::MakeTexture(SDL_Surface *sur, uint32_t &size) {
     size = sur->w * sur->h * sur->format->BytesPerPixel;
     SDL_SetTextureBlendMode(tmp, SDL_BLENDMODE_BLEND);
     return tmp;
+}
+// Protected methods
+void cTextureSDL2::Delete() {
+    if (m_Texture == nullptr)
+        return;
+    SDL_DestroyTexture(m_Texture);
+    m_Texture = nullptr;
+    S_LogDebug("cTextureSDL2", 
+               "Texture '%s' unloaded from memory", m_Filename.c_str());
 }
 
 } /* namespace StormFramework */

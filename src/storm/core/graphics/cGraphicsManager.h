@@ -27,6 +27,7 @@ public:
     /* Initialize graphics rendering systems 
      * Returns < 0 on error */
     int Initialize();
+    void DeInitialize();
     /* Returns true, if graphics was drawn at this call */
     bool Tick();
 

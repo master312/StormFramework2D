@@ -20,7 +20,7 @@ void cTestState::OnInit() {
     animidTwo = S_LoadAnimation("testAnimation.anim");
     S_GraphModPos(animidTwo, 505, 397);
 
-    circleId = S_CreateGeometry(new StormGeoCircle(false, 100, 10));
+    circleId = S_CreateGeometry(new StormGeoCircle(false, 100));
     S_GraphModPos(circleId, 150, 150);
     S_GraphModSize(circleId, 200, 200);
 
@@ -83,7 +83,7 @@ void cTestState::OnMouseDown(StormKey &key) {
 }
 void cTestState::OnMouseMotion() {
     if (S_IsMouseLeft()) {
-        S_GraphModPos(m_TestTexture, S_GetMouseLoc());
+        S_GraphModPos(animidTwo, S_GetMouseLoc());
     }
 }
 void cTestState::OnPause() {

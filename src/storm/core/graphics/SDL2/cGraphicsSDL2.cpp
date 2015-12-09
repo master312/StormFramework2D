@@ -82,25 +82,15 @@ void cGraphicsSDL2::DrawCircle(int &x, int &y,
     if (width == 0) {
         width = 1;
     }
-    int tmpX = 0;
-    int tmpY = 0;
-    int tmpEndX = 0;
-    int tmpEndY = 0;
-    for (double i = 0.0; i < 360.0; i += 0.4) {
-        tmpX = x + (cos(i) * radius);
-        tmpY = y + (sin(i) * radius);
-        if (width == 1) {
+    radius += 1;
+    for (uint32_t i = 1; i <= width; i++) {
+        radius -= i;
+        int tmpX = 0;
+        int tmpY = 0;
+        for (double i = 0.0; i < 360.0; i += 0.4) {
+            tmpX = x + (cos(i) * radius);
+            tmpY = y + (sin(i) * radius);
             SDL_RenderDrawPoint(m_Renderer, tmpX, tmpY);
-        } else if (width > 1){
-            tmpEndX = x + (cos(i) * (radius - width));
-            tmpEndY = y + (sin(i) * (radius - width));
-            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX, tmpEndY);
-            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX - 1, tmpEndY);
-            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX, tmpEndY - 1);
-            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX - 1, tmpEndY - 1);
-            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX, tmpEndY + 1);
-            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX + 1, tmpEndY);
-            SDL_RenderDrawLine(m_Renderer, tmpX, tmpY, tmpEndX + 1, tmpEndY + 1);
         }
     }
 }

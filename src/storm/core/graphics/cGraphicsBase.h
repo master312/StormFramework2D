@@ -22,7 +22,7 @@ public:
     void Set(std::string _title = "Storm Framework", 
              uint32_t _width = 1024, uint32_t _height = 768);
     virtual int Initialize() { return 0; }
-    
+
     // Flips back buffer to screen
     virtual void SwapBuffers() { }
     virtual void ClearScreen() { }

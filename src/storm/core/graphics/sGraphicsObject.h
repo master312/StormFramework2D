@@ -47,8 +47,8 @@ struct sGraphicsObject {
     void CalcMiddle() {
         if (m_Texture == nullptr)
             return;
-        m_Center.x = m_Texture->GetPxWidth() / 2;
-        m_Center.y = m_Texture->GetPxHeight() / 2;
+        m_Center.x = m_DestRect.w / 2;
+        m_Center.y = m_DestRect.h / 2;
     }
 
     // Compare method. Used for sorting (std::sort)

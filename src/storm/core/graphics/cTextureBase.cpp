@@ -5,6 +5,13 @@
 
 namespace StormFramework {
 
+void cTextureBase::Unload() {
+    if (m_DeleteCbId > 0) {
+        S_RemoveCB(m_DeleteCbId);
+        m_DeleteCbId = 0;
+    }
+    Delete();
+}
 void cTextureBase::IncUsage() {
     m_Usage++;
     if (m_DeleteCbId > 0) {
@@ -22,12 +29,12 @@ void cTextureBase::DecUsage() {
         // Texture not in use. Delete id after timeout
         m_DeleteCbId = S_AddDelayedCB(new STORM_INTERRUPT(STORM_TEXTURE_TIMEOUT, 
                                                          cTextureBase, 
-                                                         DeleteCb,
+                                                         DeleteInterupt,
                                                          this));
     }
 }
 
-int cTextureBase::DeleteCb() {
+int cTextureBase::DeleteInterupt() {
     m_DeleteCbId = 0;
     if (m_Usage <= 0) {
         S_GetTextureManager().Unload(this);

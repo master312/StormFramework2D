@@ -12,9 +12,6 @@ cTextureManager::cTextureManager() :
     m_ColorKey.b = 255;
 }
 cTextureManager::~cTextureManager() {
-    for (auto &i : m_Textures) {
-        delete i.second;
-    }
     m_Textures.clear();
     m_TextureFilenames.clear();
 }
@@ -67,7 +64,6 @@ cTextureBase *cTextureManager::Load(const std::string &filename,
     return texture;
 }
 void cTextureManager::Unload(cTextureBase *texture) {
-
     m_MemoryUsage -= (texture->GetMemoryUsage() / 1024);
     uint32_t id = m_TextureFilenames[texture->GetFilename()];
     texture->Unload();
@@ -76,6 +72,13 @@ void cTextureManager::Unload(cTextureBase *texture) {
 
     UpdateDebugString();
     delete texture;
+}
+void cTextureManager::UnloadAll() {
+    for (auto &iter : m_Textures) {
+        iter.second->Unload();
+    }
+    m_Textures.clear();
+    m_MemoryUsage = 0;
 }
 void cTextureManager::Draw(sGraphicsObject *obj) {
     if (obj == nullptr) {

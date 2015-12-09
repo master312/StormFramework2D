@@ -31,6 +31,10 @@ public:
     // THIS METHOD IS INTENDED TO BE USED ONLY BY CALLBACK
     // FROM cTextureBase CLASS!
     void Unload(cTextureBase *texture);
+    // This method deletes all textures from memory
+    // AND SHOULD NEVER BE CALLED IF PROGRAM IS STILL RUNNING
+    // Used ONLY when 'quit' signal is received
+    void UnloadAll();
 
     /*** Texture drawing methods ***/
     // Draws texture, using preset parameters

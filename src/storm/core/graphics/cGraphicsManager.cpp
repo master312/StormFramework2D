@@ -21,7 +21,6 @@ cGraphicsManager::cGraphicsManager() :
 
 }
 cGraphicsManager::~cGraphicsManager() {
-    delete m_Graphics;
 }
 
 int cGraphicsManager::Initialize() {
@@ -43,6 +42,13 @@ int cGraphicsManager::Initialize() {
     S_LoadFont("default.xml");
 
     return 1;
+}
+void cGraphicsManager::DeInitialize() {
+    S_GetTextureManager().UnloadAll();
+    m_OnScreen.clear();
+    m_GraphicsObjects.clear();
+    m_LastObject = nullptr;
+    delete m_Graphics;
 }
 bool cGraphicsManager::Tick() {
 #if STORM_ENABLE_DRAW_MANAGER != 0
@@ -241,8 +247,7 @@ void cGraphicsManager::DrawGeometry(sGraphicsObject *obj) {
             if (tmpFill) {
                 m_Graphics->DrawFillCircle(tmpDest.x, tmpDest.x, radius);
             } else {
-                m_Graphics->DrawCircle(tmpDest.x, tmpDest.x, 
-                                       radius, obj->m_Geometry->m_Width);
+                m_Graphics->DrawCircle(tmpDest.x, tmpDest.x, radius);
             }
             break;
         }case TRIANGLE:{
@@ -263,16 +268,18 @@ uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
     if (texture != nullptr) {   
         // This if condition is 'guard', in case of creating geometry object
         tmp.m_Texture = texture;
-        tmp.m_DestRect.w = texture->GetPxWidth();
-        tmp.m_DestRect.h = texture->GetPxHeight();
+        if (section != nullptr) {
+            tmp.m_SrcRect = *section;
+            tmp.m_DestRect.w = tmp.m_SrcRect.w;
+            tmp.m_DestRect.h = tmp.m_SrcRect.h;
+            tmp.m_IsSection = true;
+        } else {
+            tmp.m_DestRect.w = texture->GetPxWidth();
+            tmp.m_DestRect.h = texture->GetPxHeight();
+        }
         tmp.CalcMiddle();
     } else {
         tmp.m_Texture = nullptr;
-    }
-
-    if (section != nullptr) {
-        tmp.m_SrcRect = *section;
-        tmp.m_IsSection = true;
     }
 
     
