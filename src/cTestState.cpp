@@ -15,10 +15,18 @@ void cTestState::OnInit() {
   //  m_TestTextureDva = S_CreateGraphics("sprite.png");
   //  m_TestTextureTri = S_CreateGraphics("sprite.png");
 
-  animidOne = S_LoadAnimation("testAnimation.anim");
-  S_GraphModPos(animidOne, 670, 670);
-  animidTwo = S_LoadAnimation("testAnimation.anim");
-  S_GraphModPos(animidTwo, 505, 397);
+    animidOne = S_LoadAnimation("testAnimation.anim");
+    S_GraphModPos(animidOne, 670, 670);
+    animidTwo = S_LoadAnimation("testAnimation.anim");
+    S_GraphModPos(animidTwo, 505, 397);
+
+    circleId = S_CreateGeometry(new StormGeoCircle(false, 100));
+    S_GraphModPos(circleId, 150, 150);
+    S_GraphModSize(circleId, 200, 200);
+
+    rectId = S_CreateGeometry(new StormGeoRect());
+    S_GraphModPos(rectId, 435, 100);
+    S_GraphModSize(rectId, 298, 167);
 
  //   S_GraphModZ(m_TestTexture, 1000);
 
@@ -75,7 +83,7 @@ void cTestState::OnMouseDown(StormKey &key) {
 }
 void cTestState::OnMouseMotion() {
     if (S_IsMouseLeft()) {
-        S_GraphModPos(m_TestTexture, S_GetMouseLoc());
+        S_GraphModPos(animidTwo, S_GetMouseLoc());
     }
 }
 void cTestState::OnPause() {

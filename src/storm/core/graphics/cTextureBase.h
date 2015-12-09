@@ -21,13 +21,11 @@ public:
     // Return > 0 on success, or -1 on error
     // keyR,G,B are transparency color keys.
     virtual int Load(sColor *colorKey = nullptr) { return 0; }
-    virtual void Unload() { }
+    void Unload();
     bool Reload() {
         S_LogDebug("cTextureBase", "Reloading texture...");
         Unload();
-        if (Load())
-            return true;
-        return false;
+        return Load();
     }
     
     virtual void Draw(const int &srcX, const int &srcY, 
@@ -56,7 +54,7 @@ public:
     // This method is called by callback handler
     // to delete texture, when m_Usage reaches zero
     // Should never be called manually
-    int DeleteCb();
+    int DeleteInterupt();
 protected:
     std::string m_Filename;
     // Number of objects using this texture
@@ -67,6 +65,8 @@ protected:
     // If equals to zero, texture deletion 
     // progress is not started at the moment
     uint32_t m_DeleteCbId;
+
+    virtual void Delete() { }
 };
 
 } /* namespace StormFramework */

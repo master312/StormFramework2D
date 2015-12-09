@@ -21,7 +21,6 @@ cGraphicsManager::cGraphicsManager() :
 
 }
 cGraphicsManager::~cGraphicsManager() {
-    delete m_Graphics;
 }
 
 int cGraphicsManager::Initialize() {
@@ -44,6 +43,13 @@ int cGraphicsManager::Initialize() {
 
     return 1;
 }
+void cGraphicsManager::DeInitialize() {
+    S_GetTextureManager().UnloadAll();
+    m_OnScreen.clear();
+    m_GraphicsObjects.clear();
+    m_LastObject = nullptr;
+    delete m_Graphics;
+}
 bool cGraphicsManager::Tick() {
 #if STORM_ENABLE_DRAW_MANAGER != 0
     DrawAll();
@@ -65,8 +71,8 @@ uint32_t cGraphicsManager::CreateObject(const std::string &filename,
     return GenerateObject(txt);
 }
 void cGraphicsManager::DestroyObject(uint32_t &id) {
-    auto iter = m_TextureObjects.find(id);
-    if (iter == m_TextureObjects.end()) {
+    auto iter = m_GraphicsObjects.find(id);
+    if (iter == m_GraphicsObjects.end()) {
         return;
     }
     sGraphicsObject *obj = &iter->second;
@@ -86,14 +92,14 @@ void cGraphicsManager::DestroyObject(uint32_t &id) {
         S_GetAnimationManager().Unload(id);
     }
     obj = nullptr; //Not needed, but just in case leave it here
-    m_TextureObjects.erase(iter);
+    m_GraphicsObjects.erase(iter);
 }
 sGraphicsObject *cGraphicsManager::GetObject(uint32_t &id) {
-    auto iter = m_TextureObjects.find(id);
-    if (iter == m_TextureObjects.end()) {
+    auto iter = m_GraphicsObjects.find(id);
+    if (iter == m_GraphicsObjects.end()) {
         return nullptr;
     }
-    return &m_TextureObjects[id];
+    return &m_GraphicsObjects[id];
 }
 uint32_t cGraphicsManager::CreateSection(const std::string &filename, 
                                          sRect &section) {
@@ -112,7 +118,12 @@ uint32_t cGraphicsManager::CreateSection(uint32_t &id, sRect &section) {
     txt->IncUsage();
     return GenerateObject(txt, &section);
 }
-void cGraphicsManager::TxtModVisible(uint32_t &id, bool &isVisible) {
+uint32_t cGraphicsManager::CreateGeometry(sGeometry *geometry) {
+    uint32_t objId = GenerateObject(nullptr, nullptr);
+    m_LastObject->m_Geometry = geometry;
+    return objId;
+}
+void cGraphicsManager::GraphModVisible(uint32_t &id, bool &isVisible) {
     sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
@@ -131,7 +142,7 @@ void cGraphicsManager::TxtModVisible(uint32_t &id, bool &isVisible) {
     }
     tmp->m_IsVisible = isVisible;    
 }
-void cGraphicsManager::TxtModPos(uint32_t &id, sPoint &point) {
+void cGraphicsManager::GraphModPos(uint32_t &id, sPoint &point) {
     sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
@@ -139,7 +150,7 @@ void cGraphicsManager::TxtModPos(uint32_t &id, sPoint &point) {
     tmp->m_DestRect.x = point.x;
     tmp->m_DestRect.y = point.y;
 }
-void cGraphicsManager::TxtModPos(uint32_t &id, int &x, int &y) {
+void cGraphicsManager::GraphModPos(uint32_t &id, int &x, int &y) {
     sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
@@ -147,7 +158,7 @@ void cGraphicsManager::TxtModPos(uint32_t &id, int &x, int &y) {
     tmp->m_DestRect.x = x;
     tmp->m_DestRect.y = y;
 }
-void cGraphicsManager::TxtModZ(uint32_t &id, int &z) {
+void cGraphicsManager::GraphModZ(uint32_t &id, int &z) {
     sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
@@ -155,34 +166,42 @@ void cGraphicsManager::TxtModZ(uint32_t &id, int &z) {
     tmp->m_Z = z;
     std::sort(m_OnScreen.begin(), m_OnScreen.end(), sGraphicsObject::Cmp);
 }
-void cGraphicsManager::TxtModAngle(uint32_t &id, double &angle) {
+void cGraphicsManager::GraphModAngle(uint32_t &id, double &angle) {
     sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Angle = angle;
 }
-void cGraphicsManager::TxtModOpacity(uint32_t &id, uint8_t &opacity) {
+void cGraphicsManager::GraphModOpacity(uint32_t &id, uint8_t &opacity) {
     sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Opacity = opacity;
 }
-void cGraphicsManager::TxtModCenter(uint32_t &id, sPoint &center) {
+void cGraphicsManager::GraphModCenter(uint32_t &id, sPoint &center) {
     sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Center = center;
 }
-void cGraphicsManager::TxtModCenter(uint32_t &id, int &x, int &y) {
+void cGraphicsManager::GraphModCenter(uint32_t &id, int &x, int &y) {
     sGraphicsObject *tmp = GetObject(id);
     if (tmp == nullptr) {
         return;
     }
     tmp->m_Center.x = x;
     tmp->m_Center.y = y;
+}
+void cGraphicsManager::GraphModSize(uint32_t &id, uint32_t &w, uint32_t &h) {
+    sGraphicsObject *tmp = GetObject(id);
+    if (tmp == nullptr) {
+        return;
+    }
+    tmp->m_DestRect.w = w;
+    tmp->m_DestRect.h = h;
 }
 bool cGraphicsManager::IsOnScreen(sGraphicsObject *obj) {
     return obj->m_DestRect.x + obj->m_DestRect.w > 0 &&
@@ -191,35 +210,82 @@ bool cGraphicsManager::IsOnScreen(sGraphicsObject *obj) {
            obj->m_DestRect.y < m_Graphics->GetHeight();
 }
 // Private methods
+int c = 0;
 void cGraphicsManager::DrawAll() {
+    c = 0;
     for (auto i : m_OnScreen) {
+        c++;
         if (IsOnScreen(i)) {
-            S_GetTextureManager().Draw(i);
+            if (i->m_Texture != nullptr) {
+                S_GetTextureManager().Draw(i);
+            } else {
+                DrawGeometry(i);
+            }
+        }
+    }
+}
+void cGraphicsManager::DrawGeometry(sGraphicsObject *obj) {
+    sGeometry *gg = obj->m_Geometry;
+    if (gg == nullptr) {
+        S_LogWarning("cGraphicsManager", 
+                     "Tried to draw geometry without geometry... :D");
+        return;
+    }
+    sRect &tmpDest = obj->m_DestRect;
+    sColor *tmpColor = &obj->m_Geometry->m_Color;
+    bool &tmpFill = obj->m_Geometry->m_IsFill;
+    switch (gg->m_Type) {
+        case RECTANGLE:{
+            if (tmpFill) {
+                m_Graphics->DrawFillRect(tmpDest, tmpColor);
+            } else {
+                m_Graphics->DrawRect(tmpDest, tmpColor);
+            }
+            break;
+        }case CIRCLE: {
+            uint32_t radius = ((sGeometryCircle*)obj->m_Geometry)->m_Radius;
+            if (tmpFill) {
+                m_Graphics->DrawFillCircle(tmpDest.x, tmpDest.x, radius);
+            } else {
+                m_Graphics->DrawCircle(tmpDest.x, tmpDest.x, radius);
+            }
+            break;
+        }case TRIANGLE:{
+            std::cout << "Draw Triangle " << std::endl;
+            break;
         }
     }
 }
 uint32_t cGraphicsManager::GenerateObject(cTextureBase *texture,
                                           sRect *section /* = nullptr */) {
     uint32_t newId = 1;
-    if (m_TextureObjects.size() > 0) {
-        auto iter = m_TextureObjects.end();
+    if (m_GraphicsObjects.size() > 0) {
+        auto iter = m_GraphicsObjects.end();
         --iter;
         newId = iter->first + 1;
     }
     sGraphicsObject tmp;
-    tmp.m_Texture = texture;
-    tmp.m_DestRect.w = texture->GetPxWidth();
-    tmp.m_DestRect.h = texture->GetPxHeight();
-    tmp.CalcMiddle();
-
-    if (section != nullptr) {
-        tmp.m_SrcRect = *section;
-        tmp.m_IsSection = true;
+    if (texture != nullptr) {   
+        // This if condition is 'guard', in case of creating geometry object
+        tmp.m_Texture = texture;
+        if (section != nullptr) {
+            tmp.m_SrcRect = *section;
+            tmp.m_DestRect.w = tmp.m_SrcRect.w;
+            tmp.m_DestRect.h = tmp.m_SrcRect.h;
+            tmp.m_IsSection = true;
+        } else {
+            tmp.m_DestRect.w = texture->GetPxWidth();
+            tmp.m_DestRect.h = texture->GetPxHeight();
+        }
+        tmp.CalcMiddle();
+    } else {
+        tmp.m_Texture = nullptr;
     }
+
     
-    m_TextureObjects[newId] = tmp;
-    m_LastObject = &m_TextureObjects[newId];
-    m_OnScreen.push_back(&m_TextureObjects[newId]);
+    m_GraphicsObjects[newId] = tmp;
+    m_LastObject = &m_GraphicsObjects[newId];
+    m_OnScreen.push_back(&m_GraphicsObjects[newId]);
     std::sort(m_OnScreen.begin(), m_OnScreen.end(), sGraphicsObject::Cmp);
     
     return newId;

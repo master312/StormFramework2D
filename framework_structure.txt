@@ -6,7 +6,6 @@
  *
  *
  *
-//
 
 //TODO-MEDIUM: Use strings class in cBitmapFontManager loading process
 //TODO-MEDIUM: Background box behind the text

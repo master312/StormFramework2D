@@ -54,8 +54,10 @@ void cMain::Start() {
         }
         STORM_SLEEP(1);
     }
+    
     S_GetLayerManager().Clear();
     S_GetAnimationManager().Clear();
+    S_GetGraphicsManager().DeInitialize();
     S_LogInfo("cMain", "Main loop ended successfully");
 }
 

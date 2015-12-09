@@ -23,7 +23,6 @@ public:
     ~cTextureSDL2();
     
     int Load(sColor *colorKey = nullptr);
-    void Unload();
     void Draw(const int &srcX, const int &srcY, 
               const int &srcW, const int &srcH,
               const int &destX, const int &destY, 
@@ -42,6 +41,8 @@ private:
     cGraphicsSDL2 *p_Graphics;
     
     SDL_Texture *MakeTexture(SDL_Surface *sur, uint32_t &size);
+protected:
+    void Delete();
 };
 
 

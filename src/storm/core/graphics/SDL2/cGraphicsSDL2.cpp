@@ -7,8 +7,12 @@ namespace StormFramework {
 cGraphicsSDL2::cGraphicsSDL2() : m_Window(nullptr), m_Renderer(nullptr) {
 }
 cGraphicsSDL2::~cGraphicsSDL2() {
-    SDL_DestroyRenderer(m_Renderer);
-    SDL_DestroyWindow(m_Window);
+    if (m_Renderer != nullptr && m_Window != nullptr) {
+        SDL_DestroyRenderer(m_Renderer);
+        SDL_DestroyWindow(m_Window);
+        m_Renderer = nullptr;
+        m_Window = nullptr;
+    }
     SDL_Quit();
 }
 
@@ -46,8 +50,61 @@ void cGraphicsSDL2::SwapBuffers() {
     SDL_RenderPresent(m_Renderer);
 }
 void cGraphicsSDL2::ClearScreen() {
-    SDL_SetRenderDrawColor(m_Renderer, 200, 200, 200, 200);
+    SDL_SetRenderDrawColor(m_Renderer, 200, 200, 200, 255);
     SDL_RenderClear(m_Renderer);
+}
+
+void cGraphicsSDL2::DrawFillRect(sRect &rect, sColor *color /*= nullptr*/) {
+    SetDrawColor(color);
+    SDL_RenderFillRect(m_Renderer, (SDL_Rect*)&rect);
+}
+void cGraphicsSDL2::DrawRect(sRect &rect, sColor *color /*= nullptr*/) {
+    SetDrawColor(color);
+    SDL_RenderDrawRect(m_Renderer, (SDL_Rect*)&rect);
+}
+void cGraphicsSDL2::DrawFillCircle(int &x, int &y, 
+                                   uint32_t &radius, 
+                                   sColor *color /*= nullptr*/) {
+    SetDrawColor(color);
+    int tmpX = 0;
+    int tmpY = 0;
+    for (int i = 0; i < 360; i++) {
+        tmpX = x + (sin(i) * radius);
+        tmpY = y + (cos(i) * radius);
+        SDL_RenderDrawPoint(m_Renderer, tmpX, tmpY);
+    }
+}
+void cGraphicsSDL2::DrawCircle(int &x, int &y, 
+                               uint32_t &radius, 
+                               uint32_t width /* = 1 */,
+                               sColor *color /*= nullptr*/) {
+    SetDrawColor(color);
+    if (width == 0) {
+        width = 1;
+    }
+    radius += 1;
+    for (uint32_t i = 1; i <= width; i++) {
+        radius -= i;
+        int tmpX = 0;
+        int tmpY = 0;
+        for (double i = 0.0; i < 360.0; i += 0.4) {
+            tmpX = x + (cos(i) * radius);
+            tmpY = y + (sin(i) * radius);
+            SDL_RenderDrawPoint(m_Renderer, tmpX, tmpY);
+        }
+    }
+}
+
+// Private methods
+void cGraphicsSDL2::SetDrawColor(sColor *color) {
+    if (color != nullptr) {
+        SDL_SetRenderDrawColor(m_Renderer, 
+                               color->r, 
+                               color->g, 
+                               color->b, 255);
+    } else {
+        SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
+    }
 }
 
 } /* namespace StormFramework */
